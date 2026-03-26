@@ -1,0 +1,424 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: #f8fafc;
+  min-height: 100%;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.totalBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #dcfce7;
+  color: #166534;
+}
+
+.primaryButton {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: #4acf7f;
+  color: #fff;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ghostButton {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #334155;
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.exportButton {
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 12px;
+  background: #1a1a2e;
+  color: #fff;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+}
+
+.searchInput {
+  min-width: 240px;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.searchInput input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  width: 100%;
+  height: 38px;
+}
+
+.select {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  border-radius: 10px;
+  height: 38px;
+  padding: 0 10px;
+  color: #334155;
+}
+
+.tableCard,
+.detailHeader,
+.detailCard {
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+}
+
+.therapistsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.therapistsTable th,
+.therapistsTable td {
+  padding: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #334155;
+  text-align: left;
+}
+
+.tableRow {
+  cursor: pointer;
+}
+
+.tableRow:hover {
+  background: #f0fdf4;
+}
+
+.alternateRow {
+  background: #f8fafc;
+}
+
+.therapistCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar,
+.avatarLarge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-weight: 700;
+  background: #dcfce7;
+  color: #14532d;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  font-size: 12px;
+}
+
+.avatarLarge {
+  width: 72px;
+  height: 72px;
+  font-size: 22px;
+}
+
+.specializationsWrap,
+.tagWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.specializationBadge,
+.employmentBadge,
+.overflowBadge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.specializationBadge {
+  background: #ecfeff;
+  color: #155e75;
+}
+
+.employmentBadge {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.overflowBadge {
+  background: #f8fafc;
+  color: #64748b;
+}
+
+.capacityBar,
+.capacityBarLarge {
+  margin-top: 6px;
+  width: 100%;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.capacityBar {
+  height: 7px;
+  min-width: 110px;
+}
+
+.capacityBarLarge {
+  height: 10px;
+}
+
+.capacityBar span,
+.capacityBarLarge span {
+  display: block;
+  height: 100%;
+  background: #4acf7f;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+}
+
+.status_active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status_on_leave {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.status_inactive {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.actionsCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rowButton,
+.rowButtonIcon {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.rowButton {
+  padding: 5px 9px;
+}
+
+.rowButtonIcon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tableFooter {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.pagerButton {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #334155;
+  font-weight: 600;
+  padding: 6px 10px;
+}
+
+.pagerButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 36px 16px;
+}
+
+.detailHeader,
+.detailCard {
+  padding: 18px;
+}
+
+.metaRow {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.tabsBar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tabButton {
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #fff;
+  color: #475569;
+  font-weight: 600;
+  padding: 8px 10px;
+}
+
+.tabButtonActive {
+  background: #dcfce7;
+  border-color: #86efac;
+  color: #166534;
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.detailCardTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.subTitle {
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.mutedText {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: #334155;
+  font-size: 14px;
+}
+
+.availabilityTable {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+}
+
+.availabilityTable th,
+.availabilityTable td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13px;
+  color: #334155;
+}
+
+.disabledRow {
+  opacity: 0.55;
+}
+
+.performanceGrid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.performanceCell {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.bigNumber {
+  margin-top: 8px;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.infoRows {
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+  color: #334155;
+  font-size: 14px;
+}
+
+@media (max-width: 980px) {
+  .detailGrid {
+    grid-template-columns: 1fr;
+  }
+}
