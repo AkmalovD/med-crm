@@ -9,11 +9,13 @@ import { MedicalDashboardTopBar } from "./MedicalDashboardTopBar";
 import { MedicalPatientsTableCard } from "./MedicalPatientsTableCard";
 import { MedicalSessionAnalyticsCard } from "./MedicalSessionAnalyticsCard";
 import { MedicalStatsGrid } from "./MedicalStatsGrid";
+import { NewPatientForm } from "@/forms/NewPatientForm";
 
 export function MedicalDashboardPage() {
   const [chartPeriod, setChartPeriod] = useState("Weekly");
   const [sortBy, setSortBy] = useState("Progress");
   const [page, setPage] = useState(0);
+  const [isNewPatientFormOpen, setIsNewPatientFormOpen] = useState(false);
 
   const totalPages = Math.ceil(MOCK_PATIENTS.length / PAGE_SIZE);
 
@@ -36,7 +38,8 @@ export function MedicalDashboardPage() {
     <DashboardScaffold>
       <div className="flex flex-col gap-5">
         <MedicalDashboardTopBar />
-        <MedicalDashboardHeader />
+        <MedicalDashboardHeader onAddPatient={() => setIsNewPatientFormOpen((previous) => !previous)} />
+        {isNewPatientFormOpen ? <NewPatientForm /> : null}
         <MedicalStatsGrid />
         <div className="grid grid-cols-[1.4fr_1fr] gap-4">
           <MedicalSessionAnalyticsCard chartPeriod={chartPeriod} onChartPeriodChange={setChartPeriod} />
