@@ -1,38 +1,44 @@
-import { Download } from "lucide-react";
-import { CITIES } from "../../data/dashboardData/medicalDashboardData";
+import { CalendarClock, Download } from "lucide-react";
 
-function UkraineMap() {
-  return (
-    <div className="relative w-full pt-2">
-      <svg viewBox="0 0 300 170" className="w-full h-auto" aria-hidden="true">
-        <path
-          d="M 8,85 L 12,70 L 22,57 L 33,50 L 50,40 L 70,35
-             L 90,27 L 110,20 L 130,15 L 155,11 L 170,11
-             L 188,15 L 205,22 L 220,28 L 232,38 L 243,50
-             L 255,65 L 265,80 L 272,95 L 275,108 L 272,120
-             L 265,132 L 255,142 L 243,150 L 228,157 L 213,161
-             L 198,162 L 183,160 L 170,156 L 160,150
-             L 148,155 L 135,160 L 118,162 L 100,160
-             L 82,154 L 65,144 L 50,132 L 35,118
-             L 20,103 L 10,93 Z"
-          fill="#d8e4f0"
-          stroke="#b8cfe4"
-          strokeWidth="1.2"
-        />
-        {CITIES.map((city) => (
-          <g key={city.name}>
-            <circle cx={city.x} cy={city.y} r={3.5} fill={city.dot} opacity={0.9} />
-            <text x={city.x + 5} y={city.y + 3.5} fontSize="7.5" fill="#475569" fontFamily="inherit">
-              {city.name}
-            </text>
-          </g>
-        ))}
-      </svg>
-    </div>
-  );
-}
+const TODAY_APPOINTMENTS = [
+  {
+    id: "A-101",
+    time: "09:30",
+    patient: "Emily Turner",
+    provider: "Dr. Daniel Price",
+    type: "Follow-up",
+    status: "In 10 min",
+  },
+  {
+    id: "A-102",
+    time: "10:15",
+    patient: "Michael Smith",
+    provider: "Dr. Sophia Lane",
+    type: "Consultation",
+    status: "On time",
+  },
+  {
+    id: "A-103",
+    time: "11:00",
+    patient: "Olivia Brown",
+    provider: "Dr. Mia Carter",
+    type: "Routine Check",
+    status: "Checked in",
+  },
+  {
+    id: "A-104",
+    time: "12:45",
+    patient: "Noah Wilson",
+    provider: "Dr. Ethan Green",
+    type: "Lab Review",
+    status: "On time",
+  },
+];
 
 export function MedicalAppointmentsMapCard() {
+  const totalAppointments = TODAY_APPOINTMENTS.length;
+  const soonCount = TODAY_APPOINTMENTS.filter((appointment) => appointment.status === "In 10 min").length;
+
   return (
     <div className="border border-(--border) rounded-[14px] bg-(--panel) p-5 px-[22px] flex flex-col">
       <div className="flex justify-between items-start">
@@ -47,16 +53,40 @@ export function MedicalAppointmentsMapCard() {
         </button>
       </div>
 
-      <div className="flex-1 flex flex-col justify-center">
-        <UkraineMap />
+      <div className="mt-4 rounded-xl bg-slate-50 border border-slate-100 px-3 py-2.5 flex items-center justify-between">
+        <div className="flex items-center gap-2 text-slate-700">
+          <CalendarClock size={16} style={{ color: "#4acf7f" }} />
+          <span className="text-[12px] font-medium">{totalAppointments} appointments scheduled</span>
+        </div>
+        <span className="text-[11px] text-amber-600 font-semibold">{soonCount} starting soon</span>
       </div>
 
-      <div className="flex gap-3.5 flex-wrap text-[11px] mt-3">
-        {CITIES.filter((city) => city.pct).map((city) => (
-          <span key={city.name} className="flex items-center gap-1.5 text-slate-500">
-            <span className="w-2 h-2 rounded-full inline-block shrink-0" style={{ background: city.dot }} />
-            {city.pct}
-          </span>
+      <div className="mt-4 space-y-2.5">
+        {TODAY_APPOINTMENTS.map((appointment) => (
+          <div
+            key={appointment.id}
+            className="rounded-[10px] border border-slate-100 bg-white px-3 py-2.5 flex items-start justify-between gap-2"
+          >
+            <div className="min-w-0">
+              <p className="text-[12px] font-semibold text-slate-800 truncate">{appointment.patient}</p>
+              <p className="text-[11px] text-slate-500 truncate">
+                {appointment.provider} · {appointment.type}
+              </p>
+            </div>
+            <div className="text-right shrink-0">
+              <p className="text-[12px] font-semibold text-slate-700">{appointment.time}</p>
+              <span
+                className={
+                  appointment.status === "In 10 min"
+                    ? "text-[10px] font-semibold text-amber-600"
+                    : "text-[10px] font-semibold"
+                }
+                style={appointment.status === "In 10 min" ? undefined : { color: "#4acf7f" }}
+              >
+                {appointment.status}
+              </span>
+            </div>
+          </div>
         ))}
       </div>
     </div>
