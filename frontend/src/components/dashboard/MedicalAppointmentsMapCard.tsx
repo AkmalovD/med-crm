@@ -1,5 +1,6 @@
 import { CalendarClock, Download } from "lucide-react";
 
+// to do: remove that and add in db
 const TODAY_APPOINTMENTS = [
   {
     id: "A-101",
