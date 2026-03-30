@@ -8,6 +8,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { ChevronDown } from "lucide-react";
+import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../custom-ui/dropdown";
 import { PRIMARY, SESSION_CHART_DATA } from "../../data/dashboardData/medicalDashboardData";
 
 interface MedicalSessionAnalyticsCardProps {
@@ -45,17 +47,34 @@ export function MedicalSessionAnalyticsCard({
     <div className="border border-(--border) rounded-[14px] bg-(--panel) p-5 px-[22px]">
       <div className="flex justify-between items-center mb-3.5">
         <h2 className="text-[15px] font-semibold text-slate-800">Session Analytics</h2>
-        <div className="dashboard-select">
-          <select
-            value={chartPeriod}
-            onChange={(e) => onChartPeriodChange(e.target.value)}
-            className="text-[13px] font-medium"
-          >
-            <option>Weekly</option>
-            <option>Monthly</option>
-            <option>Yearly</option>
-          </select>
-        </div>
+        <Dropdown align="end">
+          <div className="relative inline-flex">
+            <DropdownTrigger className="dashboard-select text-[13px] font-medium text-slate-700">
+              <span>{chartPeriod}</span>
+              <ChevronDown size={14} className="text-slate-400" />
+            </DropdownTrigger>
+            <DropdownContent className="min-w-36">
+              <DropdownItem
+                className={chartPeriod === "Weekly" ? "bg-slate-100 text-slate-900" : undefined}
+                onClick={() => onChartPeriodChange("Weekly")}
+              >
+                Weekly
+              </DropdownItem>
+              <DropdownItem
+                className={chartPeriod === "Monthly" ? "bg-slate-100 text-slate-900" : undefined}
+                onClick={() => onChartPeriodChange("Monthly")}
+              >
+                Monthly
+              </DropdownItem>
+              <DropdownItem
+                className={chartPeriod === "Yearly" ? "bg-slate-100 text-slate-900" : undefined}
+                onClick={() => onChartPeriodChange("Yearly")}
+              >
+                Yearly
+              </DropdownItem>
+            </DropdownContent>
+          </div>
+        </Dropdown>
       </div>
 
       <div className="flex gap-6 mb-4">
