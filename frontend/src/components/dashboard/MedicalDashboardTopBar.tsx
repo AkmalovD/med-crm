@@ -1,4 +1,11 @@
-import { Bell, ChevronDown, Info, Search } from "lucide-react";
+import { Bell, ChevronDown, Info, Search, User, Settings, LogOut } from "lucide-react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownContent,
+  DropdownItem,
+  DropdownDivider,
+} from "@/components/custom-ui/dropdown";
 
 export function MedicalDashboardTopBar() {
   return (
@@ -14,11 +21,21 @@ export function MedicalDashboardTopBar() {
         <button type="button" className="dashboard-icon-button">
           <Info size={15} />
         </button>
-        <div className="dashboard-user-pill">
-          <div className="dashboard-avatar">EB</div>
-          <span>Erik Brown</span>
-          <ChevronDown size={14} color="#9ca3af" />
-        </div>
+        <Dropdown>
+          <DropdownTrigger className="dashboard-user-pill">
+            <div className="dashboard-avatar">EB</div>
+            <span>Erik Brown</span>
+            <ChevronDown size={14} className="text-slate-400 transition-transform duration-200 group-data-[open=true]:rotate-180" />
+          </DropdownTrigger>
+          <DropdownContent className="w-56">
+            <DropdownItem><User size={14} /> Profile</DropdownItem>
+            <DropdownItem><Settings size={14} /> Settings</DropdownItem>
+            <DropdownDivider />
+            <DropdownItem className="text-rose-600 hover:bg-rose-50 hover:text-rose-700">
+              <LogOut size={14} /> Logout
+            </DropdownItem>
+          </DropdownContent>
+        </Dropdown>
       </div>
     </div>
   );
