@@ -1,5 +1,6 @@
 import { REPORT_TYPE_LABEL } from "@/data/reportsData/reportsDashboardData";
 import { ExportFormat, ReportType, ScheduleFrequency } from "@/types/reportsDashboardTypes";
+import { DropdownSelect } from "../custom-ui/dropdown";
 import styles from "./ReportsDashboardPage.module.css";
 
 interface ScheduleReportModalProps {
@@ -45,30 +46,42 @@ export function ScheduleReportModal(props: ScheduleReportModalProps) {
         </label>
         <label className={styles.field}>
           <span>Report Type</span>
-          <select className={styles.select} value={scheduleType} onChange={(e) => onScheduleTypeChange(e.target.value as ReportType)}>
-            {(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => (
-              <option key={type} value={type}>
-                {REPORT_TYPE_LABEL[type]}
-              </option>
-            ))}
-          </select>
+          <DropdownSelect
+            triggerClassName={styles.select}
+            value={scheduleType}
+            onChange={(e) => onScheduleTypeChange(e.target.value as ReportType)}
+            options={(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => ({
+              value: type,
+              label: REPORT_TYPE_LABEL[type],
+            }))}
+          />
         </label>
         <div className={styles.twoColumns}>
           <label className={styles.field}>
             <span>Frequency</span>
-            <select className={styles.select} value={scheduleFrequency} onChange={(e) => onScheduleFrequencyChange(e.target.value as ScheduleFrequency)}>
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-            </select>
+            <DropdownSelect
+              triggerClassName={styles.select}
+              value={scheduleFrequency}
+              onChange={(e) => onScheduleFrequencyChange(e.target.value as ScheduleFrequency)}
+              options={[
+                { value: "daily", label: "Daily" },
+                { value: "weekly", label: "Weekly" },
+                { value: "monthly", label: "Monthly" },
+              ]}
+            />
           </label>
           <label className={styles.field}>
             <span>Export Format</span>
-            <select className={styles.select} value={scheduleFormat} onChange={(e) => onScheduleFormatChange(e.target.value as ExportFormat)}>
-              <option value="pdf">PDF</option>
-              <option value="excel">Excel</option>
-              <option value="csv">CSV</option>
-            </select>
+            <DropdownSelect
+              triggerClassName={styles.select}
+              value={scheduleFormat}
+              onChange={(e) => onScheduleFormatChange(e.target.value as ExportFormat)}
+              options={[
+                { value: "pdf", label: "PDF" },
+                { value: "excel", label: "Excel" },
+                { value: "csv", label: "CSV" },
+              ]}
+            />
           </label>
         </div>
         <label className={styles.field}>

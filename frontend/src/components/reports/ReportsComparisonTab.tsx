@@ -1,6 +1,7 @@
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { REPORT_TYPE_LABEL } from "@/data/reportsData/reportsDashboardData";
 import { ReportType } from "@/types/reportsDashboardTypes";
+import { DropdownSelect } from "../custom-ui/dropdown";
 import styles from "./ReportsDashboardPage.module.css";
 
 interface Row {
@@ -48,13 +49,15 @@ export function ReportsComparisonTab(props: ReportsComparisonTabProps) {
         </label>
       </div>
       <div className={styles.row}>
-        <select className={styles.select} value={comparisonType} onChange={(e) => onComparisonTypeChange(e.target.value as ReportType)}>
-          {(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => (
-            <option key={type} value={type}>
-              {REPORT_TYPE_LABEL[type]}
-            </option>
-          ))}
-        </select>
+        <DropdownSelect
+          triggerClassName={styles.select}
+          value={comparisonType}
+          onChange={(e) => onComparisonTypeChange(e.target.value as ReportType)}
+          options={(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => ({
+            value: type,
+            label: REPORT_TYPE_LABEL[type],
+          }))}
+        />
         <button type="button" className={styles.primaryButton} onClick={onRun}>
           Compare
         </button>

@@ -1,6 +1,7 @@
 import { CheckCircle2, X } from "lucide-react";
 import { AppointmentFormState, SessionType, Therapist } from "@/types/appointmentsDashboardTypes";
 import { CURRENCY } from "@/utils/appointmentsDashboardUtils";
+import { DropdownSelect } from "../custom-ui/dropdown";
 import styles from "./AppointmentsDashboardPage.module.css";
 
 interface AppointmentFormModalProps {
@@ -52,16 +53,12 @@ export function AppointmentFormModal({
 
           <label className={styles.field}>
             <span>Therapist</span>
-            <select
+            <DropdownSelect
+              triggerClassName={styles.select}
               value={formState.therapistId}
               onChange={(event) => onChange({ ...formState, therapistId: event.target.value })}
-            >
-              {therapists.map((therapist) => (
-                <option key={therapist.id} value={therapist.id}>
-                  {therapist.fullName}
-                </option>
-              ))}
-            </select>
+              options={therapists.map((therapist) => ({ value: therapist.id, label: therapist.fullName }))}
+            />
           </label>
 
           <label className={styles.field}>
@@ -86,28 +83,26 @@ export function AppointmentFormModal({
 
           <label className={styles.field}>
             <span>Duration</span>
-            <select
-              value={formState.duration}
+            <DropdownSelect
+              triggerClassName={styles.select}
+              value={String(formState.duration)}
               onChange={(event) => onChange({ ...formState, duration: Number(event.target.value) })}
-            >
-              {[30, 45, 50, 60, 90].map((minutes) => (
-                <option key={minutes} value={minutes}>
-                  {minutes} min
-                </option>
-              ))}
-            </select>
+              options={[30, 45, 50, 60, 90].map((minutes) => ({ value: String(minutes), label: `${minutes} min` }))}
+            />
           </label>
 
           <label className={styles.field}>
             <span>Session Type</span>
-            <select
+            <DropdownSelect
+              triggerClassName={styles.select}
               value={formState.sessionType}
               onChange={(event) => onChange({ ...formState, sessionType: event.target.value as SessionType })}
-            >
-              <option value="individual">Individual</option>
-              <option value="group">Group</option>
-              <option value="online">Online</option>
-            </select>
+              options={[
+                { value: "individual", label: "Individual" },
+                { value: "group", label: "Group" },
+                { value: "online", label: "Online" },
+              ]}
+            />
           </label>
 
           <label className={styles.field}>

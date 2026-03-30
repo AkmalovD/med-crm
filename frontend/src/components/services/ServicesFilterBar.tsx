@@ -3,6 +3,7 @@ import {
   THERAPIST_OPTIONS,
 } from "@/data/servicesData/servicesDashboardData";
 import { DeliveryMethod, ServiceCategoryKey, ServiceSortBy, ServiceStatus, SortDir } from "@/types/servicesDashboardTypes";
+import { DropdownSelect } from "../custom-ui/dropdown";
 import styles from "./ServicesDashboardPage.module.css";
 
 interface ServicesFilterBarProps {
@@ -48,64 +49,61 @@ export function ServicesFilterBar(props: ServicesFilterBarProps) {
         value={searchInput}
         onChange={(event) => onSearchInputChange(event.target.value)}
       />
-      <select
-        className={styles.selectInput}
+      <DropdownSelect
+        triggerClassName={styles.selectInput}
         value={categoryFilter}
         onChange={(event) => onCategoryChange(event.target.value as "" | ServiceCategoryKey)}
-      >
-        <option value="">All Categories</option>
-        {Object.entries(SERVICE_CATEGORY_LABELS).map(([value, label]) => (
-          <option key={value} value={value}>
-            {label}
-          </option>
-        ))}
-      </select>
-      <select
-        className={styles.selectInput}
+        options={[
+          { value: "", label: "All Categories" },
+          ...Object.entries(SERVICE_CATEGORY_LABELS).map(([value, label]) => ({ value, label })),
+        ]}
+      />
+      <DropdownSelect
+        triggerClassName={styles.selectInput}
         value={statusFilter}
         onChange={(event) => onStatusChange(event.target.value as "" | ServiceStatus)}
-      >
-        <option value="">All Statuses</option>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
-      </select>
-      <select
-        className={styles.selectInput}
+        options={[
+          { value: "", label: "All Statuses" },
+          { value: "active", label: "Active" },
+          { value: "inactive", label: "Inactive" },
+        ]}
+      />
+      <DropdownSelect
+        triggerClassName={styles.selectInput}
         value={deliveryFilter}
         onChange={(event) => onDeliveryChange(event.target.value as "" | DeliveryMethod)}
-      >
-        <option value="">All Delivery</option>
-        <option value="in_person">In-person</option>
-        <option value="online">Online</option>
-        <option value="both">Both</option>
-      </select>
-      <select
-        className={styles.selectInput}
+        options={[
+          { value: "", label: "All Delivery" },
+          { value: "in_person", label: "In-person" },
+          { value: "online", label: "Online" },
+          { value: "both", label: "Both" },
+        ]}
+      />
+      <DropdownSelect
+        triggerClassName={styles.selectInput}
         value={therapistFilter}
         onChange={(event) => onTherapistChange(event.target.value)}
-      >
-        <option value="">All Therapists</option>
-        {THERAPIST_OPTIONS.map((therapist) => (
-          <option key={therapist.id} value={therapist.id}>
-            {therapist.name}
-          </option>
-        ))}
-      </select>
-      <select
-        className={styles.selectInput}
+        options={[
+          { value: "", label: "All Therapists" },
+          ...THERAPIST_OPTIONS.map((therapist) => ({ value: therapist.id, label: therapist.name })),
+        ]}
+      />
+      <DropdownSelect
+        triggerClassName={styles.selectInput}
         value={`${sortBy}:${sortDir}`}
         onChange={(event) => {
           const [nextSortBy, nextSortDir] = event.target.value.split(":");
           onSortChange(nextSortBy as ServiceSortBy, nextSortDir as SortDir);
         }}
-      >
-        <option value="name:asc">Name A-Z</option>
-        <option value="name:desc">Name Z-A</option>
-        <option value="price:asc">Price Low-High</option>
-        <option value="price:desc">Price High-Low</option>
-        <option value="bookings:desc">Most Booked</option>
-        <option value="createdAt:desc">Newest</option>
-      </select>
+        options={[
+          { value: "name:asc", label: "Name A-Z" },
+          { value: "name:desc", label: "Name Z-A" },
+          { value: "price:asc", label: "Price Low-High" },
+          { value: "price:desc", label: "Price High-Low" },
+          { value: "bookings:desc", label: "Most Booked" },
+          { value: "createdAt:desc", label: "Newest" },
+        ]}
+      />
       <button className={styles.ghostButton} type="button" onClick={onClear}>
         Clear
       </button>

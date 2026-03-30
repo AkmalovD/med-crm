@@ -1,5 +1,6 @@
 import { METRIC_LABEL, METRICS_BY_TYPE, REPORT_TYPE_LABEL } from "@/data/reportsData/reportsDashboardData";
 import { ReportMetric, ReportType } from "@/types/reportsDashboardTypes";
+import { DropdownSelect } from "../custom-ui/dropdown";
 import styles from "./ReportsDashboardPage.module.css";
 
 interface SaveReportModalProps {
@@ -42,13 +43,15 @@ export function SaveReportModal(props: SaveReportModalProps) {
         </label>
         <label className={styles.field}>
           <span>Report Type</span>
-          <select className={styles.select} value={saveType} onChange={(e) => onSaveTypeChange(e.target.value as ReportType)}>
-            {(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => (
-              <option key={type} value={type}>
-                {REPORT_TYPE_LABEL[type]}
-              </option>
-            ))}
-          </select>
+          <DropdownSelect
+            triggerClassName={styles.select}
+            value={saveType}
+            onChange={(e) => onSaveTypeChange(e.target.value as ReportType)}
+            options={(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => ({
+              value: type,
+              label: REPORT_TYPE_LABEL[type],
+            }))}
+          />
         </label>
         <div className={styles.twoColumns}>
           <label className={styles.field}>

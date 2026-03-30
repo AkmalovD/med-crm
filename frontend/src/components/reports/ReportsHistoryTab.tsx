@@ -2,6 +2,7 @@ import { History } from "lucide-react";
 import { REPORT_TYPE_LABEL } from "@/data/reportsData/reportsDashboardData";
 import { ExportFormat, ReportHistoryEntry, ReportType } from "@/types/reportsDashboardTypes";
 import { fmtDate, fmtDateTime } from "@/utils/reportsDashboardUtils";
+import { DropdownSelect } from "../custom-ui/dropdown";
 import styles from "./ReportsDashboardPage.module.css";
 
 interface ReportsHistoryTabProps {
@@ -36,20 +37,29 @@ export function ReportsHistoryTab(props: ReportsHistoryTabProps) {
   return (
     <section className={styles.section}>
       <div className={styles.row}>
-        <select className={styles.select} value={historyTypeFilter} onChange={(e) => onTypeChange(e.target.value as "all" | ReportType)}>
-          <option value="all">All Types</option>
-          {(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => (
-            <option key={type} value={type}>
-              {REPORT_TYPE_LABEL[type]}
-            </option>
-          ))}
-        </select>
-        <select className={styles.select} value={historyFormatFilter} onChange={(e) => onFormatChange(e.target.value as "all" | ExportFormat)}>
-          <option value="all">All Formats</option>
-          <option value="pdf">PDF</option>
-          <option value="excel">Excel</option>
-          <option value="csv">CSV</option>
-        </select>
+        <DropdownSelect
+          triggerClassName={styles.select}
+          value={historyTypeFilter}
+          onChange={(e) => onTypeChange(e.target.value as "all" | ReportType)}
+          options={[
+            { value: "all", label: "All Types" },
+            ...(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => ({
+              value: type,
+              label: REPORT_TYPE_LABEL[type],
+            })),
+          ]}
+        />
+        <DropdownSelect
+          triggerClassName={styles.select}
+          value={historyFormatFilter}
+          onChange={(e) => onFormatChange(e.target.value as "all" | ExportFormat)}
+          options={[
+            { value: "all", label: "All Formats" },
+            { value: "pdf", label: "PDF" },
+            { value: "excel", label: "Excel" },
+            { value: "csv", label: "CSV" },
+          ]}
+        />
         <button type="button" className={styles.secondaryButton} onClick={onClear}>
           Clear
         </button>

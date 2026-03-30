@@ -1,4 +1,5 @@
 import type { Order } from "@/data/mockOrders";
+import { DropdownSelect } from "../custom-ui/dropdown";
 
 type OrdersTableProps = {
   orders: Order[];
@@ -120,15 +121,16 @@ export function OrdersTable({
       <footer className="dashboard-table-footer">
         <label className="inline-flex items-center gap-2 text-sm text-slate-500">
           Rows per page:
-          <select
-            className="rounded-md border border-slate-200 bg-white px-2 py-1 text-sm text-slate-700"
-            value={pageSize}
+          <DropdownSelect
+            triggerClassName="rounded-md border border-slate-200 bg-white px-2 py-1 text-sm text-slate-700"
+            value={String(pageSize)}
             onChange={(event) => onPageSizeChange(Number(event.target.value))}
-          >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-          </select>
+            options={[
+              { value: "5", label: "5" },
+              { value: "10", label: "10" },
+              { value: "20", label: "20" },
+            ]}
+          />
         </label>
         <div className="flex items-center gap-5 text-sm text-slate-500">
           <span>

@@ -11,6 +11,7 @@ import {
   type ReactNode,
   type HTMLAttributes,
   type ButtonHTMLAttributes,
+  type SelectHTMLAttributes,
 } from "react";
 
 type Align = "start" | "end";
@@ -224,4 +225,54 @@ export function DropdownLabel({
 
 export function DropdownDivider({ className, ...props }: HTMLAttributes<HTMLHRElement>) {
   return <hr {...props} className={cx("my-1 border-slate-200", className)} />;
+}
+
+type DropdownSelectOption = {
+  value: string;
+  label: ReactNode;
+};
+
+interface DropdownSelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "onChange"> {
+  options: DropdownSelectOption[];
+  value: string;
+  onChange: (event: { target: { value: string } }) => void;
+  placeholder?: ReactNode;
+  triggerClassName?: string;
+  contentClassName?: string;
+  itemClassName?: string;
+}
+
+export function DropdownSelect({
+  options,
+  value,
+  onChange,
+  placeholder,
+  triggerClassName,
+  contentClassName,
+  itemClassName,
+  ...props
+}: DropdownSelectProps) {
+  const selected = options.find((option) => option.value === value);
+
+  return (
+    <Dropdown align="end">
+      <div className="relative inline-flex">
+        <DropdownTrigger className={cx("justify-between", triggerClassName)} aria-label={props["aria-label"]}>
+          <span>{selected?.label ?? placeholder ?? value}</span>
+          <span className="text-slate-400">▾</span>
+        </DropdownTrigger>
+        <DropdownContent className={contentClassName}>
+          {options.map((option) => (
+            <DropdownItem
+              key={option.value}
+              className={cx(option.value === value ? "bg-slate-100 text-slate-900" : undefined, itemClassName)}
+              onClick={() => onChange({ target: { value: option.value } })}
+            >
+              {option.label}
+            </DropdownItem>
+          ))}
+        </DropdownContent>
+      </div>
+    </Dropdown>
+  );
 }

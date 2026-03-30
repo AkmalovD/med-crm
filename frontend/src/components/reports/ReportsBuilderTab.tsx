@@ -3,6 +3,7 @@ import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAx
 import { METRIC_LABEL, METRICS_BY_TYPE, REPORT_TYPE_LABEL } from "@/data/reportsData/reportsDashboardData";
 import { ReportMetric, ReportType } from "@/types/reportsDashboardTypes";
 import { metricPreviewValue } from "@/utils/reportsDashboardUtils";
+import { DropdownSelect } from "../custom-ui/dropdown";
 import styles from "./ReportsDashboardPage.module.css";
 
 interface ReportsBuilderTabProps {
@@ -43,13 +44,15 @@ export function ReportsBuilderTab(props: ReportsBuilderTabProps) {
           <h3 className={styles.groupTitle}>Build Custom Report</h3>
           <label className={styles.field}>
             <span>Report Type</span>
-            <select className={styles.select} value={builderType} onChange={(e) => onBuilderTypeChange(e.target.value as ReportType)}>
-              {(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => (
-                <option key={type} value={type}>
-                  {REPORT_TYPE_LABEL[type]}
-                </option>
-              ))}
-            </select>
+            <DropdownSelect
+              triggerClassName={styles.select}
+              value={builderType}
+              onChange={(e) => onBuilderTypeChange(e.target.value as ReportType)}
+              options={(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => ({
+                value: type,
+                label: REPORT_TYPE_LABEL[type],
+              }))}
+            />
           </label>
           <div className={styles.twoColumns}>
             <label className={styles.field}>

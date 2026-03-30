@@ -1,6 +1,7 @@
 import { Download, Search } from "lucide-react";
 import styles from "./ClientsDashboardPage.module.css";
 import { ClientStatus, SortBy, SortDir, Therapist, TherapyType } from "../../types/clientsDashboardTypes";
+import { DropdownSelect } from "../custom-ui/dropdown";
 
 interface ClientsFiltersBarProps {
   searchInput: string;
@@ -46,60 +47,57 @@ export function ClientsFiltersBar({
         />
       </label>
 
-      <select
+      <DropdownSelect
+        triggerClassName={styles.select}
         value={statusFilter}
         onChange={(event) => onStatusFilterChange(event.target.value as "" | ClientStatus)}
-        className={styles.select}
-      >
-        <option value="">Status</option>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
-        <option value="new">New</option>
-        <option value="discharged">Discharged</option>
-        <option value="on_hold">On Hold</option>
-      </select>
+        options={[
+          { value: "", label: "Status" },
+          { value: "active", label: "Active" },
+          { value: "inactive", label: "Inactive" },
+          { value: "new", label: "New" },
+          { value: "discharged", label: "Discharged" },
+          { value: "on_hold", label: "On Hold" },
+        ]}
+      />
 
-      <select
+      <DropdownSelect
+        triggerClassName={styles.select}
         value={therapistFilter}
         onChange={(event) => onTherapistFilterChange(event.target.value)}
-        className={styles.select}
-      >
-        <option value="">Therapist</option>
-        {therapists.map((therapist) => (
-          <option key={therapist.id} value={therapist.id}>
-            {therapist.name}
-          </option>
-        ))}
-      </select>
+        options={[{ value: "", label: "Therapist" }, ...therapists.map((therapist) => ({ value: therapist.id, label: therapist.name }))]}
+      />
 
-      <select
+      <DropdownSelect
+        triggerClassName={styles.select}
         value={therapyTypeFilter}
         onChange={(event) => onTherapyTypeFilterChange(event.target.value as "" | TherapyType)}
-        className={styles.select}
-      >
-        <option value="">Therapy Type</option>
-        <option value="individual">Individual</option>
-        <option value="group">Group</option>
-        <option value="online">Online</option>
-      </select>
+        options={[
+          { value: "", label: "Therapy Type" },
+          { value: "individual", label: "Individual" },
+          { value: "group", label: "Group" },
+          { value: "online", label: "Online" },
+        ]}
+      />
 
-      <select
-        className={styles.select}
+      <DropdownSelect
+        triggerClassName={styles.select}
         value={`${sortBy}:${sortDir}`}
         onChange={(event) => {
           const [nextSortBy, nextSortDir] = event.target.value.split(":") as [SortBy, SortDir];
           onSortChange(nextSortBy, nextSortDir);
         }}
-      >
-        <option value="name:asc">Sort: Name (A-Z)</option>
-        <option value="name:desc">Sort: Name (Z-A)</option>
-        <option value="age:asc">Sort: Age (Low to high)</option>
-        <option value="age:desc">Sort: Age (High to low)</option>
-        <option value="lastSession:desc">Sort: Last session (Newest)</option>
-        <option value="lastSession:asc">Sort: Last session (Oldest)</option>
-        <option value="totalSessions:desc">Sort: Total sessions (High to low)</option>
-        <option value="totalSessions:asc">Sort: Total sessions (Low to high)</option>
-      </select>
+        options={[
+          { value: "name:asc", label: "Sort: Name (A-Z)" },
+          { value: "name:desc", label: "Sort: Name (Z-A)" },
+          { value: "age:asc", label: "Sort: Age (Low to high)" },
+          { value: "age:desc", label: "Sort: Age (High to low)" },
+          { value: "lastSession:desc", label: "Sort: Last session (Newest)" },
+          { value: "lastSession:asc", label: "Sort: Last session (Oldest)" },
+          { value: "totalSessions:desc", label: "Sort: Total sessions (High to low)" },
+          { value: "totalSessions:asc", label: "Sort: Total sessions (Low to high)" },
+        ]}
+      />
 
       <button type="button" className={styles.ghostButton} onClick={onClearFilters}>
         Clear Filters

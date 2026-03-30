@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 
 import { ALL_ROOM_AMENITIES, ROOM_AMENITY_LABELS } from "@/data/roomsData/roomsDashboardData";
 import { createRoomSchema, type CreateRoomInput } from "@/validators/createRoom.schema";
+import { DropdownSelect } from "../custom-ui/dropdown";
 
 import styles from "./RoomsDashboardPage.module.css";
 
@@ -126,18 +127,18 @@ export function CreateRoomModal({ isOpen, onClose, onSubmit }: CreateRoomModalPr
               <label className={styles.fieldLabel} htmlFor="cr-type">
                 Room type *
               </label>
-              <select
-                id="cr-type"
-                className={styles.fieldSelect}
+              <DropdownSelect
+                triggerClassName={styles.fieldSelect}
                 value={type}
                 onChange={(e) => setType(e.target.value as CreateRoomInput["type"])}
-              >
-                <option value="individual">Individual</option>
-                <option value="group">Group</option>
-                <option value="assessment">Assessment</option>
-                <option value="waiting">Waiting area</option>
-                <option value="other">Other</option>
-              </select>
+                options={[
+                  { value: "individual", label: "Individual" },
+                  { value: "group", label: "Group" },
+                  { value: "assessment", label: "Assessment" },
+                  { value: "waiting", label: "Waiting area" },
+                  { value: "other", label: "Other" },
+                ]}
+              />
             </div>
             <div className={styles.field}>
               <label className={styles.fieldLabel} htmlFor="cr-cap">
@@ -170,30 +171,20 @@ export function CreateRoomModal({ isOpen, onClose, onSubmit }: CreateRoomModalPr
             <div className={styles.field}>
               <span className={styles.fieldLabel}>Operating hours *</span>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                <select
-                  className={styles.fieldSelect}
+                <DropdownSelect
+                  triggerClassName={styles.fieldSelect}
                   value={openTime}
                   onChange={(e) => setOpenTime(e.target.value)}
                   aria-label="Open time"
-                >
-                  {TIME_OPTIONS.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  className={styles.fieldSelect}
+                  options={TIME_OPTIONS.map((t) => ({ value: t, label: t }))}
+                />
+                <DropdownSelect
+                  triggerClassName={styles.fieldSelect}
                   value={closeTime}
                   onChange={(e) => setCloseTime(e.target.value)}
                   aria-label="Close time"
-                >
-                  {TIME_OPTIONS.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
+                  options={TIME_OPTIONS.map((t) => ({ value: t, label: t }))}
+                />
               </div>
               {errors.closeTime ? <span className={styles.fieldError}>{errors.closeTime}</span> : null}
             </div>

@@ -2,6 +2,7 @@ import { Download, Search, X } from "lucide-react";
 import styles from "./TherapistsDashboardPage.module.css";
 import { EmploymentType, Specialization, TherapistStatus, TherapistSortBy, SortDir } from "@/types/therapistsDashboardTypes";
 import { SPECIALIZATION_LABELS } from "@/data/therapistsData/therapistsDashboardData";
+import { DropdownSelect } from "../custom-ui/dropdown";
 
 interface TherapistsFiltersBarProps {
   searchInput: string;
@@ -45,58 +46,58 @@ export function TherapistsFiltersBar({
         />
       </label>
 
-      <select
+      <DropdownSelect
+        triggerClassName={styles.select}
         value={statusFilter}
         onChange={(event) => onStatusFilterChange(event.target.value as "" | TherapistStatus)}
-        className={styles.select}
-      >
-        <option value="">All Statuses</option>
-        <option value="active">Active</option>
-        <option value="on_leave">On Leave</option>
-        <option value="inactive">Inactive</option>
-      </select>
+        options={[
+          { value: "", label: "All Statuses" },
+          { value: "active", label: "Active" },
+          { value: "on_leave", label: "On Leave" },
+          { value: "inactive", label: "Inactive" },
+        ]}
+      />
 
-      <select
+      <DropdownSelect
+        triggerClassName={styles.select}
         value={employmentFilter}
         onChange={(event) => onEmploymentFilterChange(event.target.value as "" | EmploymentType)}
-        className={styles.select}
-      >
-        <option value="">Employment Type</option>
-        <option value="full_time">Full-time</option>
-        <option value="part_time">Part-time</option>
-        <option value="contractor">Contractor</option>
-      </select>
+        options={[
+          { value: "", label: "Employment Type" },
+          { value: "full_time", label: "Full-time" },
+          { value: "part_time", label: "Part-time" },
+          { value: "contractor", label: "Contractor" },
+        ]}
+      />
 
-      <select
+      <DropdownSelect
+        triggerClassName={styles.select}
         value={specializationFilter}
         onChange={(event) => onSpecializationFilterChange(event.target.value as "" | Specialization)}
-        className={styles.select}
-      >
-        <option value="">Specialization</option>
-        {Object.entries(SPECIALIZATION_LABELS).map(([value, label]) => (
-          <option key={value} value={value}>
-            {label}
-          </option>
-        ))}
-      </select>
+        options={[
+          { value: "", label: "Specialization" },
+          ...Object.entries(SPECIALIZATION_LABELS).map(([value, label]) => ({ value, label })),
+        ]}
+      />
 
-      <select
-        className={styles.select}
+      <DropdownSelect
+        triggerClassName={styles.select}
         value={`${sortBy}:${sortDir}`}
         onChange={(event) => {
           const [nextSortBy, nextSortDir] = event.target.value.split(":") as [TherapistSortBy, SortDir];
           onSortChange(nextSortBy, nextSortDir);
         }}
-      >
-        <option value="name:asc">Sort: Name (A-Z)</option>
-        <option value="name:desc">Sort: Name (Z-A)</option>
-        <option value="joinDate:desc">Sort: Join date (Newest)</option>
-        <option value="joinDate:asc">Sort: Join date (Oldest)</option>
-        <option value="clientCount:desc">Sort: Clients (High to low)</option>
-        <option value="clientCount:asc">Sort: Clients (Low to high)</option>
-        <option value="lastLogin:desc">Sort: Last login (Newest)</option>
-        <option value="lastLogin:asc">Sort: Last login (Oldest)</option>
-      </select>
+        options={[
+          { value: "name:asc", label: "Sort: Name (A-Z)" },
+          { value: "name:desc", label: "Sort: Name (Z-A)" },
+          { value: "joinDate:desc", label: "Sort: Join date (Newest)" },
+          { value: "joinDate:asc", label: "Sort: Join date (Oldest)" },
+          { value: "clientCount:desc", label: "Sort: Clients (High to low)" },
+          { value: "clientCount:asc", label: "Sort: Clients (Low to high)" },
+          { value: "lastLogin:desc", label: "Sort: Last login (Newest)" },
+          { value: "lastLogin:asc", label: "Sort: Last login (Oldest)" },
+        ]}
+      />
 
       <button type="button" className={styles.ghostButton} onClick={onClearFilters}>
         <X size={14} />

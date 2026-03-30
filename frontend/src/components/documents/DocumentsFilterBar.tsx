@@ -1,5 +1,6 @@
 import { ChangeEvent } from "react";
 import { X } from "lucide-react";
+import { DropdownSelect } from "../custom-ui/dropdown";
 
 import { DocumentCategory, DocumentFiltersState } from "./Documents.types";
 import styles from "./DocumentsDashboardPage.module.css";
@@ -45,43 +46,48 @@ export function DocumentsFilterBar({
           value={filters.search}
           onChange={update("search")}
         />
-        <select className={styles.select} value={filters.category} onChange={update("category")}>
-          {CATEGORY_OPTIONS.map((item) => (
-            <option key={item.value} value={item.value}>
-              {item.label}
-            </option>
-          ))}
-        </select>
-        <select className={styles.select} value={filters.clientId} onChange={update("clientId")}>
-          <option value="all">All Clients</option>
-          {clientOptions.map((item) => (
-            <option key={item.value} value={item.value}>
-              {item.label}
-            </option>
-          ))}
-        </select>
-        <select className={styles.select} value={filters.therapistId} onChange={update("therapistId")}>
-          <option value="all">All Therapists</option>
-          {therapistOptions.map((item) => (
-            <option key={item.value} value={item.value}>
-              {item.label}
-            </option>
-          ))}
-        </select>
-        <select className={styles.select} value={filters.fileType} onChange={update("fileType")}>
-          <option value="all">All Types</option>
-          <option value="pdf">PDF</option>
-          <option value="jpg">JPG</option>
-          <option value="png">PNG</option>
-          <option value="docx">DOCX</option>
-        </select>
-        <select className={styles.select} value={filters.sortBy} onChange={update("sortBy")}>
-          <option value="uploadedAt_desc">Newest first</option>
-          <option value="uploadedAt_asc">Oldest first</option>
-          <option value="name_asc">Name A-Z</option>
-          <option value="fileSize_desc">Largest first</option>
-          <option value="clientName_asc">Client name</option>
-        </select>
+        <DropdownSelect
+          triggerClassName={styles.select}
+          value={filters.category}
+          onChange={update("category")}
+          options={CATEGORY_OPTIONS.map((item) => ({ value: item.value, label: item.label }))}
+        />
+        <DropdownSelect
+          triggerClassName={styles.select}
+          value={filters.clientId}
+          onChange={update("clientId")}
+          options={[{ value: "all", label: "All Clients" }, ...clientOptions]}
+        />
+        <DropdownSelect
+          triggerClassName={styles.select}
+          value={filters.therapistId}
+          onChange={update("therapistId")}
+          options={[{ value: "all", label: "All Therapists" }, ...therapistOptions]}
+        />
+        <DropdownSelect
+          triggerClassName={styles.select}
+          value={filters.fileType}
+          onChange={update("fileType")}
+          options={[
+            { value: "all", label: "All Types" },
+            { value: "pdf", label: "PDF" },
+            { value: "jpg", label: "JPG" },
+            { value: "png", label: "PNG" },
+            { value: "docx", label: "DOCX" },
+          ]}
+        />
+        <DropdownSelect
+          triggerClassName={styles.select}
+          value={filters.sortBy}
+          onChange={update("sortBy")}
+          options={[
+            { value: "uploadedAt_desc", label: "Newest first" },
+            { value: "uploadedAt_asc", label: "Oldest first" },
+            { value: "name_asc", label: "Name A-Z" },
+            { value: "fileSize_desc", label: "Largest first" },
+            { value: "clientName_asc", label: "Client name" },
+          ]}
+        />
       </div>
 
       <button

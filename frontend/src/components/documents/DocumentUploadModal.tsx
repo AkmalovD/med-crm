@@ -1,5 +1,6 @@
 import { FormEvent, useMemo, useState } from "react";
 
+import { DropdownSelect } from "../custom-ui/dropdown";
 import styles from "./DocumentsDashboardPage.module.css";
 
 interface DocumentUploadModalProps {
@@ -56,14 +57,19 @@ export function DocumentUploadModal({ isOpen, pendingFileNames, onClose, onSubmi
 
           <label className={styles.rowBetween}>
             Category
-            <select className={styles.select} value={category} onChange={(event) => setCategory(event.target.value)}>
-              <option value="referral">Referral</option>
-              <option value="assessment">Assessment</option>
-              <option value="consent_form">Consent Form</option>
-              <option value="progress_report">Progress Report</option>
-              <option value="invoice">Invoice</option>
-              <option value="other">Other</option>
-            </select>
+            <DropdownSelect
+              triggerClassName={styles.select}
+              value={category}
+              onChange={(event) => setCategory(event.target.value)}
+              options={[
+                { value: "referral", label: "Referral" },
+                { value: "assessment", label: "Assessment" },
+                { value: "consent_form", label: "Consent Form" },
+                { value: "progress_report", label: "Progress Report" },
+                { value: "invoice", label: "Invoice" },
+                { value: "other", label: "Other" },
+              ]}
+            />
           </label>
 
           <label className={styles.rowBetween}>

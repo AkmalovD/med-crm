@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { Therapist } from "@/types/appointmentsDashboardTypes";
+import { DropdownSelect } from "../custom-ui/dropdown";
 import styles from "./AppointmentsDashboardPage.module.css";
 
 interface AppointmentsHeaderProps {
@@ -42,19 +43,16 @@ export function AppointmentsHeader({
           </button>
           <span className={styles.rangeLabel}>{formattedRange}</span>
         </div>
-        <select
-          className={styles.select}
+        <DropdownSelect
+          triggerClassName={styles.select}
           value={therapistFilter}
           onChange={(event) => onTherapistFilterChange(event.target.value)}
           aria-label="Filter by therapist"
-        >
-          <option value="">All therapists</option>
-          {therapists.map((therapist) => (
-            <option key={therapist.id} value={therapist.id}>
-              {therapist.fullName}
-            </option>
-          ))}
-        </select>
+          options={[
+            { value: "", label: "All therapists" },
+            ...therapists.map((therapist) => ({ value: therapist.id, label: therapist.fullName })),
+          ]}
+        />
         <button type="button" className={styles.primaryButton} onClick={onNewAppointment}>
           <Plus size={16} />
           New Appointment

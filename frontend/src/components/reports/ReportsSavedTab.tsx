@@ -2,6 +2,7 @@ import { Copy, FileClock, MoreHorizontal, Pin, PinOff, Play, Plus, Share2, Trash
 import { METRIC_LABEL, REPORT_TYPE_LABEL } from "@/data/reportsData/reportsDashboardData";
 import { ReportType, SavedReport } from "@/types/reportsDashboardTypes";
 import { createId, fmtDate } from "@/utils/reportsDashboardUtils";
+import { DropdownSelect } from "../custom-ui/dropdown";
 import styles from "./ReportsDashboardPage.module.css";
 
 interface ReportsSavedTabProps {
@@ -41,18 +42,18 @@ export function ReportsSavedTab({
             value={savedSearch}
             onChange={(event) => onSavedSearchChange(event.target.value)}
           />
-          <select
-            className={styles.select}
+          <DropdownSelect
+            triggerClassName={styles.select}
             value={savedTypeFilter}
             onChange={(event) => onSavedTypeFilterChange(event.target.value as "all" | ReportType)}
-          >
-            <option value="all">All types</option>
-            {(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => (
-              <option key={type} value={type}>
-                {REPORT_TYPE_LABEL[type]}
-              </option>
-            ))}
-          </select>
+            options={[
+              { value: "all", label: "All types" },
+              ...(Object.keys(REPORT_TYPE_LABEL) as ReportType[]).map((type) => ({
+                value: type,
+                label: REPORT_TYPE_LABEL[type],
+              })),
+            ]}
+          />
         </div>
         <button type="button" className={styles.primaryButton} onClick={onOpenSaveModal}>
           <Plus size={14} />
