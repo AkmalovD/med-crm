@@ -1,7 +1,8 @@
-import { Download, Search } from "lucide-react";
+import { ChevronDown, Download, Search } from "lucide-react";
 import { THERAPIST_PAGE_SIZE, THERAPISTS } from "@/data/analyticsData/analyticsDashboardData";
 import { TherapistItem, TherapistSortBy } from "../../types/analyticsDashboardTypes";
 import { CURRENCY, NUMBER, cx } from "../../utils/analyticsDashboardUtils";
+import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../custom-ui/dropdown";
 import styles from "./AnalyticsDashboardPage.module.css";
 
 interface AnalyticsTherapistPerformanceCardProps {
@@ -41,16 +42,45 @@ export function AnalyticsTherapistPerformanceCard({
             <Search size={14} className="text-slate-400" />
             <input value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Search therapist" />
           </label>
-          <select
-            className={styles.analyticsFilter}
-            value={sortBy}
-            onChange={(event) => onSortChange(event.target.value as TherapistSortBy)}
-          >
-            <option value="completion">Sort: Completion Rate</option>
-            <option value="sessions">Sort: Total Sessions</option>
-            <option value="revenue">Sort: Revenue</option>
-            <option value="name">Sort: Name</option>
-          </select>
+          <Dropdown align="end">
+            <div className="relative inline-flex">
+              <DropdownTrigger className={cx(styles.analyticsFilter, "inline-flex items-center gap-2")}>
+                <span>
+                  {sortBy === "completion" && "Sort: Completion Rate"}
+                  {sortBy === "sessions" && "Sort: Total Sessions"}
+                  {sortBy === "revenue" && "Sort: Revenue"}
+                  {sortBy === "name" && "Sort: Name"}
+                </span>
+                <ChevronDown size={14} className="text-slate-400" />
+              </DropdownTrigger>
+              <DropdownContent className="min-w-52">
+                <DropdownItem
+                  className={sortBy === "completion" ? "bg-slate-100 text-slate-900" : undefined}
+                  onClick={() => onSortChange("completion")}
+                >
+                  Sort: Completion Rate
+                </DropdownItem>
+                <DropdownItem
+                  className={sortBy === "sessions" ? "bg-slate-100 text-slate-900" : undefined}
+                  onClick={() => onSortChange("sessions")}
+                >
+                  Sort: Total Sessions
+                </DropdownItem>
+                <DropdownItem
+                  className={sortBy === "revenue" ? "bg-slate-100 text-slate-900" : undefined}
+                  onClick={() => onSortChange("revenue")}
+                >
+                  Sort: Revenue
+                </DropdownItem>
+                <DropdownItem
+                  className={sortBy === "name" ? "bg-slate-100 text-slate-900" : undefined}
+                  onClick={() => onSortChange("name")}
+                >
+                  Sort: Name
+                </DropdownItem>
+              </DropdownContent>
+            </div>
+          </Dropdown>
           <button type="button" className={styles.analyticsIconButton} aria-label="Export table">
             <Download size={14} />
           </button>

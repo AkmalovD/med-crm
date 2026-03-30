@@ -1,4 +1,8 @@
-import { Download, Info } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { ChevronDown, Download, Info } from "lucide-react";
+import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../custom-ui/dropdown";
 import styles from "./AnalyticsDashboardPage.module.css";
 
 interface AnalyticsChartCardProps {
@@ -16,6 +20,8 @@ export function AnalyticsChartCard({
   hasData = true,
   children,
 }: AnalyticsChartCardProps) {
+  const [period, setPeriod] = useState<"Monthly" | "Weekly" | "Yearly">("Monthly");
+
   return (
     <section className={styles.analyticsCard}>
       <div className="mb-4 flex items-center justify-between gap-2">
@@ -25,11 +31,34 @@ export function AnalyticsChartCard({
         </div>
         <div className="flex items-center gap-2">
           {filter && (
-            <select className={styles.analyticsFilter}>
-              <option>Monthly</option>
-              <option>Weekly</option>
-              <option>Yearly</option>
-            </select>
+            <Dropdown align="end">
+              <div className="relative inline-flex">
+                <DropdownTrigger className={`${styles.analyticsFilter} inline-flex items-center gap-2`}>
+                  <span>{period}</span>
+                  <ChevronDown size={14} className="text-slate-400" />
+                </DropdownTrigger>
+                <DropdownContent className="min-w-36">
+                  <DropdownItem
+                    className={period === "Monthly" ? "bg-slate-100 text-slate-900" : undefined}
+                    onClick={() => setPeriod("Monthly")}
+                  >
+                    Monthly
+                  </DropdownItem>
+                  <DropdownItem
+                    className={period === "Weekly" ? "bg-slate-100 text-slate-900" : undefined}
+                    onClick={() => setPeriod("Weekly")}
+                  >
+                    Weekly
+                  </DropdownItem>
+                  <DropdownItem
+                    className={period === "Yearly" ? "bg-slate-100 text-slate-900" : undefined}
+                    onClick={() => setPeriod("Yearly")}
+                  >
+                    Yearly
+                  </DropdownItem>
+                </DropdownContent>
+              </div>
+            </Dropdown>
           )}
           <button type="button" className={styles.analyticsIconButton} aria-label={`Export ${title}`}>
             <Download size={15} />
