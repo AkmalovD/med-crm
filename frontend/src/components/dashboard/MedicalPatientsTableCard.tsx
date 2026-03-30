@@ -1,5 +1,7 @@
 import { PAGE_SIZE } from "../../data/dashboardData/medicalDashboardData";
 import { Patient } from "../../types/medicalDashboardTypes";
+import { ChevronDown } from "lucide-react";
+import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../custom-ui/dropdown";
 
 interface MedicalPatientsTableCardProps {
   patients: Patient[];
@@ -28,12 +30,33 @@ export function MedicalPatientsTableCard({
         <h2 className="text-base font-bold text-slate-800">Information by patients ({totalCount})</h2>
         <div className="flex items-center gap-2">
           <span className="text-[13px] text-slate-500">Sort By</span>
-          <div className="dashboard-select">
-            <select value={sortBy} onChange={(e) => onSortChange(e.target.value)}>
-              <option>Progress</option>
-              <option>Name</option>
-              <option>Status</option>
-            </select>
+          <div className="relative inline-flex">
+            <Dropdown align="end">
+              <DropdownTrigger className="dashboard-select text-[13px] font-medium text-slate-700">
+                <span>{sortBy}</span>
+                <ChevronDown size={14} className="text-slate-400" />
+              </DropdownTrigger>
+              <DropdownContent className="min-w-36">
+                <DropdownItem
+                  className={sortBy === "Progress" ? "bg-slate-100 text-slate-900" : undefined}
+                  onClick={() => onSortChange("Progress")}
+                >
+                  Progress
+                </DropdownItem>
+                <DropdownItem
+                  className={sortBy === "Name" ? "bg-slate-100 text-slate-900" : undefined}
+                  onClick={() => onSortChange("Name")}
+                >
+                  Name
+                </DropdownItem>
+                <DropdownItem
+                  className={sortBy === "Status" ? "bg-slate-100 text-slate-900" : undefined}
+                  onClick={() => onSortChange("Status")}
+                >
+                  Status
+                </DropdownItem>
+              </DropdownContent>
+            </Dropdown>
           </div>
         </div>
       </div>
