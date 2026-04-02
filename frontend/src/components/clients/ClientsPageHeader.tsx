@@ -3,16 +3,22 @@ import styles from "./ClientsDashboardPage.module.css";
 
 interface ClientsPageHeaderProps {
   totalClients: string;
+  onAddClient: () => void
 }
 
-export function ClientsPageHeader({ totalClients }: ClientsPageHeaderProps) {
+export function ClientsPageHeader({ totalClients, onAddClient }: ClientsPageHeaderProps) {
   return (
     <header className={styles.clientsHeader}>
       <div className="flex items-center gap-3">
         <h1 className="text-4xl font-bold text-[#1a1a2e]">Clients</h1>
         <span className={styles.totalBadge}>{totalClients} clients</span>
       </div>
-      <button type="button" className={styles.addClientButton}>
+
+      <button 
+        type="button" 
+        className={styles.addClientButton}
+        onClick={onAddClient}
+      >
         <Plus size={16} />
         Add Client
       </button>

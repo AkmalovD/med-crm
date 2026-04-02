@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  THERAPIST
+  STAFF
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      UserRole @default(STAFF)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  therapist TherapistProfile?
+}
+
+model TherapistProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  fullName  String
+  specialty String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Patient {
+  id        String   @id @default(cuid())
+  fullName  String
+  phone     String?
+  email     String?
+  birthDate DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  appointments Appointment[]
+  notes        SessionNote[]
+}
+
+model Appointment {
+  id          String   @id @default(cuid())
+  patientId   String
+  therapistId String
+  startAt     DateTime
+  endAt       DateTime
+  status      String   @default("scheduled")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  patient   Patient          @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  therapist TherapistProfile @relation(fields: [therapistId], references: [id], onDelete: Restrict)
+}
+
+model SessionNote {
+  id            String   @id @default(cuid())
+  patientId     String
+  therapistId   String
+  appointmentId String?
+  content       String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  patient     Patient           @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  therapist   TherapistProfile  @relation(fields: [therapistId], references: [id], onDelete: Restrict)
+  appointment Appointment?      @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+}
