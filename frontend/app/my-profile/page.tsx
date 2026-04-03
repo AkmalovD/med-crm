@@ -1,5 +1,5 @@
-import { PlaceholderDashboardPage } from "@/components/dashboard/PlaceholderDashboardPage";
+import { ProfileDashboardPage } from '@/components/profile/ProfileDashboardPage'
 
 export default function MyProfilePage() {
-  return <PlaceholderDashboardPage title="My Profile" />;
+  return <ProfileDashboardPage />
 }

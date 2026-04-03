@@ -1,4 +1,3 @@
-import { ChangeEvent } from "react";
 import { X } from "lucide-react";
 import { DropdownSelect } from "../custom-ui/dropdown";
 
@@ -33,7 +32,7 @@ export function DocumentsFilterBar({
   therapistOptions,
   onChange,
 }: DocumentsFilterBarProps) {
-  const update = (key: keyof DocumentFiltersState) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const update = (key: keyof DocumentFiltersState) => (event: { target: { value: string } }) => {
     onChange({ ...filters, [key]: event.target.value });
   };
 

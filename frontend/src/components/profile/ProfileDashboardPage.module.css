@@ -1,0 +1,859 @@
+/* ── Page shell ──────────────────────────────────────────────────── */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #f8fafc 0%, #f5f7fb 100%);
+  min-height: 100%;
+}
+
+/* ── Profile Header ──────────────────────────────────────────────── */
+.headerCard {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.9rem;
+}
+
+.avatarWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e2e8f0;
+}
+
+.avatarPlaceholder {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #64748b;
+  border: 3px solid #e2e8f0;
+}
+
+.avatarEditBtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #4acf7f;
+  border: 2px solid #fff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.avatarEditBtn:hover {
+  background: #3ab86d;
+}
+
+.headerMeta {
+  flex: 1;
+}
+
+.headerName {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.headerEmail {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.headerBadges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.badgeGreen {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badgeMeta {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* ── Tabs ────────────────────────────────────────────────────────── */
+.tabsWrapper {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.9rem;
+}
+
+.tabsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 1rem;
+  background: #f8fafc;
+  border-radius: 0.9rem 0.9rem 0 0;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #64748b;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: #0f172a;
+}
+
+.tabActive {
+  color: #4acf7f;
+  border-bottom-color: #4acf7f;
+}
+
+.tabDanger {
+  color: #ef4444;
+}
+
+.tabDanger:hover {
+  color: #dc2626;
+}
+
+.tabContent {
+  padding: 1.5rem;
+}
+
+/* ── Section header ──────────────────────────────────────────────── */
+.sectionTitle {
+  margin: 0 0 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.sectionSubtitle {
+  margin: -0.75rem 0 1.25rem;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+/* ── Form grid ───────────────────────────────────────────────────── */
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.formFieldFull {
+  grid-column: 1 / -1;
+}
+
+.label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 0.15rem;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #0f172a;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: #4acf7f;
+  box-shadow: 0 0 0 3px rgba(74, 207, 127, 0.12);
+}
+
+.input:disabled,
+.select:disabled,
+.textarea:disabled {
+  background: #f8fafc;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.inputWithIcon {
+  position: relative;
+}
+
+.inputWithIcon .input {
+  padding-left: 2.25rem;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.inputHint {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.inputError {
+  font-size: 0.75rem;
+  color: #ef4444;
+}
+
+.charCount {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  text-align: right;
+}
+
+.readOnlyField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.readOnlyValue {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnPrimary {
+  background: #4acf7f;
+  color: #fff;
+}
+
+.btnPrimary:hover:not(:disabled) {
+  background: #3ab86d;
+}
+
+.btnOutline {
+  background: #fff;
+  color: #374151;
+  border: 1px solid #e2e8f0;
+}
+
+.btnOutline:hover:not(:disabled) {
+  background: #f8fafc;
+}
+
+.btnDestructive {
+  background: #ef4444;
+  color: #fff;
+}
+
+.btnDestructive:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.btnGhost {
+  background: transparent;
+  color: #64748b;
+  border: none;
+}
+
+.btnGhost:hover:not(:disabled) {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* ── Password strength ───────────────────────────────────────────── */
+.strengthBar {
+  height: 6px;
+  width: 100%;
+  background: #f1f5f9;
+  border-radius: 99px;
+  overflow: hidden;
+  margin-top: 0.4rem;
+}
+
+.strengthFill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.3s, background 0.3s;
+}
+
+.strengthLabel {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+}
+
+/* ── Password show/hide ──────────────────────────────────────────── */
+.passwordWrapper {
+  position: relative;
+}
+
+.passwordWrapper .input {
+  padding-right: 2.5rem;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.passwordToggle:hover {
+  color: #64748b;
+}
+
+/* ── Card / info box ─────────────────────────────────────────────── */
+.infoCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+}
+
+.infoCardGreen {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+}
+
+.infoCardAmber {
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
+.infoCardRed {
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+.infoCardLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.infoCardIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.infoCardIconGreen {
+  background: #dcfce7;
+}
+
+.infoCardTitle {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.infoCardDesc {
+  margin: 0.15rem 0 0;
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+/* ── Sessions list ───────────────────────────────────────────────── */
+.sessionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  gap: 1rem;
+}
+
+.sessionRowCurrent {
+  border-color: #4acf7f;
+  background: #f0fdf4;
+}
+
+.sessionLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sessionName {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.sessionMeta {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 0.15rem;
+}
+
+.sessionsBetween {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sessionsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Notifications table ─────────────────────────────────────────── */
+.notifTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.notifTable th {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.notifTable th:not(:first-child) {
+  text-align: center;
+}
+
+.notifTable td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.875rem;
+  color: #374151;
+  vertical-align: middle;
+}
+
+.notifTable td:not(:first-child) {
+  text-align: center;
+}
+
+.notifTable tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Toggle switch ───────────────────────────────────────────────── */
+.toggle {
+  position: relative;
+  display: inline-flex;
+  width: 36px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggleTrack {
+  position: absolute;
+  inset: 0;
+  background: #e2e8f0;
+  border-radius: 99px;
+  transition: background 0.2s;
+}
+
+.toggle input:checked + .toggleTrack {
+  background: #4acf7f;
+}
+
+.toggleThumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.toggle input:checked ~ .toggleThumb {
+  transform: translateX(16px);
+}
+
+/* ── Radio group ─────────────────────────────────────────────────── */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.radioItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.radioItem input[type='radio'] {
+  accent-color: #4acf7f;
+  width: 15px;
+  height: 15px;
+}
+
+.radioPreview {
+  font-size: 0.78rem;
+  color: #4acf7f;
+  margin-top: 0.25rem;
+  padding-left: 0.25rem;
+}
+
+/* ── Activity log ────────────────────────────────────────────────── */
+.activityGroup {
+  margin-bottom: 1.25rem;
+}
+
+.activityGroupDate {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.activityRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.activityRow:last-child {
+  border-bottom: none;
+}
+
+.activityDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4acf7f;
+  flex-shrink: 0;
+  margin-top: 0.35rem;
+}
+
+.activityContent {
+  flex: 1;
+}
+
+.activityAction {
+  font-size: 0.875rem;
+  color: #0f172a;
+  margin: 0;
+}
+
+.activityEntity {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin: 0.1rem 0 0;
+}
+
+.activityMeta {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.activityTime {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.activityIp {
+  font-size: 0.72rem;
+  color: #cbd5e1;
+  margin-top: 0.1rem;
+}
+
+/* ── Filter row ──────────────────────────────────────────────────── */
+.filterRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* ── 2FA OTP input ───────────────────────────────────────────────── */
+.otpWrapper {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.otpInput {
+  width: 42px;
+  height: 48px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.otpInput:focus {
+  border-color: #4acf7f;
+  box-shadow: 0 0 0 3px rgba(74, 207, 127, 0.12);
+}
+
+/* ── Modal overlay ───────────────────────────────────────────────── */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 0.9rem;
+  padding: 1.5rem;
+  max-width: 460px;
+  width: 90vw;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.modalTitle {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.modalDesc {
+  margin: 0 0 1.25rem;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+/* ── QR code block ───────────────────────────────────────────────── */
+.qrBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.qrCode {
+  width: 140px;
+  height: 140px;
+  background: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.qrSecret {
+  font-family: monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: #374151;
+  background: #fff;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.4rem;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  user-select: all;
+}
+
+/* ── Danger confirm input ────────────────────────────────────────── */
+.confirmInput {
+  font-family: monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* ── Skeleton ────────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 0.4rem;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Empty state ─────────────────────────────────────────────────── */
+.emptyState {
+  text-align: center;
+  padding: 2.5rem;
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
+
+/* ── Danger zone section ─────────────────────────────────────────── */
+.dangerIntro {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+}
+
+.divider {
+  height: 1px;
+  background: #f1f5f9;
+  margin: 1.25rem 0;
+}

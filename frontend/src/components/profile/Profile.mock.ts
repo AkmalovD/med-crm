@@ -1,0 +1,147 @@
+import { ActiveSession, ActivityLogEntry, NotificationPreference, UserProfile } from './Profile.types'
+
+export const PROFILE_MOCK: UserProfile = {
+  id: 'u-1',
+  firstName: 'Emily',
+  lastName: 'Carter',
+  fullName: 'Dr. Emily Carter',
+  email: 'emily.carter@vocalis.app',
+  phone: '+1 (555) 234-5678',
+  avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=200&auto=format&fit=crop',
+  bio: 'Licensed therapist with 8+ years of experience in cognitive-behavioral therapy and trauma-informed care.',
+  role: 'therapist',
+  language: 'en',
+  timezone: 'Asia/Tashkent',
+  dateFormat: 'DD/MM/YYYY',
+  currency: 'USD',
+  is2FAEnabled: false,
+  notificationPreferences: [
+    { event: 'new_appointment', label: 'New Appointment', email: true, sms: true, inApp: true },
+    { event: 'appointment_cancelled', label: 'Appointment Cancelled', email: true, sms: true, inApp: true },
+    { event: 'appointment_reminder', label: 'Appointment Reminder', email: true, sms: false, inApp: true },
+    { event: 'appointment_rescheduled', label: 'Appointment Rescheduled', email: true, sms: true, inApp: true },
+    { event: 'new_client_assigned', label: 'New Client Assigned', email: true, sms: false, inApp: true },
+    { event: 'client_goal_achieved', label: 'Client Goal Achieved', email: false, sms: false, inApp: true },
+    { event: 'invoice_paid', label: 'Invoice Paid', email: true, sms: false, inApp: true },
+    { event: 'system_updates', label: 'System Updates', email: true, sms: false, inApp: false },
+  ],
+  memberSince: '2023-04-12T00:00:00.000Z',
+  lastLoginAt: '2026-04-03T08:22:00.000Z',
+}
+
+export const SESSIONS_MOCK: ActiveSession[] = [
+  {
+    id: 'sess-1',
+    deviceName: 'Chrome on macOS',
+    deviceType: 'desktop',
+    ipAddress: '89.236.17.42',
+    location: 'Tashkent, UZ',
+    lastActiveAt: new Date().toISOString(),
+    isCurrent: true,
+    createdAt: '2026-04-03T08:22:00.000Z',
+  },
+  {
+    id: 'sess-2',
+    deviceName: 'Safari on iPhone',
+    deviceType: 'mobile',
+    ipAddress: '89.236.17.43',
+    location: 'Tashkent, UZ',
+    lastActiveAt: '2026-04-02T19:10:00.000Z',
+    isCurrent: false,
+    createdAt: '2026-04-02T19:10:00.000Z',
+  },
+  {
+    id: 'sess-3',
+    deviceName: 'Firefox on Windows',
+    deviceType: 'desktop',
+    ipAddress: '178.90.44.12',
+    location: 'Moscow, RU',
+    lastActiveAt: '2026-03-31T11:04:00.000Z',
+    isCurrent: false,
+    createdAt: '2026-03-31T11:04:00.000Z',
+  },
+]
+
+export const ACTIVITY_LOG_MOCK: ActivityLogEntry[] = [
+  {
+    id: 'act-1',
+    action: 'Updated personal info',
+    entityType: null,
+    entityName: null,
+    ipAddress: '89.236.17.42',
+    performedAt: '2026-04-03T09:15:00.000Z',
+  },
+  {
+    id: 'act-2',
+    action: 'Viewed client profile',
+    entityType: 'client',
+    entityName: 'John Smith',
+    ipAddress: '89.236.17.42',
+    performedAt: '2026-04-03T08:50:00.000Z',
+  },
+  {
+    id: 'act-3',
+    action: 'Created appointment',
+    entityType: 'appointment',
+    entityName: 'Anna K.',
+    ipAddress: '89.236.17.42',
+    performedAt: '2026-04-03T08:30:00.000Z',
+  },
+  {
+    id: 'act-4',
+    action: 'Changed password',
+    entityType: null,
+    entityName: null,
+    ipAddress: '89.236.17.42',
+    performedAt: '2026-04-02T17:44:00.000Z',
+  },
+  {
+    id: 'act-5',
+    action: 'Downloaded document',
+    entityType: 'document',
+    entityName: 'referral-smith.pdf',
+    ipAddress: '89.236.17.43',
+    performedAt: '2026-04-02T09:30:00.000Z',
+  },
+  {
+    id: 'act-6',
+    action: 'Updated notification preferences',
+    entityType: null,
+    entityName: null,
+    ipAddress: '89.236.17.42',
+    performedAt: '2026-04-01T14:20:00.000Z',
+  },
+  {
+    id: 'act-7',
+    action: 'Created invoice',
+    entityType: 'invoice',
+    entityName: 'INV-2026-041',
+    ipAddress: '89.236.17.42',
+    performedAt: '2026-04-01T11:05:00.000Z',
+  },
+  {
+    id: 'act-8',
+    action: 'Uploaded document',
+    entityType: 'document',
+    entityName: 'consent-form.pdf',
+    ipAddress: '89.236.17.42',
+    performedAt: '2026-03-31T16:00:00.000Z',
+  },
+]
+
+export const NOTIFICATION_EVENT_LABELS: Record<string, string> = {
+  new_appointment: 'New Appointment',
+  appointment_cancelled: 'Appointment Cancelled',
+  appointment_reminder: 'Appointment Reminder',
+  appointment_rescheduled: 'Appointment Rescheduled',
+  new_client_assigned: 'New Client Assigned',
+  client_goal_achieved: 'Client Goal Achieved',
+  invoice_paid: 'Invoice Paid',
+  system_updates: 'System Updates',
+}
+
+export const ROLE_LABELS: Record<string, string> = {
+  admin: 'Admin',
+  therapist: 'Therapist',
+  receptionist: 'Receptionist',
+}
