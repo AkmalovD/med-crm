@@ -7,6 +7,7 @@ import { ClientsFiltersBar } from "./ClientsFiltersBar";
 import { ClientsPageHeader } from "./ClientsPageHeader";
 import { ClientsTableCard } from "./ClientsTableCard";
 import styles from "./ClientsDashboardPage.module.css";
+import { NewClientForm } from "../../forms/NewClientForm";
 import { CLIENTS, PAGE_SIZE, THERAPISTS } from "@/data/clientsData/clientsDashboardData"
 import { downloadCsv, NUMBER } from "../../utils/clientsDashboardUtils";
 import { ClientStatus, SortBy, SortDir, TherapyType } from "../../types/clientsDashboardTypes";
@@ -21,6 +22,7 @@ export function ClientsDashboardPage() {
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [page, setPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [isAddingClient, setIsAddingClient] = useState(false);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setSearch(searchInput.trim().toLowerCase()), 300);
@@ -62,7 +64,11 @@ export function ClientsDashboardPage() {
   return (
     <DashboardScaffold>
       <div className={styles.clientsPage}>
-        <ClientsPageHeader totalClients={NUMBER.format(filteredClients.length)} />
+        <ClientsPageHeader
+          totalClients={NUMBER.format(filteredClients.length)}
+          onAddClient={() => setIsAddingClient(true)}
+        />
+        {isAddingClient && <NewClientForm />}
         <ClientsFiltersBar
           searchInput={searchInput}
           statusFilter={statusFilter}
