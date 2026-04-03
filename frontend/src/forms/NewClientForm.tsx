@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react"
 import { Building2 } from "lucide-react"
+import { DropdownSelect } from "../components/custom-ui/dropdown"
 
 type NewClientValues = {
   companyName: string
@@ -92,16 +93,19 @@ export function NewClientForm() {
         </label>
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold text-slate-600">Status</span>
-          <select
+          <DropdownSelect
             value={values.status}
             onChange={(e) => handleChange("status", e.target.value as NewClientValues["status"])}
-            className="h-10 px-3 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700 outline-none focus:border-[#4acf7f] focus:ring-2 focus:ring-[#4acf7f]/20"
-            required
-          >
-            <option value="">Select status</option>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
+            options={[
+              { value: "Active", label: "Active" },
+              { value: "Inactive", label: "Inactive" },
+            ]}
+            placeholder="Select status"
+            aria-label="Client status"
+            triggerClassName="h-10 w-full px-3 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700"
+            contentClassName="w-full"
+            itemClassName="text-sm"
+          />
         </label>
         <label className="flex flex-col gap-1.5 md:col-span-2">
           <span className="text-xs font-semibold text-slate-600">Address</span>
