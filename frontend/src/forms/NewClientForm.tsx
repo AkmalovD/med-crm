@@ -110,7 +110,7 @@ export function NewClientForm() {
         <label className="flex flex-col gap-1.5 md:col-span-2">
           <span className="text-xs font-semibold text-slate-600">Address</span>
           <textarea
-            rows={3}
+            rows={1}
             value={values.address}
             onChange={(e) => handleChange("address", e.target.value)}
             placeholder="Client address"

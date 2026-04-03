@@ -2,7 +2,7 @@ import { Download, Eye, FileText, ImageIcon, Lock, MoreHorizontal, Type } from "
 
 import { CATEGORY_LABELS, FILE_TYPE_LABELS, formatDate, formatFileSize } from "./Documents.utils";
 import { DocumentItem } from "./Documents.types";
-import styles from "./DocumentsDashboardPage.module.css";
+import { DocumentCardActionButton } from "./DocumentCardActionButton";
 
 interface DocumentCardProps {
   document: DocumentItem;
@@ -14,10 +14,13 @@ interface DocumentCardProps {
   onDelete: (id: string) => void;
 }
 
-function typeClass(fileType: DocumentItem["fileType"]) {
-  if (fileType === "pdf") return `${styles.filePill} ${styles.filePdf}`;
-  if (fileType === "docx") return `${styles.filePill} ${styles.fileDocx}`;
-  return `${styles.filePill} ${styles.fileImage}`;
+function fileTypeBadgeClass(fileType: DocumentItem["fileType"]) {
+  const baseClass =
+    "inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold leading-none";
+
+  if (fileType === "pdf") return `${baseClass} bg-red-50 text-red-700`;
+  if (fileType === "docx") return `${baseClass} bg-indigo-50 text-indigo-700`;
+  return `${baseClass} bg-blue-50 text-blue-700`;
 }
 
 function fileIcon(fileType: DocumentItem["fileType"]) {
@@ -36,41 +39,47 @@ export function DocumentCard({
   onDelete,
 }: DocumentCardProps) {
   return (
-    <article className={`${styles.docCard} ${selected ? styles.docCardSelected : ""}`}>
-      <div className={styles.docCardTop}>
-        <label className={styles.rowBetween}>
+    <article
+      className={`flex flex-col gap-2 rounded-2xl border bg-white p-3 ${
+        selected ? "border-[#4acf7f] bg-green-50 shadow-[inset_0_0_0_1px_#4acf7f]" : "border-slate-200"
+      }`}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <label className="flex items-center gap-2">
           <input type="checkbox" checked={selected} onChange={() => onToggleSelect(document.id)} />
-          <span className={typeClass(document.fileType)}>
+          <span className={fileTypeBadgeClass(document.fileType)}>
             {fileIcon(document.fileType)} {FILE_TYPE_LABELS[document.fileType]}
           </span>
         </label>
         {document.isConfidential && (
-          <span title="Confidential">
+          <span title="Confidential" className="text-slate-600">
             <Lock size={14} aria-label="Confidential" />
           </span>
         )}
       </div>
 
-      <p className={styles.docName}>{document.name}</p>
-      <p className={styles.docMeta}>
+      <p className="m-0 text-base font-bold text-slate-900">{document.name}</p>
+      <p className="m-0 text-sm text-slate-600">
         {document.client?.fullName ?? "No client"} - {formatFileSize(document.fileSize)}
       </p>
-      <p className={styles.docMeta}>{formatDate(document.uploadedAt)}</p>
-      <span className={styles.badge}>{CATEGORY_LABELS[document.category]}</span>
+      <p className="m-0 text-sm text-slate-600">{formatDate(document.uploadedAt)}</p>
+      <span className="inline-flex w-fit rounded-full bg-cyan-50 px-2 py-0.5 text-[11px] font-bold text-cyan-700">
+        {CATEGORY_LABELS[document.category]}
+      </span>
 
-      <div className={styles.docActions}>
-        <button type="button" className={styles.button} onClick={() => onPreview(document.id)}>
-          <Eye size={14} />
-        </button>
-        <button type="button" className={styles.button} onClick={() => onDownload(document.id)}>
-          <Download size={14} />
-        </button>
-        <button type="button" className={styles.button} onClick={() => onRename(document.id)}>
-          <MoreHorizontal size={14} />
-        </button>
-        <button type="button" className={styles.buttonDanger} onClick={() => onDelete(document.id)}>
-          Delete
-        </button>
+      <div className="mt-1 flex items-center gap-2">
+        <DocumentCardActionButton icon={<Eye size={14} />} label="Preview" onClick={() => onPreview(document.id)} />
+        <DocumentCardActionButton
+          icon={<Download size={14} />}
+          label="Download"
+          onClick={() => onDownload(document.id)}
+        />
+        <DocumentCardActionButton
+          icon={<MoreHorizontal size={14} />}
+          label="Rename"
+          onClick={() => onRename(document.id)}
+        />
+        <DocumentCardActionButton label="Delete" variant="danger" onClick={() => onDelete(document.id)} />
       </div>
     </article>
   );
