@@ -15,7 +15,7 @@ interface DocumentsFilterBarProps {
   therapistOptions: Option[];
   onChange: (next: DocumentFiltersState) => void;
 }
-
+// .
 const CATEGORY_OPTIONS: Array<{ value: "all" | DocumentCategory; label: string }> = [
   { value: "all", label: "All Categories" },
   { value: "referral", label: "Referral" },
