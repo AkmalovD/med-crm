@@ -17,7 +17,6 @@ import {
   INITIAL_WAITLIST,
   THERAPISTS,
 } from "@/data/appointmentsData/appointmentsDashboardData";
-import styles from "./AppointmentsDashboardPage.module.css";
 import {
   ActiveView,
   Appointment,
@@ -238,7 +237,7 @@ export function AppointmentsDashboardPage() {
 
   return (
     <DashboardScaffold>
-      <div className={styles.page}>
+      <div className="flex min-h-full flex-col gap-4 bg-gradient-to-b from-slate-50 to-[#f5f7fb] p-6 max-[760px]:p-4">
         <AppointmentsHeader
           formattedRange={formattedRange}
           therapistFilter={therapistFilter}
@@ -260,7 +259,7 @@ export function AppointmentsDashboardPage() {
 
         <AppointmentsViewToggle activeView={activeView} onChange={setActiveView} />
 
-        <div className={styles.mainLayout}>
+        <div className="grid grid-cols-[minmax(0,1fr)_19rem] gap-4 max-[1320px]:grid-cols-1">
           <AppointmentsCalendarCard
             activeView={activeView}
             selectedDate={selectedDate}
@@ -295,7 +294,7 @@ export function AppointmentsDashboardPage() {
 
         <button
           type="button"
-          className={styles.waitlistToggle}
+          className="fixed right-4 top-1/2 inline-flex origin-right -translate-y-1/2 rotate-90 items-center gap-[0.35rem] rounded-[0.6rem] rounded-b-none border border-[#dbe3ef] bg-white px-[0.65rem] py-[0.45rem] text-[0.74rem] font-bold text-slate-900 max-[1320px]:right-2 max-[760px]:static max-[760px]:translate-y-0 max-[760px]:rotate-0 max-[760px]:self-end"
           onClick={() => setIsWaitlistOpen((current) => !current)}
         >
           <CalendarDays size={14} />

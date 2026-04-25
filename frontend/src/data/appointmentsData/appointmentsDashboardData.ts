@@ -7,7 +7,6 @@ import {
   Therapist,
   WaitlistEntry,
 } from "@/types/appointmentsDashboardTypes";
-import styles from "@/components/appointments/AppointmentsDashboardPage.module.css";
 
 export const STATUS_LABELS: Record<AppointmentStatus, string> = {
   confirmed: "Confirmed",
@@ -19,12 +18,12 @@ export const STATUS_LABELS: Record<AppointmentStatus, string> = {
 };
 
 export const STATUS_CLASS: Record<AppointmentStatus, string> = {
-  confirmed: styles.statusConfirmed,
-  pending: styles.statusPending,
-  completed: styles.statusCompleted,
-  cancelled: styles.statusCancelled,
-  rescheduled: styles.statusRescheduled,
-  no_show: styles.statusNoShow,
+  confirmed: "bg-[#e9fdee] text-[#17803f]",
+  pending: "bg-[#fff8e8] text-[#b45309]",
+  completed: "bg-[#eef2f7] text-[#475569]",
+  cancelled: "bg-[#fef2f2] text-[#b91c1c]",
+  rescheduled: "bg-[#eff6ff] text-[#1d4ed8]",
+  no_show: "bg-[#fff7ed] text-[#c2410c]",
 };
 
 export const SESSION_LABELS: Record<SessionType, string> = {

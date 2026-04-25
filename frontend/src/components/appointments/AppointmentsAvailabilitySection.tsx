@@ -1,6 +1,5 @@
 import { CalendarClock } from "lucide-react";
 import { Therapist } from "@/types/appointmentsDashboardTypes";
-import styles from "./AppointmentsDashboardPage.module.css";
 
 interface AvailabilityItem {
   therapist: Therapist;
@@ -19,38 +18,39 @@ export function AppointmentsAvailabilitySection({
   availability,
   onBlockSlot,
 }: AppointmentsAvailabilitySectionProps) {
+  const secondaryButtonClass =
+    "rounded-[0.55rem] border border-[#d8dde8] bg-white px-3 py-[0.55rem] text-[0.85rem] font-semibold leading-none text-slate-900 transition-all duration-150 ease-in hover:bg-slate-50";
+
   return (
-    <section className={styles.availabilitySection}>
-      <header className={styles.availabilityHeader}>
-        <h2>
+    <section className="rounded-[0.9rem] border border-slate-200 bg-white p-[0.9rem]">
+      <header>
+        <h2 className="inline-flex items-center gap-[0.42rem] text-[0.95rem] text-slate-800">
           <CalendarClock size={16} />
           Therapist Availability
         </h2>
       </header>
-      <div className={styles.availabilityGrid}>
+      <div className="mt-3 grid grid-cols-4 gap-[0.6rem] max-[1100px]:grid-cols-2 max-[760px]:grid-cols-1">
         {availability.map((item) => (
-          <article key={item.therapist.id} className={styles.availabilityCard}>
-            <div className={styles.availabilityTop}>
+          <article key={item.therapist.id} className="flex flex-col gap-[0.45rem] rounded-[0.8rem] border border-slate-200 p-[0.7rem]">
+            <div className="flex justify-between gap-2">
               <div>
-                <p className={styles.availabilityName}>{item.therapist.fullName}</p>
-                <p className={styles.availabilityHours}>{item.therapist.workHours}</p>
+                <p className="text-[0.8rem] font-bold text-slate-900">{item.therapist.fullName}</p>
+                <p className="text-[0.72rem] text-slate-500">{item.therapist.workHours}</p>
               </div>
-              <span className={styles.freeBadge}>{item.free} free</span>
+              <span className="self-start rounded-full bg-cyan-50 px-[0.45rem] py-[0.16rem] text-[0.7rem] font-bold text-cyan-700">
+                {item.free} free
+              </span>
             </div>
-            <div className={styles.progressTrack}>
+            <div className="h-[0.42rem] overflow-hidden rounded-full bg-slate-200">
               <div
-                className={styles.progressFill}
+                className="h-full rounded-full"
                 style={{ width: `${item.fill}%`, backgroundColor: item.therapist.color }}
               />
             </div>
-            <p className={styles.capacityText}>
+            <p className="text-[0.72rem] text-slate-500">
               {item.booked} / {item.capacity} booked
             </p>
-            <button
-              type="button"
-              className={styles.secondaryButton}
-              onClick={() => onBlockSlot(item.therapist.id)}
-            >
+            <button type="button" className={secondaryButtonClass} onClick={() => onBlockSlot(item.therapist.id)}>
               Block Slot
             </button>
           </article>
