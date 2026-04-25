@@ -13,7 +13,6 @@ import { AnalyticsRevenueAndAgeSection } from "./AnalyticsRevenueAndAgeSection";
 import { AnalyticsRevenueInsightsSection } from "./AnalyticsRevenueInsightsSection";
 import { AnalyticsTabs } from "./AnalyticsTabs";
 import { AnalyticsTherapistPerformanceCard } from "./AnalyticsTherapistPerformanceCard";
-import styles from "./AnalyticsDashboardPage.module.css";
 import {
   HOURS,
   KPI_DATA,
@@ -62,11 +61,11 @@ export function AnalyticsDashboardPage() {
 
   return (
     <DashboardScaffold>
-      <div className={styles.analyticsPage}>
+      <div className="flex flex-col gap-5">
         <AnalyticsPageHeader />
         <AnalyticsTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-        <section className={styles.analyticsKpiGrid}>
+        <section className="grid grid-cols-5 gap-[14px] max-xl:grid-cols-2 max-[760px]:grid-cols-1">
           {KPI_DATA.map((card) => (
             <AnalyticsKpiCard key={card.label} {...card} />
           ))}

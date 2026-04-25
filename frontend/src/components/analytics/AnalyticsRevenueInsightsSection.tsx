@@ -2,11 +2,10 @@ import { Area, AreaChart, CartesianGrid, Cell, Legend, Pie, PieChart, ReferenceL
 import { MONTHLY_OVERVIEW, PRIMARY, SERVICES_BY_REVENUE } from "@/data/analyticsData/analyticsDashboardData";
 import { formatRevenueTooltip } from "../../utils/analyticsDashboardUtils";
 import { AnalyticsChartCard } from "./AnalyticsChartCard";
-import styles from "./AnalyticsDashboardPage.module.css";
 
 export function AnalyticsRevenueInsightsSection() {
   return (
-    <section className={styles.analyticsGrid5050}>
+    <section className="grid grid-cols-2 gap-4 max-xl:grid-cols-1">
       <AnalyticsChartCard title="Revenue by Service Type">
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">

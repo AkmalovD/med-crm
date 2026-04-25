@@ -3,7 +3,6 @@ import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recha
 import { CANCELLATION_REASONS, HOURS } from "@/data/analyticsData/analyticsDashboardData";
 import { formatPercentTooltip } from "../../utils/analyticsDashboardUtils";
 import { AnalyticsChartCard } from "./AnalyticsChartCard";
-import styles from "./AnalyticsDashboardPage.module.css";
 
 interface AnalyticsBookingAndCancellationSectionProps {
   bookingHeatmap: Array<{ day: string; values: number[] }>;
@@ -13,7 +12,7 @@ export function AnalyticsBookingAndCancellationSection({
   bookingHeatmap,
 }: AnalyticsBookingAndCancellationSectionProps) {
   return (
-    <section className={styles.analyticsGrid5050}>
+    <section className="grid grid-cols-2 gap-4 max-xl:grid-cols-1">
       <AnalyticsChartCard title="Peak Booking Hours">
         <div className="overflow-x-auto">
           <div className="inline-grid min-w-full grid-cols-[100px_repeat(7,minmax(60px,1fr))]">
@@ -33,7 +32,7 @@ export function AnalyticsBookingAndCancellationSection({
                   return (
                     <div
                       key={`${row.day}-${idx}`}
-                      className={styles.analyticsHeatmapCell}
+                      className="m-0.5 flex h-8 items-center justify-center rounded-md text-[11px] font-semibold text-[#0f5132]"
                       title={`${row.day} ${HOURS[idx]}:00 — ${cell} bookings`}
                       style={{ backgroundColor: `rgba(74, 207, 127, ${opacity})` }}
                     >

@@ -3,7 +3,6 @@ import { THERAPIST_PAGE_SIZE, THERAPISTS } from "@/data/analyticsData/analyticsD
 import { TherapistItem, TherapistSortBy } from "../../types/analyticsDashboardTypes";
 import { CURRENCY, NUMBER, cx } from "../../utils/analyticsDashboardUtils";
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../custom-ui/dropdown";
-import styles from "./AnalyticsDashboardPage.module.css";
 
 interface AnalyticsTherapistPerformanceCardProps {
   query: string;
@@ -29,7 +28,7 @@ export function AnalyticsTherapistPerformanceCard({
   onNextPage,
 }: AnalyticsTherapistPerformanceCardProps) {
   return (
-    <section className={styles.analyticsCard}>
+    <section className="rounded-xl border border-[var(--border)] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.03)] transition-[box-shadow,transform] duration-200 ease-in hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] max-[760px]:p-[14px]">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <h3 className="text-lg font-semibold text-[#1a1a2e]">Therapist Performance Breakdown</h3>
@@ -38,13 +37,18 @@ export function AnalyticsTherapistPerformanceCard({
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <label className={styles.analyticsSearch}>
+          <label className="inline-flex h-[34px] items-center gap-1.5 rounded-lg border border-[var(--border)] bg-white px-2.5">
             <Search size={14} className="text-slate-400" />
-            <input value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Search therapist" />
+            <input
+              className="w-[180px] border-0 bg-transparent text-[13px] text-slate-700 outline-none"
+              value={query}
+              onChange={(event) => onQueryChange(event.target.value)}
+              placeholder="Search therapist"
+            />
           </label>
           <Dropdown align="end">
             <div className="relative inline-flex">
-              <DropdownTrigger className={cx(styles.analyticsFilter, "inline-flex items-center gap-2")}>
+              <DropdownTrigger className="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] bg-white px-[10px] py-1.5 text-[13px] text-slate-600">
                 <span>
                   {sortBy === "completion" && "Sort: Completion Rate"}
                   {sortBy === "sessions" && "Sort: Total Sessions"}
@@ -81,14 +85,18 @@ export function AnalyticsTherapistPerformanceCard({
               </DropdownContent>
             </div>
           </Dropdown>
-          <button type="button" className={styles.analyticsIconButton} aria-label="Export table">
+          <button
+            type="button"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--border)] bg-white text-slate-500"
+            aria-label="Export table"
+          >
             <Download size={14} />
           </button>
         </div>
       </div>
 
       <div className="overflow-x-auto">
-        <table className={cx(styles.analyticsTable, "min-w-[1080px]")}>
+        <table className="min-w-[1080px] w-full border-collapse [&_th]:border-b [&_th]:border-[var(--border)] [&_th]:px-2 [&_th]:py-2.5 [&_th]:text-left [&_th]:text-[11px] [&_th]:font-bold [&_th]:uppercase [&_th]:tracking-[0.04em] [&_th]:text-slate-400 [&_td]:whitespace-nowrap [&_td]:border-b [&_td]:border-[#edf1f7] [&_td]:px-2 [&_td]:py-3 [&_td]:text-[13px] [&_td]:text-slate-600 [&_tbody_tr:nth-child(even)]:bg-[#fbfdff] [&_tbody_tr:hover]:bg-[#f0fdf4]">
           <thead>
             <tr>
               <th>Therapist</th>
@@ -139,8 +147,8 @@ export function AnalyticsTherapistPerformanceCard({
                   <td>
                     <span
                       className={cx(
-                        styles.analyticsStatus,
-                        therapist.status === "Active" ? styles.statusActive : styles.statusLeave,
+                        "inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold",
+                        therapist.status === "Active" ? "bg-[#e8fbf4] text-[#109065]" : "bg-[#fff6db] text-[#b68100]",
                       )}
                     >
                       {therapist.status}
@@ -155,13 +163,23 @@ export function AnalyticsTherapistPerformanceCard({
 
       <div className="mt-4 flex items-center justify-end gap-4 text-sm text-slate-500">
         <span>Rows per page: {THERAPIST_PAGE_SIZE}</span>
-        <button type="button" className={styles.analyticsPager} disabled={page <= 1} onClick={onPreviousPage}>
+        <button
+          type="button"
+          className="rounded-lg border border-[var(--border)] bg-white px-[10px] py-1.5 text-[13px] text-slate-500 disabled:opacity-45"
+          disabled={page <= 1}
+          onClick={onPreviousPage}
+        >
           Previous
         </button>
         <span>
           {page} / {totalPages}
         </span>
-        <button type="button" className={styles.analyticsPager} disabled={page >= totalPages} onClick={onNextPage}>
+        <button
+          type="button"
+          className="rounded-lg border border-[var(--border)] bg-white px-[10px] py-1.5 text-[13px] text-slate-500 disabled:opacity-45"
+          disabled={page >= totalPages}
+          onClick={onNextPage}
+        >
           Next
         </button>
       </div>

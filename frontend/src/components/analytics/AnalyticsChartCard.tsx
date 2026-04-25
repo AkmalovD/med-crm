@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { ChevronDown, Download, Info } from "lucide-react";
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../custom-ui/dropdown";
-import styles from "./AnalyticsDashboardPage.module.css";
 
 interface AnalyticsChartCardProps {
   title: string;
@@ -23,7 +22,7 @@ export function AnalyticsChartCard({
   const [period, setPeriod] = useState<"Monthly" | "Weekly" | "Yearly">("Monthly");
 
   return (
-    <section className={styles.analyticsCard}>
+    <section className="rounded-xl border border-[var(--border)] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.03)] transition-[box-shadow,transform] duration-200 ease-in hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] max-[760px]:p-[14px]">
       <div className="mb-4 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <h3 className="text-base font-semibold text-[#1a1a2e]">{title}</h3>
@@ -33,7 +32,7 @@ export function AnalyticsChartCard({
           {filter && (
             <Dropdown align="end">
               <div className="relative inline-flex">
-                <DropdownTrigger className={`${styles.analyticsFilter} inline-flex items-center gap-2`}>
+                <DropdownTrigger className="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] bg-white px-[10px] py-1.5 text-[13px] text-slate-600">
                   <span>{period}</span>
                   <ChevronDown size={14} className="text-slate-400" />
                 </DropdownTrigger>
@@ -60,17 +59,23 @@ export function AnalyticsChartCard({
               </div>
             </Dropdown>
           )}
-          <button type="button" className={styles.analyticsIconButton} aria-label={`Export ${title}`}>
+          <button
+            type="button"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--border)] bg-white text-slate-500"
+            aria-label={`Export ${title}`}
+          >
             <Download size={15} />
           </button>
         </div>
       </div>
       {loading ? (
-        <div className={styles.analyticsSkeleton} />
+        <div className="h-72 animate-pulse rounded-[10px] bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 [background-size:300%_100%]" />
       ) : hasData ? (
         children
       ) : (
-        <div className={styles.analyticsEmptyState}>No data available for this period.</div>
+        <div className="flex h-72 items-center justify-center rounded-[10px] border border-dashed border-slate-300 bg-slate-50 text-sm text-slate-500">
+          No data available for this period.
+        </div>
       )}
     </section>
   );

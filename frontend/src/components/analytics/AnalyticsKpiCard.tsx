@@ -2,14 +2,13 @@ import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { Line, LineChart, ResponsiveContainer } from "recharts";
 import { PRIMARY } from "@/data/analyticsData/analyticsDashboardData";
 import { KpiItem } from "../../types/analyticsDashboardTypes";
-import { NUMBER, CURRENCY, cx, formatCompactPercent } from "../../utils/analyticsDashboardUtils";
-import styles from "./AnalyticsDashboardPage.module.css";
+import { NUMBER, CURRENCY, formatCompactPercent } from "../../utils/analyticsDashboardUtils";
 
 export function AnalyticsKpiCard({ label, value, trend, suffix, spark, valueSuffix }: KpiItem) {
   const positive = trend >= 0;
 
   return (
-    <div className={cx(styles.analyticsCard, styles.analyticsKpiCard)}>
+    <div className="rounded-xl border border-[var(--border)] border-l-[3px] border-l-[var(--primary)] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.03)] transition-[box-shadow,transform] duration-200 ease-in hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] max-[760px]:p-[14px]">
       <div className="mb-3 flex items-start justify-between gap-3">
         <p className="text-xs font-medium text-[#6b7280]">{label}</p>
         <div className={`flex items-center gap-1 text-xs font-semibold ${positive ? "text-emerald-600" : "text-red-500"}`}>

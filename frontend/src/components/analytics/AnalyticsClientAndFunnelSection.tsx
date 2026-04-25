@@ -2,11 +2,10 @@ import { Bar, BarChart, CartesianGrid, Cell, Funnel, FunnelChart, Legend, Respon
 import { FUNNEL_DATA, MONTHLY_OVERVIEW, PRIMARY } from "@/data/analyticsData/analyticsDashboardData";
 import { formatCountTooltip } from "../../utils/analyticsDashboardUtils";
 import { AnalyticsChartCard } from "./AnalyticsChartCard";
-import styles from "./AnalyticsDashboardPage.module.css";
 
 export function AnalyticsClientAndFunnelSection() {
   return (
-    <section className={styles.analyticsGrid5050}>
+    <section className="grid grid-cols-2 gap-4 max-xl:grid-cols-1">
       <AnalyticsChartCard title="New vs Returning Clients (monthly)">
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">

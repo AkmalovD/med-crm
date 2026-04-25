@@ -2,7 +2,6 @@ import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveCo
 import { OUTCOME_DATA, SERVICES_BY_REVENUE } from "@/data/analyticsData/analyticsDashboardData";
 import { formatCountTooltip, formatRevenueTooltip, NUMBER } from "../../utils/analyticsDashboardUtils";
 import { AnalyticsChartCard } from "./AnalyticsChartCard";
-import styles from "./AnalyticsDashboardPage.module.css";
 
 interface AnalyticsOutcomesAndServicesSectionProps {
   totalSessions: number;
@@ -12,7 +11,7 @@ export function AnalyticsOutcomesAndServicesSection({
   totalSessions,
 }: AnalyticsOutcomesAndServicesSectionProps) {
   return (
-    <section className={styles.analyticsGrid5050}>
+    <section className="grid grid-cols-2 gap-4 max-xl:grid-cols-1">
       <AnalyticsChartCard title="Session Outcomes">
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">

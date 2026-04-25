@@ -14,7 +14,6 @@ import { AGE_DISTRIBUTION, MONTHLY_OVERVIEW, PRIMARY } from "@/data/analyticsDat
 import { SeriesToggle } from "../../types/analyticsDashboardTypes";
 import { CURRENCY, NUMBER, cx, normalizeNumericValue, formatPercentTooltip } from "../../utils/analyticsDashboardUtils";
 import { AnalyticsChartCard } from "./AnalyticsChartCard";
-import styles from "./AnalyticsDashboardPage.module.css";
 
 interface AnalyticsRevenueAndAgeSectionProps {
   seriesToggle: SeriesToggle;
@@ -26,14 +25,17 @@ export function AnalyticsRevenueAndAgeSection({
   onSeriesToggleChange,
 }: AnalyticsRevenueAndAgeSectionProps) {
   return (
-    <section className={styles.analyticsGrid6040}>
+    <section className="grid grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] gap-4 max-xl:grid-cols-1">
       <AnalyticsChartCard title="Revenue & Sessions Over Time">
         <div className="mb-3 flex items-center justify-end gap-2">
           {(["Sessions", "Revenue", "Both"] as const).map((option) => (
             <button
               key={option}
               type="button"
-              className={cx(styles.analyticsToggle, seriesToggle === option && styles.toggleActive)}
+              className={cx(
+                "rounded-lg border border-[var(--border)] bg-white px-[10px] py-1.5 text-xs font-semibold text-slate-600",
+                seriesToggle === option && "border-[var(--primary)] bg-[#edfaf3] text-[#0f5132]",
+              )}
               onClick={() => onSeriesToggleChange(option)}
             >
               {option}
