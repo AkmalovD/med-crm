@@ -1,4 +1,4 @@
-import { Download, Eye, FileText, ImageIcon, Lock, MoreHorizontal, Type } from "lucide-react";
+import { Download, Eye, MoreHorizontal } from "lucide-react";
 
 import { CATEGORY_LABELS, FILE_TYPE_LABELS, formatDate, formatFileSize } from "./Documents.utils";
 import { DocumentItem } from "./Documents.types";
@@ -16,17 +16,11 @@ interface DocumentCardProps {
 
 function fileTypeBadgeClass(fileType: DocumentItem["fileType"]) {
   const baseClass =
-    "inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold leading-none";
+    "inline-flex w-fit items-center rounded-full border px-2 py-0.5 text-[11px] font-semibold leading-none";
 
-  if (fileType === "pdf") return `${baseClass} bg-red-50 text-red-700`;
-  if (fileType === "docx") return `${baseClass} bg-indigo-50 text-indigo-700`;
-  return `${baseClass} bg-blue-50 text-blue-700`;
-}
-
-function fileIcon(fileType: DocumentItem["fileType"]) {
-  if (fileType === "pdf") return <FileText size={14} />;
-  if (fileType === "docx") return <Type size={14} />;
-  return <ImageIcon size={14} />;
+  if (fileType === "pdf") return `${baseClass} border-slate-300 bg-slate-100 text-slate-700`;
+  if (fileType === "docx") return `${baseClass} border-slate-300 bg-slate-100 text-slate-700`;
+  return `${baseClass} border-slate-300 bg-slate-100 text-slate-700`;
 }
 
 export function DocumentCard({
@@ -41,19 +35,20 @@ export function DocumentCard({
   return (
     <article
       className={`flex flex-col gap-2 rounded-2xl border bg-white p-3 ${
-        selected ? "border-[#4acf7f] bg-green-50 shadow-[inset_0_0_0_1px_#4acf7f]" : "border-slate-200"
+        selected ? "border-slate-400 bg-slate-50 shadow-[inset_0_0_0_1px_#94a3b8]" : "border-slate-200"
       }`}
     >
       <div className="flex items-center justify-between gap-2">
         <label className="flex items-center gap-2">
           <input type="checkbox" checked={selected} onChange={() => onToggleSelect(document.id)} />
-          <span className={fileTypeBadgeClass(document.fileType)}>
-            {fileIcon(document.fileType)} {FILE_TYPE_LABELS[document.fileType]}
-          </span>
+          <span className={fileTypeBadgeClass(document.fileType)}>{FILE_TYPE_LABELS[document.fileType]}</span>
         </label>
         {document.isConfidential && (
-          <span title="Confidential" className="text-slate-600">
-            <Lock size={14} aria-label="Confidential" />
+          <span
+            title="Confidential"
+            className="inline-flex items-center rounded-full border border-slate-300 bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-700"
+          >
+            Confidential
           </span>
         )}
       </div>
@@ -63,7 +58,7 @@ export function DocumentCard({
         {document.client?.fullName ?? "No client"} - {formatFileSize(document.fileSize)}
       </p>
       <p className="m-0 text-sm text-slate-600">{formatDate(document.uploadedAt)}</p>
-      <span className="inline-flex w-fit rounded-full bg-cyan-50 px-2 py-0.5 text-[11px] font-bold text-cyan-700">
+      <span className="inline-flex w-fit rounded-full border border-slate-300 bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-700">
         {CATEGORY_LABELS[document.category]}
       </span>
 
