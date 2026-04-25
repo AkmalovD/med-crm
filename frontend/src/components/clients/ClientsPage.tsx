@@ -6,7 +6,6 @@ import { ClientsBulkBar } from "./ClientsBulkBar";
 import { ClientsFiltersBar } from "./ClientsFiltersBar";
 import { ClientsPageHeader } from "./ClientsPageHeader";
 import { ClientsTableCard } from "./ClientsTableCard";
-import styles from "./ClientsDashboardPage.module.css";
 import { NewClientForm } from "../../forms/NewClientForm";
 import { CLIENTS, PAGE_SIZE, THERAPISTS } from "@/data/clientsData/clientsDashboardData"
 import { downloadCsv, NUMBER } from "../../utils/clientsDashboardUtils";
@@ -63,7 +62,7 @@ export function ClientsDashboardPage() {
 
   return (
     <DashboardScaffold>
-      <div className={styles.clientsPage}>
+      <div className="flex flex-col gap-4">
         <ClientsPageHeader
           totalClients={NUMBER.format(filteredClients.length)}
           onAddClient={() => setIsAddingClient(true)}
