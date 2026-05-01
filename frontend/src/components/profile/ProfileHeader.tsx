@@ -2,7 +2,6 @@ import { Camera } from 'lucide-react'
 
 import { ROLE_LABELS } from './Profile.mock'
 import { UserProfile } from './Profile.types'
-import styles from './ProfileDashboardPage.module.css'
 
 interface ProfileHeaderProps {
   profile: UserProfile
@@ -28,26 +27,26 @@ export function ProfileHeader({ profile, onEditAvatar }: ProfileHeaderProps) {
   const initials = `${profile.firstName[0]}${profile.lastName[0]}`.toUpperCase()
 
   return (
-    <div className={styles.headerCard}>
-      <div className={styles.avatarWrapper}>
+    <div className="flex items-center gap-6 rounded-[0.9rem] border border-slate-200 bg-white p-6">
+      <div className="relative shrink-0">
         {profile.avatar ? (
-          <img src={profile.avatar} alt={profile.fullName} className={styles.avatar} />
+          <img src={profile.avatar} alt={profile.fullName} className="h-24 w-24 rounded-full border-[3px] border-slate-200 object-cover" />
         ) : (
-          <div className={styles.avatarPlaceholder}>{initials}</div>
+          <div className="flex h-24 w-24 items-center justify-center rounded-full border-[3px] border-slate-200 bg-slate-200 text-[2rem] font-bold text-slate-500">{initials}</div>
         )}
-        <button type="button" className={styles.avatarEditBtn} onClick={onEditAvatar} title="Change photo">
+        <button type="button" className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-[#4acf7f] text-white transition-colors hover:bg-[#3ab86d]" onClick={onEditAvatar} title="Change photo">
           <Camera size={13} />
         </button>
       </div>
 
-      <div className={styles.headerMeta}>
-        <h1 className={styles.headerName}>{profile.fullName}</h1>
-        <p className={styles.headerEmail}>{profile.email}</p>
-        <div className={styles.headerBadges}>
-          <span className={styles.badge}>{ROLE_LABELS[profile.role] ?? profile.role}</span>
-          <span className={styles.badgeMeta}>Member since {formatDate(profile.memberSince)}</span>
+      <div className="flex-1">
+        <h1 className="m-0 text-2xl font-bold text-slate-900">{profile.fullName}</h1>
+        <p className="mt-1 text-[0.85rem] text-slate-500">{profile.email}</p>
+        <div className="mt-2 flex flex-wrap items-center gap-3">
+          <span className="inline-flex items-center rounded-md bg-slate-100 px-2.5 py-[0.2rem] text-xs font-semibold text-slate-700">{ROLE_LABELS[profile.role] ?? profile.role}</span>
+          <span className="text-xs text-slate-400">Member since {formatDate(profile.memberSince)}</span>
           {profile.lastLoginAt && (
-            <span className={styles.badgeMeta}>Last login {formatRelative(profile.lastLoginAt)}</span>
+            <span className="text-xs text-slate-400">Last login {formatRelative(profile.lastLoginAt)}</span>
           )}
         </div>
       </div>

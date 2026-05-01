@@ -1,6 +1,5 @@
 import { DocumentItem } from "./Documents.types";
 import { DocumentCard } from "./DocumentCard";
-import styles from "./DocumentsDashboardPage.module.css";
 
 interface DocumentsGridProps {
   documents: DocumentItem[];
@@ -22,7 +21,7 @@ export function DocumentsGrid({
   onDelete,
 }: DocumentsGridProps) {
   return (
-    <section className={styles.grid}>
+    <section className="grid grid-cols-2 gap-[0.8rem] min-[900px]:grid-cols-4">
       {documents.map((document) => (
         <DocumentCard
           key={document.id}

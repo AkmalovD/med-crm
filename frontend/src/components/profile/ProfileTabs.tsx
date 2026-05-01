@@ -3,7 +3,6 @@
 import { Activity, AlertTriangle, Bell, Settings, Shield, User } from 'lucide-react'
 
 import { ProfileTab } from './Profile.types'
-import styles from './ProfileDashboardPage.module.css'
 
 interface ProfileTabsProps {
   activeTab: ProfileTab
@@ -21,18 +20,16 @@ const TABS: { id: ProfileTab; label: string; icon: React.ReactNode; danger?: boo
 
 export function ProfileTabs({ activeTab, onTabChange }: ProfileTabsProps) {
   return (
-    <div className={styles.tabsList}>
+    <div className="flex flex-wrap gap-0 rounded-t-[0.9rem] border-b border-slate-200 bg-slate-50 px-4">
       {TABS.map((tab) => (
         <button
           key={tab.id}
           type="button"
           className={[
-            styles.tab,
-            activeTab === tab.id ? styles.tabActive : '',
-            tab.danger ? styles.tabDanger : '',
-          ]
-            .filter(Boolean)
-            .join(' ')}
+            'flex items-center gap-1.5 whitespace-nowrap border-b-2 border-transparent bg-transparent px-4 py-[0.85rem] text-[0.85rem] font-medium transition-colors',
+            tab.danger ? 'text-red-500 hover:text-red-600' : 'text-slate-500 hover:text-slate-900',
+            activeTab === tab.id ? 'border-b-[#4acf7f] text-[#4acf7f]' : '',
+          ].filter(Boolean).join(' ')}
           onClick={() => onTabChange(tab.id)}
         >
           {tab.icon}

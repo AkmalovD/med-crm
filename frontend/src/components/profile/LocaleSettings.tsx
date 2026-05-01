@@ -4,7 +4,6 @@ import { useState } from 'react'
 
 import { LocaleInput, localeSchema } from '@/validators/profile.schema'
 import { UserProfile } from './Profile.types'
-import styles from './ProfileDashboardPage.module.css'
 
 interface LocaleSettingsProps {
   profile: UserProfile
@@ -86,51 +85,52 @@ export function LocaleSettings({ profile, onSave, isSaving }: LocaleSettingsProp
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <h2 className={styles.sectionTitle}>Language & Preferences</h2>
+      <h2 className="mb-5 text-base font-semibold text-slate-900">Language & Preferences</h2>
 
-      <div className={styles.formGrid}>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         {/* Language */}
-        <div className={styles.formField}>
-          <label className={styles.label}>UI Language</label>
-          <select className={styles.select} value={language} onChange={(e) => setLanguage(e.target.value)}>
+        <div className="flex flex-col gap-[0.35rem]">
+          <label className="text-[0.82rem] font-medium text-gray-700">UI Language</label>
+          <select className="w-full box-border rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition-[border-color,box-shadow] focus:border-[#4acf7f] focus:shadow-[0_0_0_3px_rgba(74,207,127,0.12)]" value={language} onChange={(e) => setLanguage(e.target.value)}>
             {LANGUAGES.map((l) => (
               <option key={l.value} value={l.value}>{l.label}</option>
             ))}
           </select>
-          {errors.language && <span className={styles.inputError}>{errors.language}</span>}
+          {errors.language && <span className="text-xs text-red-500">{errors.language}</span>}
         </div>
 
         {/* Timezone */}
-        <div className={styles.formField}>
-          <label className={styles.label}>Timezone</label>
-          <select className={styles.select} value={timezone} onChange={(e) => setTimezone(e.target.value)}>
+        <div className="flex flex-col gap-[0.35rem]">
+          <label className="text-[0.82rem] font-medium text-gray-700">Timezone</label>
+          <select className="w-full box-border rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition-[border-color,box-shadow] focus:border-[#4acf7f] focus:shadow-[0_0_0_3px_rgba(74,207,127,0.12)]" value={timezone} onChange={(e) => setTimezone(e.target.value)}>
             {TIMEZONES.map((tz) => (
               <option key={tz} value={tz}>{tz}</option>
             ))}
           </select>
-          {errors.timezone && <span className={styles.inputError}>{errors.timezone}</span>}
+          {errors.timezone && <span className="text-xs text-red-500">{errors.timezone}</span>}
         </div>
 
         {/* Currency */}
-        <div className={styles.formField}>
-          <label className={styles.label}>Currency</label>
-          <select className={styles.select} value={currency} onChange={(e) => setCurrency(e.target.value)}>
+        <div className="flex flex-col gap-[0.35rem]">
+          <label className="text-[0.82rem] font-medium text-gray-700">Currency</label>
+          <select className="w-full box-border rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition-[border-color,box-shadow] focus:border-[#4acf7f] focus:shadow-[0_0_0_3px_rgba(74,207,127,0.12)]" value={currency} onChange={(e) => setCurrency(e.target.value)}>
             {CURRENCIES.map((c) => (
               <option key={c.value} value={c.value}>{c.label}</option>
             ))}
           </select>
-          {errors.currency && <span className={styles.inputError}>{errors.currency}</span>}
+          {errors.currency && <span className="text-xs text-red-500">{errors.currency}</span>}
         </div>
 
         {/* Date Format */}
-        <div className={styles.formField}>
-          <label className={styles.label}>Date Format</label>
-          <div className={styles.radioGroup}>
+        <div className="flex flex-col gap-[0.35rem]">
+          <label className="text-[0.82rem] font-medium text-gray-700">Date Format</label>
+          <div className="flex flex-col gap-2">
             {DATE_FORMATS.map((fmt) => (
-              <label key={fmt.value} className={styles.radioItem}>
+              <label key={fmt.value} className="flex cursor-pointer items-center gap-2 text-sm text-gray-700">
                 <input
                   type="radio"
                   name="dateFormat"
+                  className="h-[15px] w-[15px] accent-[#4acf7f]"
                   value={fmt.value}
                   checked={dateFormat === fmt.value}
                   onChange={() => setDateFormat(fmt.value)}
@@ -140,19 +140,19 @@ export function LocaleSettings({ profile, onSave, isSaving }: LocaleSettingsProp
             ))}
           </div>
           {dateFormat && (
-            <p className={styles.radioPreview}>Preview: {previewDate}</p>
+            <p className="mt-1 pl-1 text-[0.78rem] text-[#4acf7f]">Preview: {previewDate}</p>
           )}
-          {errors.dateFormat && <span className={styles.inputError}>{errors.dateFormat}</span>}
+          {errors.dateFormat && <span className="text-xs text-red-500">{errors.dateFormat}</span>}
         </div>
       </div>
 
-      <div className={styles.formActions}>
-        <button type="button" className={styles.btn + ' ' + styles.btnOutline} onClick={handleReset}>
+      <div className="mt-6 flex justify-end gap-2 border-t border-slate-100 pt-5">
+        <button type="button" className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-4 py-2 text-[0.85rem] font-medium text-gray-700 transition-[background,opacity] hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60" onClick={handleReset}>
           Reset to Defaults
         </button>
         <button
           type="submit"
-          className={styles.btn + ' ' + styles.btnPrimary}
+          className="inline-flex items-center gap-1.5 rounded-lg bg-[#4acf7f] px-4 py-2 text-[0.85rem] font-medium text-white transition-[background,opacity] hover:bg-[#3ab86d] disabled:cursor-not-allowed disabled:opacity-60"
           disabled={isSaving}
         >
           {isSaving ? 'Saving…' : 'Save Preferences'}

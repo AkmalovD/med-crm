@@ -3,7 +3,6 @@
 import { useMemo, useState } from 'react'
 
 import { ActivityLogEntry } from './Profile.types'
-import styles from './ProfileDashboardPage.module.css'
 
 interface ActivityLogListProps {
   entries: ActivityLogEntry[]
@@ -64,11 +63,10 @@ export function ActivityLogList({ entries }: ActivityLogListProps) {
 
   return (
     <>
-      <div className={styles.filterRow}>
-        <p className={styles.sectionTitle} style={{ margin: 0 }}>Recent Activity</p>
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <p className="m-0 text-base font-semibold text-slate-900">Recent Activity</p>
         <select
-          className={styles.select}
-          style={{ width: 'auto', minWidth: 150 }}
+          className="w-auto min-w-[150px] box-border rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition-[border-color,box-shadow] focus:border-[#4acf7f] focus:shadow-[0_0_0_3px_rgba(74,207,127,0.12)]"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
@@ -79,25 +77,25 @@ export function ActivityLogList({ entries }: ActivityLogListProps) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className={styles.emptyState}>No activity recorded yet.</div>
+        <div className="p-10 text-center text-sm text-slate-400">No activity recorded yet.</div>
       ) : (
         groupKeys.map((key) => (
-          <div key={key} className={styles.activityGroup}>
-            <p className={styles.activityGroupDate}>{formatGroupDate(groups[key][0].performedAt)}</p>
+          <div key={key} className="mb-5">
+            <p className="mb-2 pl-1 text-[0.78rem] font-semibold uppercase tracking-[0.04em] text-slate-400">{formatGroupDate(groups[key][0].performedAt)}</p>
             {groups[key].map((entry) => (
-              <div key={entry.id} className={styles.activityRow}>
-                <div className={styles.activityDot} />
-                <div className={styles.activityContent}>
-                  <p className={styles.activityAction}>{entry.action}</p>
+              <div key={entry.id} className="flex items-start gap-3 border-b border-slate-100 py-[0.65rem] last:border-b-0">
+                <div className="mt-[0.35rem] h-2 w-2 shrink-0 rounded-full bg-[#4acf7f]" />
+                <div className="flex-1">
+                  <p className="m-0 text-sm text-slate-900">{entry.action}</p>
                   {entry.entityName && (
-                    <p className={styles.activityEntity}>
+                    <p className="mt-[0.1rem] text-xs text-slate-400">
                       {entry.entityType}: {entry.entityName}
                     </p>
                   )}
                 </div>
-                <div className={styles.activityMeta}>
-                  <p className={styles.activityTime}>{formatTime(entry.performedAt)}</p>
-                  <p className={styles.activityIp}>{entry.ipAddress}</p>
+                <div className="shrink-0 text-right">
+                  <p className="text-xs text-slate-400">{formatTime(entry.performedAt)}</p>
+                  <p className="mt-[0.1rem] text-[0.72rem] text-slate-300">{entry.ipAddress}</p>
                 </div>
               </div>
             ))}

@@ -17,7 +17,6 @@ import { DocumentsTable } from "./DocumentsTable";
 import { DocumentsViewToggle } from "./DocumentsViewToggle";
 import { DocumentFiltersState, DocumentItem, ViewMode } from "./Documents.types";
 import { compareDocuments } from "./Documents.utils";
-import styles from "./DocumentsDashboardPage.module.css";
 
 const INITIAL_FILTERS: DocumentFiltersState = {
   search: "",
@@ -119,7 +118,7 @@ export function DocumentsDashboardPage() {
 
   return (
     <DashboardScaffold>
-      <div className={styles.page}>
+      <div className="flex min-h-full flex-col gap-4 bg-[linear-gradient(180deg,#f8fafc_0%,#f5f7fb_100%)] p-6">
         <DocumentsHeader
           selectedCount={selectedIds.size}
           onUpload={() => setIsUploadOpen(true)}
@@ -133,11 +132,11 @@ export function DocumentsDashboardPage() {
           onChange={setFilters}
         />
 
-        <div className={styles.viewRow}>
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <DocumentsViewToggle viewMode={viewMode} onChange={setViewMode} />
           <button
             type="button"
-            className={styles.button}
+            className="flex items-center justify-center gap-1.5 rounded-[0.55rem] border border-[#dbe3ef] bg-white px-[0.65rem] py-2 text-[0.82rem] font-semibold text-[#0f172a] disabled:cursor-not-allowed disabled:opacity-60"
             onClick={() => activeDocumentId && openAudit(activeDocumentId)}
             disabled={!activeDocumentId}
           >

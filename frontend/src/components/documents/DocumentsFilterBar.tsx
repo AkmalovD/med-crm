@@ -2,7 +2,6 @@ import { X } from "lucide-react";
 import { DropdownSelect } from "../custom-ui/dropdown";
 
 import { DocumentCategory, DocumentFiltersState } from "./Documents.types";
-import styles from "./DocumentsDashboardPage.module.css";
 
 interface Option {
   value: string;
@@ -32,39 +31,42 @@ export function DocumentsFilterBar({
   therapistOptions,
   onChange,
 }: DocumentsFilterBarProps) {
+  const fieldClass =
+    "flex items-center justify-center gap-1.5 rounded-[0.55rem] border border-[#dbe3ef] bg-white px-[0.65rem] py-2 text-[0.82rem] font-semibold text-[#0f172a]";
+
   const update = (key: keyof DocumentFiltersState) => (event: { target: { value: string } }) => {
     onChange({ ...filters, [key]: event.target.value });
   };
 
   return (
-    <div className={`${styles.card} ${styles.filterRow}`} style={{ padding: "0.75rem" }}>
-      <div className={styles.filterControls}>
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-[0.9rem] border border-[#e2e8f0] bg-white p-3">
+      <div className="flex items-center gap-2">
         <input
-          className={styles.input}
+          className={`${fieldClass} min-w-[14rem]`}
           placeholder="Search by name or client..."
           value={filters.search}
           onChange={update("search")}
         />
         <DropdownSelect
-          triggerClassName={styles.select}
+          triggerClassName={fieldClass}
           value={filters.category}
           onChange={update("category")}
           options={CATEGORY_OPTIONS.map((item) => ({ value: item.value, label: item.label }))}
         />
         <DropdownSelect
-          triggerClassName={styles.select}
+          triggerClassName={fieldClass}
           value={filters.clientId}
           onChange={update("clientId")}
           options={[{ value: "all", label: "All Clients" }, ...clientOptions]}
         />
         <DropdownSelect
-          triggerClassName={styles.select}
+          triggerClassName={fieldClass}
           value={filters.therapistId}
           onChange={update("therapistId")}
           options={[{ value: "all", label: "All Therapists" }, ...therapistOptions]}
         />
         <DropdownSelect
-          triggerClassName={styles.select}
+          triggerClassName={fieldClass}
           value={filters.fileType}
           onChange={update("fileType")}
           options={[
@@ -76,7 +78,7 @@ export function DocumentsFilterBar({
           ]}
         />
         <DropdownSelect
-          triggerClassName={styles.select}
+          triggerClassName={fieldClass}
           value={filters.sortBy}
           onChange={update("sortBy")}
           options={[
@@ -91,7 +93,7 @@ export function DocumentsFilterBar({
 
       <button
         type="button"
-        className={styles.buttonGhost}
+        className={`${fieldClass} bg-[#f8fafc]`}
         onClick={() =>
           onChange({
             search: "",

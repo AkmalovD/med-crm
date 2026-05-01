@@ -22,8 +22,6 @@ import { LocaleSettings } from './LocaleSettings'
 import { ActivityLogList } from './ActivityLogList'
 import { DangerZone } from './DangerZone'
 
-import styles from './ProfileDashboardPage.module.css'
-
 export function ProfileDashboardPage() {
   const [profile, setProfile] = useState<UserProfile>(PROFILE_MOCK)
   const [sessions, setSessions] = useState(SESSIONS_MOCK)
@@ -151,16 +149,16 @@ export function ProfileDashboardPage() {
 
   return (
     <DashboardScaffold>
-      <div className={styles.page}>
+      <div className="flex min-h-full flex-col gap-4 bg-[linear-gradient(180deg,_#f8fafc_0%,_#f5f7fb_100%)] p-6">
         <ProfileHeader
           profile={profile}
           onEditAvatar={() => setIsAvatarModalOpen(true)}
         />
 
-        <div className={styles.tabsWrapper}>
+        <div className="rounded-[0.9rem] border border-slate-200 bg-white">
           <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-          <div className={styles.tabContent}>
+          <div className="p-6">
             {activeTab === 'personal' && (
               <>
                 <PersonalInfoForm
@@ -172,14 +170,14 @@ export function ProfileDashboardPage() {
             )}
 
             {activeTab === 'security' && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              <div className="flex flex-col gap-8">
                 <ChangePasswordForm
                   onSave={handleChangePassword}
                   isSaving={isSavingPassword}
                 />
-                <div className={styles.divider} />
+                <div className="my-5 h-px bg-slate-100" />
                 <div>
-                  <h2 className={styles.sectionTitle}>Two-Factor Authentication</h2>
+                  <h2 className="mb-5 text-base font-semibold text-slate-900">Two-Factor Authentication</h2>
                   <TwoFactorSetup
                     is2FAEnabled={profile.is2FAEnabled}
                     onEnable={handleEnable2FA}
@@ -187,7 +185,7 @@ export function ProfileDashboardPage() {
                     isLoading={is2FALoading}
                   />
                 </div>
-                <div className={styles.divider} />
+                <div className="my-5 h-px bg-slate-100" />
                 <ActiveSessionsList
                   sessions={sessions}
                   onRevoke={handleRevokeSession}
