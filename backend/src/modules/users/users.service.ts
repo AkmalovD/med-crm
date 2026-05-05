@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Prisma, UserRole } from '@prisma/client';
@@ -36,6 +36,40 @@ export class UsersService {
 
       throw error
     }
+  }
+
+  async findAll(): Promise<PublicUser[]> {
+    const users = await this.prisma.user.findMany({
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true
+      }
+    })
+
+    return users
+  }
+
+  async findOne(id: string): Promise<PublicUser> {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      }
+    })
+
+    if (!user) {
+      throw new NotFoundException('User not found')
+    }
+
+    return user
   }
 
   private toPublicUser(user: {
