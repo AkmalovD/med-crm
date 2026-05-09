@@ -1,4 +1,4 @@
-import { Therapist, TherapistStatus, Specialization } from "@/types/therapistsDashboardTypes";
+import { Therapist, TherapistStatus, Specialization, DayOfWeek, WorkingHours } from "@/types/therapistsDashboardTypes";
 
 export const PAGE_SIZE = 8;
 
@@ -26,7 +26,7 @@ export const SPECIALIZATION_LABELS: Record<Specialization, string> = {
   early_intervention: "Early Intervention",
 };
 
-function buildWeekday(isWorking = true) {
+function buildWeekday(isWorking = true): Record<DayOfWeek, WorkingHours> {
   return {
     monday: { day: "monday", isWorking, startTime: "09:00", endTime: "18:00", maxSessions: 8 },
     tuesday: { day: "tuesday", isWorking, startTime: "09:00", endTime: "18:00", maxSessions: 8 },
