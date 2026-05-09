@@ -25,6 +25,7 @@ import {
 
 import SidebarNavItem from "./SidebarNavItem";
 import SidebarSectionLabel from "./SidebarSectionLabel";
+import { useMessageStore } from "@/store/useMessageStore";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -47,45 +48,50 @@ interface SidebarProps {
 
 // ─── Navigation data ─────────────────────────────────────────────────────────
 
-const NAV_SECTIONS: NavSection[] = [
-  {
-    title: "Pages",
-    links: [
-      { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-      { label: "Analytics", href: "/analytics", icon: BarChart2 },
-    ],
-  },
-  {
-    title: "Clients",
-    links: [
-      { label: "Clients", href: "/clients", icon: Users },
-      { label: "Appointments", href: "/appointments", icon: CalendarDays },
-      { label: "Reports", href: "/reports", icon: FileText },
-      { label: "Documents", href: "/documents", icon: FolderOpen },
-    ],
-  },
-  {
-    title: "Management",
-    links: [
-      { label: "Therapists", href: "/therapists", icon: UserCheck },
-      { label: "Services", href: "/services", icon: Stethoscope },
-      { label: "Rooms", href: "/rooms", icon: DoorOpen },
-    ],
-  },
-  {
-    title: "Apps",
-    links: [
-      { label: "Finance", href: "/finance", icon: DollarSign },
-      { label: "Messages", href: "/messages", icon: MessageSquare, badge: "+16" },
-      { label: "Calendar", href: "/calendar", icon: Calendar },
-      { label: "Tasks", href: "/tasks", icon: CheckSquare },
-    ],
-  },
-  {
-    title: "Settings",
-    links: [{ label: "My Profile", href: "/my-profile", icon: User }],
-  },
-];
+function buildNavSections(totalUnread: number): NavSection[] {
+  return [
+    {
+      title: "Pages",
+      links: [
+        { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+        { label: "Analytics", href: "/analytics", icon: BarChart2 },
+      ],
+    },
+    {
+      title: "Clients",
+      links: [
+        { label: "Clients", href: "/clients", icon: Users },
+        { label: "Appointments", href: "/appointments", icon: CalendarDays },
+        { label: "Reports", href: "/reports", icon: FileText },
+        { label: "Documents", href: "/documents", icon: FolderOpen },
+      ],
+    },
+    {
+      title: "Management",
+      links: [
+        { label: "Therapists", href: "/therapists", icon: UserCheck },
+        { label: "Services", href: "/services", icon: Stethoscope },
+        { label: "Rooms", href: "/rooms", icon: DoorOpen },
+      ],
+    },
+    {
+      title: "Apps",
+      links: [
+        {
+          label: "Messages",
+          href: "/messages",
+          icon: MessageSquare,
+          badge: totalUnread > 0 ? (totalUnread > 99 ? "99+" : `${totalUnread}`) : undefined,
+        },
+        { label: "Tasks", href: "/tasks", icon: CheckSquare },
+      ],
+    },
+    {
+      title: "Settings",
+      links: [{ label: "My Profile", href: "/my-profile", icon: User }],
+    },
+  ];
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -97,6 +103,8 @@ function isRouteActive(pathname: string, href: string) {
 
 export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const pathname = usePathname();
+  const totalUnread = useMessageStore((s) => s.totalUnread);
+  const NAV_SECTIONS = buildNavSections(totalUnread);
 
   return (
     <aside className={`dashboard-sidebar flex h-full min-h-0 flex-col ${isOpen ? "is-open" : "is-collapsed"}`}>
