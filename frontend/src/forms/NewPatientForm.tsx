@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react"
 import { UserPlus } from "lucide-react"
 import { DropdownSelect } from "@/components/custom-ui/dropdown"
+import { useCreatePatient } from "@/hooks/usePatients"
 
 type NewPatientValues = {
   fullName: string;
@@ -27,15 +28,26 @@ type NewPatientFormProps = {
 
 export function NewPatientForm({ isOpen }: NewPatientFormProps) {
   const [values, setValues] = useState<NewPatientValues>(initialValues)
+  const { mutateAsync, isPending, isError, error, reset } = useCreatePatient()
 
   const handleChange = <K extends keyof NewPatientValues>(key: K, value: NewPatientValues[K]) => {
     setValues((prev) => ({ ...prev, [key]: value}))
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log("Patient payload:", values);
-    // TODO: Api connection
+    reset()
+    try {
+      await mutateAsync({
+        fullName: values.fullName.trim(),
+        email: values.email.trim() || undefined,
+        phone: values.phone.trim() || undefined,
+        birthDate: values.birthDate || undefined,
+      })
+      setValues(initialValues)
+    } catch {
+      // Error is available via isError / error for display
+    }
   }
 
   return (
@@ -126,20 +138,32 @@ export function NewPatientForm({ isOpen }: NewPatientFormProps) {
             required
           />
         </label>
-        <div className="md:col-span-2 flex justify-end gap-2 pt-1">
-          <button
-            type="button"
-            onClick={() => setValues(initialValues)}
-            className="h-10 px-4 rounded-[10px] border border-(--border) text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors"
-          >
-            Clear
-          </button>
-          <button
-            type="submit"
-            className="h-10 px-4 rounded-[10px] bg-[#4acf7f] text-white text-sm font-semibold hover:bg-[#3fbe72] transition-colors"
-          >
-            Save Patient
-          </button>
+        <div className="md:col-span-2 flex flex-col items-end gap-2 pt-1">
+          {isError && (
+            <p className="w-full text-right text-sm text-red-600" role="alert">
+              {error?.message ?? "Could not save patient."}
+            </p>
+          )}
+          <div className="flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                reset()
+                setValues(initialValues)
+              }}
+              disabled={isPending}
+              className="h-10 px-4 rounded-[10px] border border-(--border) text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors disabled:opacity-50"
+            >
+              Clear
+            </button>
+            <button
+              type="submit"
+              disabled={isPending}
+              className="h-10 px-4 rounded-[10px] bg-[#4acf7f] text-white text-sm font-semibold hover:bg-[#3fbe72] transition-colors disabled:opacity-60 disabled:pointer-events-none"
+            >
+              {isPending ? "Saving…" : "Save Patient"}
+            </button>
+          </div>
         </div>
       </form>
     </section>
