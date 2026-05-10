@@ -39,7 +39,7 @@ export function MedicalDashboardPage() {
       <div className="flex flex-col gap-5">
         <MedicalDashboardTopBar />
         <MedicalDashboardHeader onAddPatient={() => setIsNewPatientFormOpen((previous) => !previous)} />
-        {isNewPatientFormOpen ? <NewPatientForm /> : null}
+        <NewPatientForm isOpen={isNewPatientFormOpen} />
         <MedicalStatsGrid />
         <div className="grid grid-cols-[1.4fr_1fr] gap-4">
           <MedicalSessionAnalyticsCard chartPeriod={chartPeriod} onChartPeriodChange={setChartPeriod} />

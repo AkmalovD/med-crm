@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react"
 import { UserPlus } from "lucide-react"
+import { DropdownSelect } from "@/components/custom-ui/dropdown"
 
 type NewPatientValues = {
   fullName: string;
@@ -20,7 +21,11 @@ const initialValues: NewPatientValues = {
   address: "",
 };
 
-export function NewPatientForm() {
+type NewPatientFormProps = {
+  isOpen: boolean;
+};
+
+export function NewPatientForm({ isOpen }: NewPatientFormProps) {
   const [values, setValues] = useState<NewPatientValues>(initialValues)
 
   const handleChange = <K extends keyof NewPatientValues>(key: K, value: NewPatientValues[K]) => {
@@ -34,7 +39,15 @@ export function NewPatientForm() {
   }
 
   return (
-    <section className="border border-(--border) rounded-[14px] bg-(--panel) p-5 md:p-6">
+    <div
+      className={`grid transition-all duration-300 ease-in-out ${
+        isOpen
+          ? "grid-rows-[1fr] opacity-100 translate-y-0"
+          : "grid-rows-[0fr] opacity-0 -translate-y-2 pointer-events-none"
+      }`}
+    >
+    <div className="overflow-hidden">
+    <section className="border border-(--border) rounded-[14px] bg-(--panel) p-5 md:p-6 mb-0.5">
       <div className="flex items-center gap-2 mb-5">
         <span className="w-8 h-8 rounded-full bg-[#edfaf3] text-[#4acf7f] flex items-center justify-center">
           <UserPlus size={16} />
@@ -90,16 +103,17 @@ export function NewPatientForm() {
         </label>
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold text-slate-600">Gender</span>
-          <select
+          <DropdownSelect
             value={values.gender}
             onChange={(e) => handleChange("gender", e.target.value as NewPatientValues["gender"])}
-            className="h-10 px-3 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700 outline-none focus:border-[#4acf7f] focus:ring-2 focus:ring-[#4acf7f]/20"
-            required
-          >
-            <option value="">Select gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
+            placeholder="Select gender"
+            options={[
+              { value: "Male", label: "Male" },
+              { value: "Female", label: "Female" },
+            ]}
+            triggerClassName="h-10 w-full px-3 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700 justify-between"
+            contentClassName="w-full"
+          />
         </label>
         <label className="flex flex-col gap-1.5 md:col-span-2">
           <span className="text-xs font-semibold text-slate-600">Address</span>
@@ -129,5 +143,7 @@ export function NewPatientForm() {
         </div>
       </form>
     </section>
+    </div>
+    </div>
   )
 }

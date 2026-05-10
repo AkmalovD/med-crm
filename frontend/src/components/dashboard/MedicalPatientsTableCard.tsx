@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { PAGE_SIZE } from "../../data/dashboardData/medicalDashboardData";
 import { Patient } from "../../types/medicalDashboardTypes";
 import { ChevronDown } from "lucide-react";
@@ -24,6 +27,31 @@ export function MedicalPatientsTableCard({
   onPreviousPage,
   onNextPage,
 }: MedicalPatientsTableCardProps) {
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+  const allSelected = patients.length > 0 && patients.every((p) => selectedIds.has(p.id));
+  const someSelected = patients.some((p) => selectedIds.has(p.id));
+
+  const toggleRow = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (allSelected) {
+        patients.forEach((p) => next.delete(p.id));
+      } else {
+        patients.forEach((p) => next.add(p.id));
+      }
+      return next;
+    });
+  };
+
   return (
     <div className="dashboard-orders-card">
       <div className="px-5 pt-[18px] pb-2.5 flex justify-between items-center">
@@ -66,7 +94,13 @@ export function MedicalPatientsTableCard({
           <thead>
             <tr>
               <th className="w-10">
-                <input type="checkbox" className="accent-[#4acf7f]" />
+                <input
+                  type="checkbox"
+                  className="accent-[#4acf7f] cursor-pointer"
+                  checked={allSelected}
+                  ref={(el) => { if (el) el.indeterminate = someSelected && !allSelected; }}
+                  onChange={toggleAll}
+                />
               </th>
               <th>PATIENT</th>
               <th>THERAPIST</th>
@@ -79,9 +113,18 @@ export function MedicalPatientsTableCard({
           </thead>
           <tbody>
             {patients.map((patient) => (
-              <tr key={patient.id}>
+              <tr
+                key={patient.id}
+                onClick={() => toggleRow(patient.id)}
+                className="cursor-pointer"
+              >
                 <td>
-                  <input type="checkbox" className="accent-[#4acf7f]" />
+                  <input
+                    type="checkbox"
+                    className="accent-[#4acf7f] cursor-pointer"
+                    checked={selectedIds.has(patient.id)}
+                    readOnly
+                  />
                 </td>
                 <td>
                   <a href="#" className="text-[#4acf7f] font-medium no-underline text-sm hover:underline">
