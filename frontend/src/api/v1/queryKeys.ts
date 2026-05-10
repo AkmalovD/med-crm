@@ -5,6 +5,7 @@ export const queryKeys = {
   getUserById: (id: string) => ['users', id] as const,
   sessionsTotal: ['sessions', 'total'] as const,
   patients: ['patient'] as const,
+  patientsTotal: ['patients', 'total'] as const,
 }
 
 export const TASK_KEYS = {

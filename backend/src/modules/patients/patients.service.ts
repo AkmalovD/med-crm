@@ -40,4 +40,9 @@ export class PatientService {
 
     return patient
   }
+
+  async getTotalPatients(): Promise<{ total: number }> {
+    const total = await this.prisma.patient.count()
+    return { total }
+  }
 }

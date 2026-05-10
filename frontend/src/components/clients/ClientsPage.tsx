@@ -67,7 +67,7 @@ export function ClientsDashboardPage() {
           totalClients={NUMBER.format(filteredClients.length)}
           onAddClient={() => setIsAddingClient(true)}
         />
-        {isAddingClient && <NewClientForm />}
+        <NewClientForm isOpen={isAddingClient} />
         <ClientsFiltersBar
           searchInput={searchInput}
           statusFilter={statusFilter}

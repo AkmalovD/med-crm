@@ -10,12 +10,15 @@ import { MedicalPatientsTableCard } from "./MedicalPatientsTableCard";
 import { MedicalSessionAnalyticsCard } from "./MedicalSessionAnalyticsCard";
 import { MedicalStatsGrid } from "./MedicalStatsGrid";
 import { NewPatientForm } from "@/forms/NewPatientForm";
+import { useTotalPatients } from "@/hooks/useTotalPatients";
 
 export function MedicalDashboardPage() {
   const [chartPeriod, setChartPeriod] = useState("Weekly");
   const [sortBy, setSortBy] = useState("Progress");
   const [page, setPage] = useState(0);
   const [isNewPatientFormOpen, setIsNewPatientFormOpen] = useState(false);
+
+  const { data: patientsTotal, isLoading: patientsTotalLoading } = useTotalPatients();
 
   const totalPages = Math.ceil(MOCK_PATIENTS.length / PAGE_SIZE);
 
@@ -47,7 +50,8 @@ export function MedicalDashboardPage() {
         </div>
         <MedicalPatientsTableCard
           patients={paged}
-          totalCount={MOCK_PATIENTS.length}
+          totalCount={sorted.length}
+          titleCount={patientsTotalLoading ? null : patientsTotal?.total}
           sortBy={sortBy}
           onSortChange={handleSortChange}
           page={page}

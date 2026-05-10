@@ -22,7 +22,11 @@ const initialValues: NewClientValues = {
   address: ''
 }
 
-export function NewClientForm() {
+type NewClientFormProps = {
+  isOpen: boolean;
+};
+
+export function NewClientForm({ isOpen }: NewClientFormProps) {
   const [values, setValues] = useState<NewClientValues>(initialValues)
 
   const handleChange = <K extends keyof NewClientValues>(key: K, value: NewClientValues[K]) => {
@@ -36,7 +40,15 @@ export function NewClientForm() {
   }
 
   return (
-    <section className="border border-(--border) rounded-[14px] bg-(--panel) p-5 md:p-6">
+    <div
+      className={`grid transition-all duration-300 ease-in-out ${
+        isOpen
+          ? "grid-rows-[1fr] opacity-100 translate-y-0"
+          : "grid-rows-[0fr] opacity-0 -translate-y-2 pointer-events-none"
+      }`}
+    >
+    <div className="overflow-hidden">
+    <section className="border border-(--border) rounded-[14px] bg-(--panel) p-5 md:p-6 mb-0.5">
       <div className="flex items-center gap-2 mb-5">
         <span className="w-8 h-8 rounded-full bg-[#edfaf3] text-[#4acf7f] flex items-center justify-center">
           <Building2 size={16} />
@@ -135,5 +147,7 @@ export function NewClientForm() {
         </div>
       </form>
     </section>
+    </div>
+    </div>
   )
 }

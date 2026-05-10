@@ -9,6 +9,8 @@ import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "../cus
 interface MedicalPatientsTableCardProps {
   patients: Patient[];
   totalCount: number;
+  /** DB total for the card title; `null` while loading shows "…". Defaults to `totalCount`. */
+  titleCount?: number | null;
   sortBy: string;
   onSortChange: (value: string) => void;
   page: number;
@@ -20,6 +22,7 @@ interface MedicalPatientsTableCardProps {
 export function MedicalPatientsTableCard({
   patients,
   totalCount,
+  titleCount,
   sortBy,
   onSortChange,
   page,
@@ -28,6 +31,9 @@ export function MedicalPatientsTableCard({
   onNextPage,
 }: MedicalPatientsTableCardProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+  const headingCount =
+    titleCount === null ? "…" : titleCount ?? totalCount;
 
   const allSelected = patients.length > 0 && patients.every((p) => selectedIds.has(p.id));
   const someSelected = patients.some((p) => selectedIds.has(p.id));
@@ -55,7 +61,7 @@ export function MedicalPatientsTableCard({
   return (
     <div className="dashboard-orders-card">
       <div className="px-5 pt-[18px] pb-2.5 flex justify-between items-center">
-        <h2 className="text-base font-bold text-slate-800">Information by patients ({totalCount})</h2>
+        <h2 className="text-base font-bold text-slate-800">Information by patients ({headingCount})</h2>
         <div className="flex items-center gap-2">
           <span className="text-[13px] text-slate-500">Sort By</span>
           <div className="relative inline-flex">

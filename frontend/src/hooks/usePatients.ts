@@ -11,6 +11,7 @@ export function useCreatePatient() {
     mutationFn: CreatePatient,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.patients })
+      queryClient.invalidateQueries({ queryKey: queryKeys.patientsTotal })
     }
   })
 }
