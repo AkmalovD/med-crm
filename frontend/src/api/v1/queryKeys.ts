@@ -6,6 +6,9 @@ export const queryKeys = {
   sessionsTotal: ['sessions', 'total'] as const,
   patients: ['patient'] as const,
   patientsTotal: ['patients', 'total'] as const,
+  clients: ['clients'] as const,
+  clientById: (id: string) => ['clients', id] as const,
+  clientsTotal: ['clients', 'total'] as const,
 }
 
 export const TASK_KEYS = {

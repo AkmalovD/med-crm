@@ -3,40 +3,51 @@
 import { FormEvent, useState } from "react"
 import { Building2 } from "lucide-react"
 import { DropdownSelect } from "../components/custom-ui/dropdown"
+import { useCreateClient } from "../hooks/useClients"
 
-type NewClientValues = {
-  companyName: string
+type NewClientFormValues = {
   contactPerson: string
+  companyName: string
   email: string
   phone: string
-  status: '' | 'Active' | 'Inactive'
+  status: '' | 'active' | 'inactive'
   address: string
 }
 
-const initialValues: NewClientValues = {
-  companyName: '',
+const initialValues: NewClientFormValues = {
   contactPerson: '',
+  companyName: '',
   email: '',
   phone: '',
   status: '',
-  address: ''
+  address: '',
 }
 
 type NewClientFormProps = {
-  isOpen: boolean;
-};
+  isOpen: boolean
+  onClose: () => void
+}
 
-export function NewClientForm({ isOpen }: NewClientFormProps) {
-  const [values, setValues] = useState<NewClientValues>(initialValues)
+export function NewClientForm({ isOpen, onClose }: NewClientFormProps) {
+  const [values, setValues] = useState<NewClientFormValues>(initialValues)
+  const createClient = useCreateClient()
 
-  const handleChange = <K extends keyof NewClientValues>(key: K, value: NewClientValues[K]) => {
+  const handleChange = <K extends keyof NewClientFormValues>(key: K, value: NewClientFormValues[K]) => {
     setValues((prev) => ({ ...prev, [key]: value }))
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('Client payload:', values);
-    // to do
+    await createClient.mutateAsync({
+      fullName: values.contactPerson,
+      email: values.email,
+      number: values.phone,
+      organization: values.companyName || undefined,
+      address: values.address || undefined,
+      status: values.status || 'active',
+    })
+    setValues(initialValues)
+    onClose()
   }
 
   return (
@@ -58,18 +69,14 @@ export function NewClientForm({ isOpen }: NewClientFormProps) {
           <p className="text-xs text-(--soft-text)">Fill client basic information</p>
         </div>
       </div>
+
+      {createClient.isError && (
+        <p className="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
+          {createClient.error?.message ?? 'Failed to create client. Please try again.'}
+        </p>
+      )}
+
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <label className="flex flex-col gap-1.5">
-          <span className="text-xs font-semibold text-slate-600">Company Name</span>
-          <input
-            type="text"
-            value={values.companyName}
-            onChange={(e) => handleChange("companyName", e.target.value)}
-            placeholder="Acme Healthcare LLC"
-            className="h-10 px-3 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:border-[#4acf7f] focus:ring-2 focus:ring-[#4acf7f]/20"
-            required
-          />
-        </label>
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold text-slate-600">Contact Person</span>
           <input
@@ -79,6 +86,16 @@ export function NewClientForm({ isOpen }: NewClientFormProps) {
             placeholder="John Doe"
             className="h-10 px-3 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:border-[#4acf7f] focus:ring-2 focus:ring-[#4acf7f]/20"
             required
+          />
+        </label>
+        <label className="flex flex-col gap-1.5">
+          <span className="text-xs font-semibold text-slate-600">Company Name</span>
+          <input
+            type="text"
+            value={values.companyName}
+            onChange={(e) => handleChange("companyName", e.target.value)}
+            placeholder="Acme Healthcare LLC"
+            className="h-10 px-3 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:border-[#4acf7f] focus:ring-2 focus:ring-[#4acf7f]/20"
           />
         </label>
         <label className="flex flex-col gap-1.5">
@@ -107,10 +124,10 @@ export function NewClientForm({ isOpen }: NewClientFormProps) {
           <span className="text-xs font-semibold text-slate-600">Status</span>
           <DropdownSelect
             value={values.status}
-            onChange={(e) => handleChange("status", e.target.value as NewClientValues["status"])}
+            onChange={(e) => handleChange("status", e.target.value as NewClientFormValues["status"])}
             options={[
-              { value: "Active", label: "Active" },
-              { value: "Inactive", label: "Inactive" },
+              { value: "active", label: "Active" },
+              { value: "inactive", label: "Inactive" },
             ]}
             placeholder="Select status"
             aria-label="Client status"
@@ -127,22 +144,22 @@ export function NewClientForm({ isOpen }: NewClientFormProps) {
             onChange={(e) => handleChange("address", e.target.value)}
             placeholder="Client address"
             className="px-3 py-2 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700 placeholder:text-slate-400 outline-none resize-none focus:border-[#4acf7f] focus:ring-2 focus:ring-[#4acf7f]/20"
-            required
           />
         </label>
         <div className="md:col-span-2 flex justify-end gap-2 pt-1">
           <button
             type="button"
-            onClick={() => setValues(initialValues)}
+            onClick={() => { setValues(initialValues); onClose(); }}
             className="h-10 px-4 rounded-[10px] border border-(--border) text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors"
           >
-            Clear
+            Cancel
           </button>
           <button
             type="submit"
-            className="h-10 px-4 rounded-[10px] bg-[#4acf7f] text-white text-sm font-semibold hover:bg-[#3fbe72] transition-colors"
+            disabled={createClient.isPending}
+            className="h-10 px-4 rounded-[10px] bg-[#4acf7f] text-white text-sm font-semibold hover:bg-[#3fbe72] transition-colors disabled:opacity-60"
           >
-            Save Client
+            {createClient.isPending ? 'Saving…' : 'Save Client'}
           </button>
         </div>
       </form>

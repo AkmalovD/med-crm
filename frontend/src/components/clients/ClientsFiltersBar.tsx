@@ -1,19 +1,14 @@
 import { Download, Search } from "lucide-react";
-import { ClientStatus, SortBy, SortDir, Therapist, TherapyType } from "../../types/clientsDashboardTypes";
+import { ClientStatus, SortBy, SortDir } from "../../types/clientsDashboardTypes";
 import { DropdownSelect } from "../custom-ui/dropdown";
 
 interface ClientsFiltersBarProps {
   searchInput: string;
   statusFilter: "" | ClientStatus;
-  therapistFilter: string;
-  therapyTypeFilter: "" | TherapyType;
   sortBy: SortBy;
   sortDir: SortDir;
-  therapists: Therapist[];
   onSearchInputChange: (value: string) => void;
   onStatusFilterChange: (value: "" | ClientStatus) => void;
-  onTherapistFilterChange: (value: string) => void;
-  onTherapyTypeFilterChange: (value: "" | TherapyType) => void;
   onSortChange: (sortBy: SortBy, sortDir: SortDir) => void;
   onClearFilters: () => void;
   onExportCsv: () => void;
@@ -22,15 +17,10 @@ interface ClientsFiltersBarProps {
 export function ClientsFiltersBar({
   searchInput,
   statusFilter,
-  therapistFilter,
-  therapyTypeFilter,
   sortBy,
   sortDir,
-  therapists,
   onSearchInputChange,
   onStatusFilterChange,
-  onTherapistFilterChange,
-  onTherapyTypeFilterChange,
   onSortChange,
   onClearFilters,
   onExportCsv,
@@ -46,7 +36,7 @@ export function ClientsFiltersBar({
           className="w-full border-0 bg-transparent text-[13px] text-slate-700 outline-none"
           value={searchInput}
           onChange={(event) => onSearchInputChange(event.target.value)}
-          placeholder="Search by name, ID, phone..."
+          placeholder="Search by name, email, phone, organization…"
         />
       </label>
 
@@ -55,31 +45,9 @@ export function ClientsFiltersBar({
         value={statusFilter}
         onChange={(event) => onStatusFilterChange(event.target.value as "" | ClientStatus)}
         options={[
-          { value: "", label: "Status" },
+          { value: "", label: "All Statuses" },
           { value: "active", label: "Active" },
           { value: "inactive", label: "Inactive" },
-          { value: "new", label: "New" },
-          { value: "discharged", label: "Discharged" },
-          { value: "on_hold", label: "On Hold" },
-        ]}
-      />
-
-      <DropdownSelect
-        triggerClassName={selectClassName}
-        value={therapistFilter}
-        onChange={(event) => onTherapistFilterChange(event.target.value)}
-        options={[{ value: "", label: "Therapist" }, ...therapists.map((therapist) => ({ value: therapist.id, label: therapist.name }))]}
-      />
-
-      <DropdownSelect
-        triggerClassName={selectClassName}
-        value={therapyTypeFilter}
-        onChange={(event) => onTherapyTypeFilterChange(event.target.value as "" | TherapyType)}
-        options={[
-          { value: "", label: "Therapy Type" },
-          { value: "individual", label: "Individual" },
-          { value: "group", label: "Group" },
-          { value: "online", label: "Online" },
         ]}
       />
 
@@ -91,14 +59,10 @@ export function ClientsFiltersBar({
           onSortChange(nextSortBy, nextSortDir);
         }}
         options={[
-          { value: "name:asc", label: "Sort: Name (A-Z)" },
-          { value: "name:desc", label: "Sort: Name (Z-A)" },
-          { value: "age:asc", label: "Sort: Age (Low to high)" },
-          { value: "age:desc", label: "Sort: Age (High to low)" },
-          { value: "lastSession:desc", label: "Sort: Last session (Newest)" },
-          { value: "lastSession:asc", label: "Sort: Last session (Oldest)" },
-          { value: "totalSessions:desc", label: "Sort: Total sessions (High to low)" },
-          { value: "totalSessions:asc", label: "Sort: Total sessions (Low to high)" },
+          { value: "name:asc", label: "Sort: Name (A–Z)" },
+          { value: "name:desc", label: "Sort: Name (Z–A)" },
+          { value: "createdAt:desc", label: "Sort: Newest first" },
+          { value: "createdAt:asc", label: "Sort: Oldest first" },
         ]}
       />
 

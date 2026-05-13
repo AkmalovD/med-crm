@@ -1,5 +1,5 @@
 import { Client } from "../types/clientsDashboardTypes";
-import { STATUS_LABELS, THERAPY_LABELS } from "@/data/clientsData/clientsDashboardData";
+import { STATUS_LABELS } from "@/data/clientsData/clientsDashboardData";
 
 export const NUMBER = new Intl.NumberFormat("en-US");
 
@@ -7,42 +7,26 @@ export function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-export function formatDate(date: string | null) {
-  if (!date) return "No sessions yet";
+export function formatDate(date: string | null | undefined) {
+  if (!date) return "—";
   return new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
 function toCsv(rows: Client[]) {
-  const header = [
-    "Client Code",
-    "Full Name",
-    "Age",
-    "Date of Birth",
-    "Diagnosis",
-    "Therapist",
-    "Therapy Type",
-    "Status",
-    "Phone",
-    "Last Session",
-    "Total Sessions",
-  ];
+  const header = ["Full Name", "Organization", "Email", "Phone", "Address", "Status", "Created At"];
 
   const body = rows.map((row) => [
-    row.clientCode,
     row.fullName,
-    String(row.age),
-    row.dateOfBirth,
-    row.primaryDiagnosis,
-    row.assignedTherapist.name,
-    THERAPY_LABELS[row.therapyType],
-    STATUS_LABELS[row.status],
-    row.phone,
-    row.lastSessionDate ?? "",
-    String(row.totalSessions),
+    row.organization ?? "",
+    row.email,
+    row.number,
+    row.address ?? "",
+    STATUS_LABELS[row.status] ?? row.status,
+    formatDate(row.createdAt),
   ]);
 
   return [header, ...body]
-    .map((line) => line.map((cell) => `"${cell.replaceAll('"', '""')}"`).join(","))
+    .map((line) => line.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(","))
     .join("\n");
 }
 

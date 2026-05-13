@@ -1,26 +1,15 @@
-export type ClientStatus = "active" | "inactive" | "new" | "discharged" | "on_hold";
-export type TherapyType = "individual" | "group" | "online";
-export type SortBy = "name" | "age" | "lastSession" | "totalSessions";
+export type ClientStatus = "active" | "inactive";
+export type SortBy = "name" | "createdAt";
 export type SortDir = "asc" | "desc";
-
-export interface Therapist {
-  id: string;
-  name: string;
-}
 
 export interface Client {
   id: string;
-  firstName: string;
-  lastName: string;
   fullName: string;
-  clientCode: string;
-  age: number;
-  dateOfBirth: string;
-  primaryDiagnosis: string;
-  assignedTherapist: Therapist;
-  therapyType: TherapyType;
+  email: string;
+  number: string;
+  organization: string | null;
+  address: string | null;
   status: ClientStatus;
-  phone: string;
-  lastSessionDate: string | null;
-  totalSessions: number;
+  createdAt: string;
+  updatedAt: string;
 }
