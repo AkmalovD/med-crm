@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd \"C:\\\\Users\\\\LOQ\\\\Desktop\\\\med-crm\\\\backend\"; npx ts-node -e \"async function main\\(\\) { const { PrismaClient } = require\\('@prisma/client'\\); const p = new PrismaClient\\(\\); const patients = await p.patient.findMany\\({ select: { id: true, fullName: true } }\\); const therapists = await p.therapistProfile.findMany\\({ select: { id: true, fullName: true } }\\); console.log\\('PATIENTS:' + JSON.stringify\\(patients\\)\\); console.log\\('THERAPISTS:' + JSON.stringify\\(therapists\\)\\); await p['\\\\$disconnect']\\(\\); } main\\(\\).catch\\(console.error\\);\")",
+      "Read(//mnt/c/Users/LOQ/Desktop/med-crm/**)",
+      "Bash(npx ts-node *)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\LOQ\\\\Desktop\\\\med-crm\\\\backend\\\\src\\\\modules\\\\appointments\" | ForEach-Object { $_.Name })",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\LOQ\\\\Desktop\\\\med-crm\\\\backend\\\\src\\\\modules\" | ForEach-Object { $_.Name })",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\LOQ\\\\Desktop\\\\med-crm\\\\backend\\\\src\\\\modules\\\\clients\\\\dto\" | ForEach-Object { $_.Name })"
+    ]
+  }
+}
