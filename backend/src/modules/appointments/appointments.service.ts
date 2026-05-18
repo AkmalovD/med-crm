@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
+import { FindAppointmentsDto } from './dto/find-appointments.dto';
 
 @Injectable()
 export class AppointmentsService {
@@ -20,8 +21,19 @@ export class AppointmentsService {
     });
   }
 
-  async findAll() {
+  async findAll(filters: FindAppointmentsDto = {}) {
     return this.prisma.appointment.findMany({
+      where: {
+        ...(filters.therapistId && { therapistId: filters.therapistId }),
+        ...(filters.patientId && { patientId: filters.patientId }),
+        ...(filters.status && { status: filters.status }),
+        ...((filters.from || filters.to) && {
+          startAt: {
+            ...(filters.from && { gte: new Date(filters.from) }),
+            ...(filters.to && { lte: new Date(filters.to) }),
+          },
+        }),
+      },
       orderBy: { startAt: 'desc' },
       include: { patient: true, therapist: true },
     });

@@ -17,6 +17,7 @@ export function useClients() {
   return useQuery<ClientResponse[]>({
     queryKey: queryKeys.clients,
     queryFn: getClients,
+    staleTime: 60_000,
   })
 }
 
@@ -25,6 +26,7 @@ export function useClientById(id: string) {
     queryKey: queryKeys.clientById(id),
     queryFn: () => getClientById(id),
     enabled: !!id,
+    staleTime: 60_000,
   })
 }
 

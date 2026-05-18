@@ -10,10 +10,11 @@ import { SessionsModule } from './modules/sessions/sessions.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PatientModule } from 'src/modules/patients/patients.module';
 import { ClientsModule } from './modules/clients/clients.module';
+import { AppointmentsModule } from './modules/appointments/appointments.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ 
+    ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: envValidationSchema,
     }),
@@ -24,6 +25,7 @@ import { ClientsModule } from './modules/clients/clients.module';
     SessionsModule,
     PatientModule,
     ClientsModule,
+    AppointmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

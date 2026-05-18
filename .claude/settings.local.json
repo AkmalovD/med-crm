@@ -6,7 +6,10 @@
       "Bash(npx ts-node *)",
       "PowerShell(Get-ChildItem \"C:\\\\Users\\\\LOQ\\\\Desktop\\\\med-crm\\\\backend\\\\src\\\\modules\\\\appointments\" | ForEach-Object { $_.Name })",
       "PowerShell(Get-ChildItem \"C:\\\\Users\\\\LOQ\\\\Desktop\\\\med-crm\\\\backend\\\\src\\\\modules\" | ForEach-Object { $_.Name })",
-      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\LOQ\\\\Desktop\\\\med-crm\\\\backend\\\\src\\\\modules\\\\clients\\\\dto\" | ForEach-Object { $_.Name })"
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\LOQ\\\\Desktop\\\\med-crm\\\\backend\\\\src\\\\modules\\\\clients\\\\dto\" | ForEach-Object { $_.Name })",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\LOQ\\\\Desktop\\\\med-crm\\\\frontend\\\\src\" -Recurse -File | Where-Object { $_.Name -match \"axios|http|api\" -and $_.FullName -notmatch \"node_modules|\\\\.next\" } | Select-Object FullName)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\LOQ\\\\Desktop\\\\med-crm\\\\frontend\\\\src\" -Recurse -File | Where-Object { $_.FullName -notmatch \"node_modules|\\\\.next\" } | Select-Object FullName)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\LOQ\\\\Desktop\\\\med-crm\\\\frontend\\\\src\" -File -Recurse | Select-Object -First 50 | ForEach-Object { $_.FullName })"
     ]
   }
 }

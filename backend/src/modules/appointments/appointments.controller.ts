@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
+import { FindAppointmentsDto } from './dto/find-appointments.dto';
 
 @Controller('appointments')
 export class AppointmentsController {
@@ -13,8 +14,8 @@ export class AppointmentsController {
   }
 
   @Get()
-  findAll() {
-    return this.appointmentsService.findAll();
+  findAll(@Query() filters: FindAppointmentsDto) {
+    return this.appointmentsService.findAll(filters);
   }
 
   @Get('total')
