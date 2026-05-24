@@ -1,15 +1,16 @@
 import type { TaskFilters } from '@/types/tasksDashboardTypes'
 
-export const queryKeys = {
-  users: ['users'] as const,
-  getUserById: (id: string) => ['users', id] as const,
-  sessionsTotal: ['sessions', 'total'] as const,
-  patients: ['patient'] as const,
-  patientsTotal: ['patients', 'total'] as const,
-  clients: ['clients'] as const,
-  clientById: (id: string) => ['clients', id] as const,
-  clientsTotal: ['clients', 'total'] as const,
-}
+export const USERS_QUERY_KEY = 'users'
+export const USER_QUERY_KEY = 'user'
+
+export const CLIENTS_QUERY_KEY = 'clients'
+export const CLIENT_QUERY_KEY = 'client'
+export const CLIENTS_TOTAL_QUERY_KEY = 'clients-total'
+
+export const PATIENTS_QUERY_KEY = 'patients'
+export const PATIENTS_TOTAL_QUERY_KEY = 'patients-total'
+
+export const SESSIONS_TOTAL_QUERY_KEY = 'sessions-total'
 
 export const TASK_KEYS = {
   all: ['tasks'] as const,

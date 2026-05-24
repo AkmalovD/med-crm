@@ -1,67 +1,55 @@
+import { baseApiClient, BaseClient } from '@/api/baseClient'
+
 export type UserRole = 'ADMIN' | 'THERAPIST' | 'STAFF'
 
-export type PublicUser = {
+export interface User {
   id: string
-  role: UserRole
   email: string
+  role: UserRole
   createdAt: string
   updatedAt: string
 }
 
-export type CreateUserPayload = {
+export interface CreateUserBody {
   email: string
   password: string
   role?: UserRole
 }
 
-function getBaseUrl(): string {
-  const baseUrl = process.env.NEXT_PUBLIC_API
+const SLUG = '/users'
 
-  if (!baseUrl) {
-    throw new Error('NEXT API is not set')
-  }
-
-  return baseUrl
+const urls = {
+  getAll: SLUG,
+  create: SLUG,
+  getById: (id: string) => `${SLUG}/${id}`,
 }
 
-export async function getUsers(): Promise<PublicUser[]> {
-  const response = await fetch(`${getBaseUrl()}/users`, {
-    method: 'GET',
-    headers: { 'Content-type': 'application/json' },
-    cache: 'no-store'
-  })
+export class UsersService {
+  private static instance: UsersService | null = null
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch users: ${response.status}`)
+  private constructor(private api: BaseClient) {}
+
+  static getInstance(): UsersService {
+    if (!UsersService.instance) {
+      UsersService.instance = new UsersService(baseApiClient)
+    }
+    return UsersService.instance
   }
 
-  return response.json() as Promise<PublicUser[]>
-}
-
-export async function getUserById(id: string): Promise<PublicUser> {
-  const response = await fetch(`${getBaseUrl()} /users/${id}}`, {
-    method: 'GET',
-    headers: {'Content-Type': 'application/json'},
-    cache: 'no-store'
-  })
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch user ${id}: ${response.status}`)
+  getAll = async () => {
+    const res = await this.api.get<User[]>(urls.getAll)
+    return res.data
   }
 
-  return response.json() as Promise<PublicUser>
-}
-
-export async function createUser(payload: CreateUserPayload): Promise<PublicUser> {
-  const response = await fetch(`${getBaseUrl()}/users` , {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(payload)
-  })
-
-  if (!response.ok) {
-    throw new Error(`Failed to create user: ${response.status}`)
+  getById = async (id: string) => {
+    const res = await this.api.get<User>(urls.getById(id))
+    return res.data
   }
 
-  return response.json() as Promise<PublicUser>
+  create = async (body: CreateUserBody) => {
+    const res = await this.api.post<User>(urls.create, body)
+    return res.data
+  }
 }
+
+export default UsersService.getInstance()

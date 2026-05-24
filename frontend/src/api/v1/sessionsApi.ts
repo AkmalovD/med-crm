@@ -1,23 +1,27 @@
-export type TotalSessionsResponse = {
-  total: number
+import { baseApiClient, BaseClient } from '@/api/baseClient'
+
+const SLUG = '/sessions'
+
+const urls = {
+  total: `${SLUG}/total`,
 }
 
-export async function getTotalSessions(): Promise<TotalSessionsResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL
+export class SessionsService {
+  private static instance: SessionsService | null = null
 
-  if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_URL is not set")
+  private constructor(private api: BaseClient) {}
+
+  static getInstance(): SessionsService {
+    if (!SessionsService.instance) {
+      SessionsService.instance = new SessionsService(baseApiClient)
+    }
+    return SessionsService.instance
   }
 
-  const response = await fetch(`${baseUrl}/sessions/total`, {
-    method: 'GET',
-    headers: { "Content-Type": "application/json" },
-    cache: 'no-store'
-  })
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch total sessions: ${response.status}`)
+  getTotal = async () => {
+    const res = await this.api.get<{ total: number }>(urls.total)
+    return res.data
   }
-
-  return response.json() as Promise<TotalSessionsResponse>
 }
+
+export default SessionsService.getInstance()

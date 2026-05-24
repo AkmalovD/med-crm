@@ -1,15 +1,6 @@
-export type CreatePatientRequest = {
-  fullName: string
-  email?: string
-  phone?: string
-  birthDate?: string
-}
+import { baseApiClient, BaseClient } from '@/api/baseClient'
 
-export type TotalPatientsResponse = {
-  total: number
-}
-
-export type PatientResponse = {
+export interface Patient {
   id: string
   fullName: string
   email: string | null
@@ -19,43 +10,41 @@ export type PatientResponse = {
   updatedAt: string
 }
 
-export async function getTotalPatients(): Promise<TotalPatientsResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL
-
-  if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_URL is not set")
-  }
-
-  const response = await fetch(`${baseUrl}/patients/total`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-    cache: "no-store",
-  })
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch total patients: ${response.status}`)
-  }
-
-  return response.json() as Promise<TotalPatientsResponse>
+export interface CreatePatientBody {
+  fullName: string
+  email?: string
+  phone?: string
+  birthDate?: string
 }
 
-export async function CreatePatient(payload: CreatePatientRequest): Promise<PatientResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL
+const SLUG = '/patients'
 
-  if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_URL is not set")
-  }
-
-  const response = await fetch(`${baseUrl}/patients`, {
-    method: 'POST',
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(payload)
-  })
-
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`Failed to create patient (${response.status}): ${text}`);
-  }
-  
-  return response.json() as Promise<PatientResponse>;
+const urls = {
+  create: SLUG,
+  total: `${SLUG}/total`,
 }
+
+export class PatientsService {
+  private static instance: PatientsService | null = null
+
+  private constructor(private api: BaseClient) {}
+
+  static getInstance(): PatientsService {
+    if (!PatientsService.instance) {
+      PatientsService.instance = new PatientsService(baseApiClient)
+    }
+    return PatientsService.instance
+  }
+
+  create = async (body: CreatePatientBody) => {
+    const res = await this.api.post<Patient>(urls.create, body)
+    return res.data
+  }
+
+  getTotal = async () => {
+    const res = await this.api.get<{ total: number }>(urls.total)
+    return res.data
+  }
+}
+
+export default PatientsService.getInstance()
