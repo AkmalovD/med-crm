@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, UserRole } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -166,6 +167,22 @@ const clients = [
 ];
 
 async function main() {
+  // ── Admin user ──────────────────────────────────────────────
+  const hashedPassword = await bcrypt.hash('admin12345', 10);
+
+  const admin = await prisma.user.upsert({
+    where: { email: 'admin@clinic.com' },
+    update: {},
+    create: {
+      email: 'admin@clinic.com',
+      password: hashedPassword,
+      role: UserRole.ADMIN,
+    },
+  });
+
+  console.log('✅ Admin created:', admin.email);
+
+  // ── Clients ─────────────────────────────────────────────────
   console.log('Seeding 20 clients...');
 
   for (const client of clients) {

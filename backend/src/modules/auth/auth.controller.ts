@@ -4,7 +4,7 @@ import { LoginDto } from './dto/login.dto';
 import { RefreshTokenGuard } from './guards/refresh-token.guards';
 import { Public } from './decorators/public.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
-import { JwtPayload } from './types/jwt-payload.type';
+import type { JwtPayload } from './types/jwt-payload.type';
 import type { Request } from 'express';
 
 @Controller('auth')
