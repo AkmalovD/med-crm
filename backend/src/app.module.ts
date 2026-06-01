@@ -11,6 +11,9 @@ import { PrismaModule } from './prisma/prisma.module';
 import { PatientModule } from 'src/modules/patients/patients.module';
 import { ClientsModule } from './modules/clients/clients.module';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
+import {APP_GUARD} from "@nestjs/core";
+import {AccessTokenGuard} from "./modules/auth/guards/access-token.guard";
+import {RolesGuard} from "./modules/auth/guards/roles.guard";
 
 @Module({
   imports: [
@@ -28,6 +31,6 @@ import { AppointmentsModule } from './modules/appointments/appointments.module';
     AppointmentsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, { provide: APP_GUARD, useClass: AccessTokenGuard }, { provide: APP_GUARD, useClass: RolesGuard },],
 })
 export class AppModule {}
