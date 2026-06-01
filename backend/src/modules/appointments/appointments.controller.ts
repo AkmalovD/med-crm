@@ -3,6 +3,8 @@ import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 import { FindAppointmentsDto } from './dto/find-appointments.dto';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { UserRole } from '@prisma/client';
 
 @Controller('appointments')
 export class AppointmentsController {
@@ -33,6 +35,7 @@ export class AppointmentsController {
     return this.appointmentsService.update(id, dto);
   }
 
+  @Roles(UserRole.ADMIN, UserRole.THERAPIST)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.appointmentsService.remove(id);

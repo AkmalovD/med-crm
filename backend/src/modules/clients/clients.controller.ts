@@ -2,6 +2,8 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { UserRole } from '@prisma/client';
 
 @Controller('clients')
 export class ClientsController {
@@ -32,6 +34,7 @@ export class ClientsController {
     return this.clientsService.update(id, updateClientDto);
   }
 
+  @Roles(UserRole.ADMIN, UserRole.THERAPIST)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.clientsService.remove(id);

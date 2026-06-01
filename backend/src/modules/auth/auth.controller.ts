@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenGuard } from './guards/refresh-token.guards';
 import { Public } from './decorators/public.decorator';
+import { CurrentUser } from './decorators/current-user.decorator';
 import { JwtPayload } from './types/jwt-payload.type';
 import type { Request } from 'express';
 
@@ -24,7 +25,7 @@ export class AuthController {
   }
 
   @Get('me')
-  me(@Req() req: Request) {
-    return req.user;
+  me(@CurrentUser() user: JwtPayload) {
+    return user;
   }
 }
