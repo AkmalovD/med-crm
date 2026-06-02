@@ -19,9 +19,10 @@ export interface CreateUserBody {
 const SLUG = '/users'
 
 const urls = {
-  getAll: SLUG,
-  create: SLUG,
-  getById: (id: string) => `${SLUG}/${id}`,
+    getAll: SLUG,
+    create: SLUG,
+    getById: (id: string) => `${SLUG}/${id}`,
+    delete: (id: string) => `${SLUG}/${id}`
 }
 
 export class UsersService {
@@ -49,6 +50,10 @@ export class UsersService {
   create = async (body: CreateUserBody) => {
     const res = await this.api.post<User>(urls.create, body)
     return res.data
+  }
+
+  delete = async (id: string) => {
+      const res = await this.api.delete<void>(urls.delete(id))
   }
 }
 

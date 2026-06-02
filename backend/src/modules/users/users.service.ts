@@ -72,6 +72,14 @@ export class UsersService {
     return user
   }
 
+  async remove(id: string): Promise<void> {
+      const user = await this.prisma.user.findUnique({ where: { id } })
+
+      if (!user) throw new NotFoundException('User not found')
+
+      await this.prisma.user.delete({ where: { id } })
+  }
+
   private toPublicUser(user: {
     id: string
     email: string

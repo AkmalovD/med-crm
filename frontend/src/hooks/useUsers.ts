@@ -35,3 +35,18 @@ export function useCreateUser() {
     },
   })
 }
+
+export function useDeleteUser() {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: (id: string) => usersAPI.delete(id),
+        onSuccess: () => {
+            toast.success('Пользователь удален')
+            queryClient.invalidateQueries({ queryKey: [USERS_QUERY_KEY] })
+        },
+        onError: () => {
+            toast.error('Ошибка при удалении')
+        }
+    })
+}
