@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Hospital,
   PanelLeftClose,
@@ -20,12 +20,14 @@ import {
   Calendar,
   CheckSquare,
   User,
+  LogOut,
   LucideIcon,
 } from "lucide-react";
 
 import SidebarNavItem from "./SidebarNavItem";
 import SidebarSectionLabel from "./SidebarSectionLabel";
 import { useMessageStore } from "@/store/useMessageStore";
+import { useAuthStore } from "@/store/useAuthStore";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -103,8 +105,16 @@ function isRouteActive(pathname: string, href: string) {
 
 export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const totalUnread = useMessageStore((s) => s.totalUnread);
   const NAV_SECTIONS = buildNavSections(totalUnread);
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
+
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
+  };
 
   return (
     <aside className={`dashboard-sidebar flex h-full min-h-0 flex-col ${isOpen ? "is-open" : "is-collapsed"}`}>
@@ -150,18 +160,27 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         ))}
       </nav>
 
-      <div className="border-t border-slate-200 px-4 py-4">
+      <div className="border-t border-slate-200 px-4 py-4 space-y-2">
         {isOpen ? (
           <div className="space-y-1 text-xs text-slate-500">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Tech Support</p>
-            <p className="font-medium text-slate-700">+998 (90) 033 25 11</p>
-            <p>dilmurodakmalov20@gmail.com</p>
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+              {user?.role ?? "USER"}
+            </p>
+            <p className="font-medium text-slate-700 truncate">{user?.email}</p>
           </div>
         ) : (
-          <div className="flex justify-center text-slate-400" title="Tech Support">
-            <MessageSquare size={16} />
+          <div className="flex justify-center text-slate-400" title={user?.email ?? ""}>
+            <User size={16} />
           </div>
         )}
+
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-red-50 hover:text-red-600"
+        >
+          <LogOut size={16} className="shrink-0" />
+          {isOpen && <span>Выйти</span>}
+        </button>
       </div>
     </aside>
   );
