@@ -4,6 +4,8 @@ import { FormEvent, useState } from "react"
 import { Building2 } from "lucide-react"
 import { DropdownSelect } from "../components/custom-ui/dropdown"
 import { useCreateClient } from "../hooks/useClients"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 type NewClientFormValues = {
   contactPerson: string
@@ -79,44 +81,38 @@ export function NewClientForm({ isOpen, onClose }: NewClientFormProps) {
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold text-slate-600">Contact Person</span>
-          <input
-            type="text"
+          <Input
             value={values.contactPerson}
             onChange={(e) => handleChange("contactPerson", e.target.value)}
             placeholder="John Doe"
-            className="h-10 px-3 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:border-[#4acf7f] focus:ring-2 focus:ring-[#4acf7f]/20"
             required
           />
         </label>
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold text-slate-600">Company Name</span>
-          <input
-            type="text"
+          <Input
             value={values.companyName}
             onChange={(e) => handleChange("companyName", e.target.value)}
             placeholder="Acme Healthcare LLC"
-            className="h-10 px-3 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:border-[#4acf7f] focus:ring-2 focus:ring-[#4acf7f]/20"
           />
         </label>
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold text-slate-600">Email</span>
-          <input
+          <Input
             type="email"
             value={values.email}
             onChange={(e) => handleChange("email", e.target.value)}
             placeholder="client@example.com"
-            className="h-10 px-3 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:border-[#4acf7f] focus:ring-2 focus:ring-[#4acf7f]/20"
             required
           />
         </label>
         <label className="flex flex-col gap-1.5">
           <span className="text-xs font-semibold text-slate-600">Phone</span>
-          <input
+          <Input
             type="tel"
             value={values.phone}
             onChange={(e) => handleChange("phone", e.target.value)}
             placeholder="+998 90 000 00 00"
-            className="h-10 px-3 rounded-[10px] border border-(--border) bg-white/70 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:border-[#4acf7f] focus:ring-2 focus:ring-[#4acf7f]/20"
             required
           />
         </label>
@@ -147,20 +143,22 @@ export function NewClientForm({ isOpen, onClose }: NewClientFormProps) {
           />
         </label>
         <div className="md:col-span-2 flex justify-end gap-2 pt-1">
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="md"
             onClick={() => { setValues(initialValues); onClose(); }}
-            className="h-10 px-4 rounded-[10px] border border-(--border) text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors"
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
             type="submit"
+            variant="brand"
+            size="md"
             disabled={createClient.isPending}
-            className="h-10 px-4 rounded-[10px] bg-[#4acf7f] text-white text-sm font-semibold hover:bg-[#3fbe72] transition-colors disabled:opacity-60"
           >
             {createClient.isPending ? 'Saving…' : 'Save Client'}
-          </button>
+          </Button>
         </div>
       </form>
     </section>

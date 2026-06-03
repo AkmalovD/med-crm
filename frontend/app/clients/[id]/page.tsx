@@ -4,12 +4,16 @@ import { DashboardScaffold } from "@/components/dashboard/DashboardScaffold";
 import { useClientById } from "@/hooks/useClients";
 import { formatDate } from "@/utils/clientsDashboardUtils";
 import { useParams } from "next/navigation";
-import { ArrowLeft, Building2, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowLeft, Building2, Mail, MapPin, Pencil, Phone } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { EditClientForm } from "@/forms/EditClientForm";
 
 export default function ClientProfilePage() {
   const { id } = useParams<{ id: string }>();
   const { data: client, isLoading, isError } = useClientById(id);
+  const [ isEditing, setEditing ] = useState(false)
+    
 
   return (
     <DashboardScaffold>
@@ -31,6 +35,14 @@ export default function ClientProfilePage() {
         )}
 
         {client && (
+          <EditClientForm
+            client={client}
+            isOpen={isEditing}
+            onClose={() => setEditing(false)}
+          />
+        )}
+
+        {client && (
           <section className="rounded-xl border border-(--border) bg-white p-6">
             <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
               <div className="flex items-center gap-3">
@@ -49,15 +61,24 @@ export default function ClientProfilePage() {
                   )}
                 </div>
               </div>
-              <span
-                className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                  client.status === "active"
-                    ? "bg-[#e8fbf4] text-emerald-700"
-                    : "bg-slate-100 text-slate-500"
-                }`}
-              >
-                {client.status === "active" ? "Active" : "Inactive"}
-              </span>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                    client.status === "active"
+                      ? "bg-[#e8fbf4] text-emerald-700"
+                      : "bg-slate-100 text-slate-500"
+                  }`}
+                >
+                  {client.status === "active" ? "Active" : "Inactive"}
+                </span>
+                <button
+                  onClick={() => setEditing((v) => !v)}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-(--border) bg-white px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors"
+                >
+                  <Pencil size={14} />
+                  Редактировать
+                </button>
+              </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

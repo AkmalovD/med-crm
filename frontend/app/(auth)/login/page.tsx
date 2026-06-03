@@ -118,7 +118,7 @@ export default function LoginPage() {
                         <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                         <Input
                           placeholder="doctor@clinic.com"
-                          className="pl-9 h-11 border-slate-200 bg-slate-50 focus:bg-white transition-colors"
+                          className="pl-9 h-11 bg-slate-50 focus:bg-white transition-colors"
                           {...field}
                         />
                       </div>
@@ -142,7 +142,7 @@ export default function LoginPage() {
                         <Input
                           type="password"
                           placeholder="••••••••"
-                          className="pl-9 h-11 border-slate-200 bg-slate-50 focus:bg-white transition-colors"
+                          className="pl-9 h-11 bg-slate-50 focus:bg-white transition-colors"
                           {...field}
                         />
                       </div>
@@ -154,8 +154,10 @@ export default function LoginPage() {
 
               <Button
                 type="submit"
+                variant="brand"
+                size="lg"
                 disabled={form.formState.isSubmitting}
-                className="w-full h-11 bg-[#4acf7f] hover:bg-[#3ab86e] text-white font-semibold shadow-lg shadow-[#4acf7f]/25 transition-all"
+                className="w-full shadow-lg shadow-[#4acf7f]/25"
               >
                 {form.formState.isSubmitting ? (
                   <span className="flex items-center gap-2">
