@@ -21,7 +21,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  therapist TherapistProfile?
+  therapist                TherapistProfile?
+  ConversationParticipants ConversationParticipants[]
+  Message                  Message[]
 }
 
 model TherapistProfile {
@@ -38,13 +40,13 @@ model TherapistProfile {
 }
 
 model Patient {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   fullName  String
   phone     String?
   email     String?
   birthDate DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   appointments Appointment[]
   notes        SessionNote[]
@@ -86,7 +88,38 @@ model SessionNote {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  patient     Patient           @relation(fields: [patientId], references: [id], onDelete: Cascade)
-  therapist   TherapistProfile  @relation(fields: [therapistId], references: [id], onDelete: Restrict)
-  appointment Appointment?      @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+  patient     Patient          @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  therapist   TherapistProfile @relation(fields: [therapistId], references: [id], onDelete: Restrict)
+  appointment Appointment?     @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+}
+
+model Conversation {
+  id        String   @id @default(cuid())
+  cretedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  participants ConversationParticipants[]
+  messages     Message[]
+}
+
+model ConversationParticipants {
+  id             String @id @default(cuid())
+  conversationId String
+  userId         String
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id        String    @id @default(cuid())
+  content   String
+  createdAt DateTime
+  readAt    DateTime?
+
+  conversationId String
+  senderId       String
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
 }

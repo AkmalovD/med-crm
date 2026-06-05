@@ -38,7 +38,7 @@ export function MessagesLayout() {
     return () => clearTimeout(t)
   }, [search])
 
-  // Sync active conversation with URL
+  // Sync active messages with URL
   useEffect(() => {
     const idFromUrl = searchParams.get('conversationId')
     if (idFromUrl && idFromUrl !== activeConversationId) {

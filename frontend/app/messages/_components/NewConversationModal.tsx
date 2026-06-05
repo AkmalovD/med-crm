@@ -221,7 +221,7 @@ export function NewConversationModal({ onConversationCreated }: NewConversationM
                   Creating...
                 </>
               ) : (
-                'Start conversation'
+                'Start messages'
               )}
             </button>
           </div>

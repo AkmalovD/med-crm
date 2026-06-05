@@ -220,7 +220,7 @@ export const messagesApi = {
     }
   },
 
-  // ── Staff / Clients for new conversation modal ────────────────────────────
+  // ── Staff / Clients for new messages modal ────────────────────────────
 
   getStaff: async () => {
     await delay(200)
