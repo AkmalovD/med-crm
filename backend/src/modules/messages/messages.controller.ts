@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {Body, Controller, Get, Post, Req, UseGuards} from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { CreateConverstionDto } from './dto/create-converstion.dto';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
@@ -10,6 +10,13 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 @Controller('messages')
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
+
+  @Get('conversations')
+  getMyConversation(
+      @Req() req)
+  {
+      return this.messagesService.getMyConversations((req.user.id))
+  }
 
   @Post('conversations')
   @ApiOperation({ summary: 'Создать или получить беседу с пользователем' })
