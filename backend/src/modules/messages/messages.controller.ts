@@ -1,9 +1,10 @@
-import {Body, Controller, Get, Post, Req, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Param, Patch, Post} from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { CreateConverstionDto } from './dto/create-converstion.dto';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import type { JwtPayload } from '../auth/types/jwt-payload.type';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam} from '@nestjs/swagger';
+import {SendMessageDto} from "./dto/send-message.dto";
 
 @ApiTags('Messages')
 @ApiBearerAuth('access-token')
@@ -12,10 +13,10 @@ export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
   @Get('conversations')
-  getMyConversation(
-      @Req() req)
+  @ApiOperation({ summary: "Получить список всех бесед текущего пользователя" })
+  getMyConversation(@CurrentUser() user: JwtPayload)
   {
-      return this.messagesService.getMyConversations((req.user.id))
+      return this.messagesService.getMyConversations((user.sub))
   }
 
   @Post('conversations')
@@ -27,5 +28,34 @@ export class MessagesController {
     @Body() dto: CreateConverstionDto,
   ) {
     return this.messagesService.getOrCreateConversation(user.sub, dto);
+  }
+
+  @Get('conversation/:id/messages')
+  @ApiOperation({ summary: "Получить сообщение из конкретного диалога" })
+  @ApiParam({ name: 'id', description: 'ID Диалога'})
+  getMessages(
+      @CurrentUser() user: JwtPayload,
+      @Param('id') conversationId: string,
+  )  {
+      return this.messagesService.getMessages(user.sub, conversationId)
+  }
+
+  @Post('message')
+  @ApiOperation({ summary: 'Отправить новое сообщение в диаолог'})
+  sendMessage(
+      @CurrentUser() user: JwtPayload,
+      @Body() dto: SendMessageDto,
+  )  {
+      return this.messagesService.sendMessage(user.sub, dto)
+  }
+
+  @Patch('conversations/:id/read')
+  @ApiOperation({ summary: 'Пометить сообщения в диалоге как прочитанные' })
+  @ApiParam({ name: 'id', description: 'ID' })
+  markAsRead(
+      @CurrentUser() user: JwtPayload,
+      @Param('id') conversationId: string
+  )  {
+      return this.messagesService.markAsRead(user.sub, conversationId)
   }
 }
