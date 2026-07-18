@@ -112,4 +112,11 @@ export class MessagesService {
 
         return { success: true }
     }
+
+    async getConversationParticipants(conversationId: string) {
+        return this.prisma.conversationParticipants.findMany({
+            where: { conversationId },
+            select: { userId: true },
+        })
+    }
 }

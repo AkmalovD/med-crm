@@ -3,3 +3,4 @@ import { AnalyticsDashboardPage } from "@/components/analytics/AnalyticsDashboar
 export default function AnalyticsPage() {
   return <AnalyticsDashboardPage />;
 }
+// new macbook congratulations
