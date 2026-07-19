@@ -87,9 +87,12 @@ export class MessagesService {
                 content: dto.content,
                 conversationId: dto.conversationId,
                 senderId: userId,
-                createdAt: new Date(),
+                replyToId: dto.replyToId ?? null 
             },
-            include: { sender: true }
+            include: { 
+                sender: true,
+                replyTo: { include: { sender: true } }
+            }
         })
 
         await this.prisma.conversation.update({
@@ -119,4 +122,37 @@ export class MessagesService {
             select: { userId: true },
         })
     }
+
+    async editMessage(userId: string, messageId: string, content: string) {
+        const message = await this.prisma.message.findUnique({
+            where: { id:  messageId }
+        })
+
+        if (!message || message.senderId !== userId) {
+            throw new ForbiddenException('Нельзя редактировать это сообщение')
+        }
+
+        return this.prisma.message.update({
+            where: { id: messageId },
+            data: { content, editedAt: new Date() },
+            include: { sender: true, replyTo: { include: { sender: true } } }
+        })
+    }
+
+    async deleteMessage(userId: string, messageId: string) {
+        const message = await this.prisma.message.findUnique({
+            where: { id: messageId }
+        })
+
+        if (!message || message.senderId !== userId) {
+            throw new ForbiddenException('Нельзя удалить это сообщение')
+        }
+
+        return this.prisma.message.update({
+            where: { id: messageId },
+            data: { isDeleted: true, content: '' },
+            include: { sender: true }
+        })
+    }
+
 }

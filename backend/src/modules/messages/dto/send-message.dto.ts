@@ -1,5 +1,5 @@
-import { IsString, MinLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional, IsString, MinLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class SendMessageDto {
   @ApiProperty({ example: 'clx4...', description: 'ID беседы (CUID)' })
@@ -10,4 +10,9 @@ export class SendMessageDto {
   @IsString()
   @MinLength(1)
   content: string;
+
+  @ApiPropertyOptional({example: 'clx5...', description: 'ID сообщенияб на которое отвечеам'})
+  @IsOptional()
+  @IsString()
+  replyToId?: string 
 }
