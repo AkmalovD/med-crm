@@ -1,7 +1,7 @@
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
 import { MessagesService } from "./messages.service";
-import {JwtService} from "@nestjs/jwt";
+import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 import { JwtPayload } from "../auth/types/jwt-payload.type";
 import { SendMessageDto } from "./dto/send-message.dto";
@@ -24,13 +24,13 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
         private readonly messagesService: MessagesService,
         private readonly jwtService: JwtService,
         private readonly config: ConfigService,
-    ) {}
+    ) { }
 
     async handleConnection(client: Socket) {
         try {
             const raw = client.handshake.auth?.token || client.handshake.headers['authorization']
 
-            if (!raw ) {
+            if (!raw) {
                 client.disconnect()
                 return
             }
@@ -63,7 +63,7 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
         @ConnectedSocket() client: AuthSocket,
         @MessageBody() dto: SendMessageDto
     ) {
-        const userId =client.data.user.sub
+        const userId = client.data.user.sub
 
         const message = await this.messagesService.sendMessage(userId, dto)
 
@@ -72,9 +72,54 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
         )
 
         for (const p of conversation) {
-            this.server.to(`user: ${p.userId}`).emit('newMessage', message)
+            this.server.to(`user:${p.userId}`).emit('newMessage', message)
         }
-        
+
         return message
+    }
+
+    @SubscribeMessage('markAsRead')
+    async handleMarkAsRead(
+        @ConnectedSocket() client: AuthSocket,
+        @MessageBody() dto: { conversationId: string }
+    ) {
+        const userId = client.data.user.sub
+
+        await this.messagesService.markAsRead(userId, dto.conversationId)
+
+        const participants = await this.messagesService.getConversationParticipants(
+            dto.conversationId
+        )
+
+        for (const p of participants) {
+            this.server.to(`user:${p.userId}`).emit('messageRead', {
+                conversationId: dto.conversationId,
+                readerId: userId
+            })
+        }
+
+        return { success: true }
+    }
+
+    @SubscribeMessage('typing')
+    async handleTyping(
+        @ConnectedSocket() client: AuthSocket,
+        @MessageBody() dto: { conversationId: string; isTyping: boolean },
+    ) {
+        const userId = client.data.user.sub;
+
+        const participants = await this.messagesService.getConversationParticipants(
+            dto.conversationId,
+        );
+
+        // шлём всем УЧАСТНИКАМ, КРОМЕ самого печатающего
+        for (const p of participants) {
+            if (p.userId === userId) continue;
+            this.server.to(`user:${p.userId}`).emit('userTyping', {
+                conversationId: dto.conversationId,
+                userId,
+                isTyping: dto.isTyping,
+            });
+        }
     }
 }
