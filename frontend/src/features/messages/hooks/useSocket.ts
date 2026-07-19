@@ -1,25 +1,38 @@
 'use client'
 
-import { useRef } from 'react'
+import { io, Socket } from "socket.io-client"
+import { useEffect, useRef } from "react"
 
-// Socket stub — wire to socket.io when NEXT_PUBLIC_WS_URL is available
-// Install: npm install socket.io-client
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL ?? 'http://localhost:3001'
 
-export interface SocketStub {
-  emit: (event: string, data?: unknown) => void
-  on: (event: string, handler: (data: unknown) => void) => void
-  off: (event: string) => void
-  disconnect: () => void
+function getToken(): string | null {
+  if (typeof window === 'undefined') return null 
+  const raw = localStorage.getItem('auth')
+  return raw ? JSON.parse(raw)?.state?.accessToken ?? null : null
 }
 
-const noopSocket: SocketStub = {
-  emit: () => {},
-  on: () => {},
-  off: () => {},
-  disconnect: () => {},
-}
+export function useSocket(): React.RefObject<Socket | null> {
+  const socketRef = useRef<Socket | null>(null)
 
-export function useSocket(): React.MutableRefObject<SocketStub> {
-  const socket = useRef<SocketStub>(noopSocket)
-  return socket
+  useEffect(() => {
+    const token = getToken()
+    if (!token) return 
+
+    const socket = io(`${WS_URL}/chat`, {
+      auth: { token },
+      transports: ['websocket']
+    })
+
+    socketRef.current = socket
+
+    socket.on('connect', () => console.log('WS Connected', socket.id))
+    socket.on('connect_error', (e) => console.log('WS error', e.message))
+
+    return () => {
+      socket.disconnect()
+      socketRef.current = null
+    }
+  }, [])
+
+  return socketRef
 }
