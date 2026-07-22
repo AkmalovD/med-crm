@@ -51,10 +51,11 @@ export class MessagesService {
                 participants: { some: { userId } },
             },
             include: {
-                participants: { include: { user: true } },
+                participants: { include: { user: { include: { therapist: true } } } },
                 messages: {
                     orderBy: { createdAt: 'desc' },
                     take: 1, // последнее сообщение для превью
+                    include: { sender: { include: { therapist: true } } }
                 },
             },
             orderBy: { updatedAt: 'desc' },
@@ -70,7 +71,11 @@ export class MessagesService {
 
         return this.prisma.message.findMany({
             where: {conversationId},
-            include: {sender: true},
+            include: {
+                sender: true,
+                replyTo: { include: { sender: { include: { therapist: true } } } } 
+
+            },
             orderBy: {createdAt: 'asc'},
         })
     }
@@ -90,8 +95,8 @@ export class MessagesService {
                 replyToId: dto.replyToId ?? null 
             },
             include: { 
-                sender: true,
-                replyTo: { include: { sender: true } }
+                sender: { include: { therapist: true } },
+                replyTo: { include: { sender: { include: { therapist: true } } } }
             }
         })
 
