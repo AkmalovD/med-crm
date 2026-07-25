@@ -72,7 +72,7 @@ export class MessagesService {
         return this.prisma.message.findMany({
             where: {conversationId},
             include: {
-                sender: true,
+                sender: { include: { therapist: true } },
                 replyTo: { include: { sender: { include: { therapist: true } } } } 
 
             },
