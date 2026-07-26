@@ -8,7 +8,7 @@ import { useSendMessage } from '@/features/messages/hooks/useSendMessage'
 import { MESSAGE_KEYS } from '@/features/messages/api/messageQueryKeys'
 import { ReplyPreview } from './ReplyPreview'
 import type { Message } from '@/features/messages/types/messages.types'
-import { CURRENT_USER_ID } from '@/data/messagesData/messagesDashboardData'
+import { useCurrentUserId } from '@/features/messages/hooks/useCurrentUserId'
 
 interface MessageInputProps {
   conversationId: string
@@ -33,6 +33,8 @@ export function MessageInput({ conversationId }: MessageInputProps) {
   const { replyToMessage, clearReply } = useMessageStore()
   const { mutateAsync: sendMessage, isPending } = useSendMessage()
   const queryClient = useQueryClient()
+
+  const currentUserId = useCurrentUserId()
 
   const canSend = (text.trim().length > 0 || pendingFile !== null) && !isPending
 
@@ -84,8 +86,8 @@ export function MessageInput({ conversationId }: MessageInputProps) {
     const optimisticMsg: Message = {
       id: `optimistic-${Date.now()}`,
       conversationId,
-      senderId: CURRENT_USER_ID,
-      sender: { id: CURRENT_USER_ID, fullName: 'Dr. Sarah Mitchell', avatar: null },
+      senderId: currentUserId,
+      sender: { id: currentUserId, fullName: 'Dr. Sarah Mitchell', avatar: null },
       content,
       replyToId: replyToMessage?.id ?? null,
       replyTo: replyToMessage
@@ -98,7 +100,7 @@ export function MessageInput({ conversationId }: MessageInputProps) {
         : null,
       attachmentSize: attachment?.size ?? null,
       status: 'sent',
-      seenBy: [CURRENT_USER_ID],
+      seenBy: [currentUserId],
       isDeleted: false,
       sentAt: new Date().toISOString(),
       editedAt: null,

@@ -11,7 +11,7 @@ import {
   useMarkAsUnread,
 } from '@/features/messages/hooks/useConversationMutations'
 import type { Conversation } from '@/features/messages/types/messages.types'
-import { CURRENT_USER_ID } from '@/data/messagesData/messagesDashboardData'
+import { useCurrentUserId } from '@/features/messages/hooks/useCurrentUserId'
 
 interface ConversationItemProps {
   conversation: Conversation
@@ -70,13 +70,14 @@ export function ConversationItem({ conversation: conv }: ConversationItemProps) 
   const [menuOpen, setMenuOpen] = useState(false)
   const [showArchiveConfirm, setShowArchiveConfirm] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const currentUserId = useCurrentUserId
 
   const pin = usePinConversation()
   const archive = useArchiveConversation()
   const mute = useMuteConversation()
   const markUnread = useMarkAsUnread()
 
-  const otherParticipant = conv.participants.find((p) => p.id !== CURRENT_USER_ID)
+  const otherParticipant = conv.participants.find((p) => p.id !== currentUserId)
   const displayName = conv.name ?? otherParticipant?.fullName ?? 'Unknown'
   const isOnline = otherParticipant?.isOnline ?? false
 

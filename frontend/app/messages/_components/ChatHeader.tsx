@@ -5,8 +5,8 @@ import { cn } from '@/utils/cn'
 import { useMessageStore } from '@/store/useMessageStore'
 import { useMuteConversation } from '@/features/messages/hooks/useConversationMutations'
 import type { Conversation } from '@/features/messages/types/messages.types'
-import { CURRENT_USER_ID } from '@/data/messagesData/messagesDashboardData'
 import { Avatar } from './ConversationItem'
+import { useCurrentUserId } from '@/features/messages/hooks/useCurrentUserId'
 
 interface ChatHeaderProps {
   conversation: Conversation
@@ -28,8 +28,9 @@ function formatLastSeen(iso: string | null): string {
 export function ChatHeader({ conversation: conv }: ChatHeaderProps) {
   const { soundEnabled, toggleSound } = useMessageStore()
   const mute = useMuteConversation()
+  const currentUserId = useCurrentUserId()
 
-  const otherParticipant = conv.participants.find((p) => p.id !== CURRENT_USER_ID)
+  const otherParticipant = conv.participants.find((p) => p.id !== currentUserId)
   const displayName = conv.name ?? otherParticipant?.fullName ?? 'Unknown'
   const isOnline = otherParticipant?.isOnline ?? false
 

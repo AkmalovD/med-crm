@@ -6,8 +6,8 @@ import { useMessageStore } from '@/store/useMessageStore'
 import { useDeleteMessage } from '@/features/messages/hooks/useConversationMutations'
 import { AttachmentPreview } from './AttachmentPreview'
 import type { Message, MessageStatus } from '@/features/messages/types/messages.types'
-import { CURRENT_USER_ID } from '@/data/messagesData/messagesDashboardData'
 import { Avatar } from './ConversationItem'
+import { useCurrentUserId } from '@/features/messages/hooks/useCurrentUserId'
 
 interface MessageBubbleProps {
   message: Message
@@ -25,7 +25,8 @@ function formatTime(iso: string): string {
 }
 
 export function MessageBubble({ message }: MessageBubbleProps) {
-  const isOwn = message.senderId === CURRENT_USER_ID
+  const currentUserId = useCurrentUserId()
+  const isOwn = message.senderId === currentUserId
   const { setReplyTo } = useMessageStore()
   const deleteMessage = useDeleteMessage()
 

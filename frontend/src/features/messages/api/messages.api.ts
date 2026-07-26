@@ -2,7 +2,7 @@ import { baseApiClient } from "@/api/baseClient";
 import { Conversation, ConversationFilters } from "../types/messages.types";
 import { mapMessage, mapConversation } from './messages.mapper'
 import { CreateConversationInput } from "../validators/createConversation.schema";
-import { Message } from "react-hook-form";
+import type { Message } from "../types/messages.types";
 
 export const messagesApi = {
   getConversations: async (filters?: ConversationFilters): Promise<Conversation[]> => {
@@ -24,9 +24,9 @@ export const messagesApi = {
     return list.find((c) => c.id === id)
   }, 
 
-  createConverstaion: async (data: CreateConversationInput): Promise<Conversation> => {
+  createConversation: async (data: CreateConversationInput): Promise<Conversation> => {
     const { data: conv } = await baseApiClient.post<any>('/messages/conversations', {
-      particiantId: data.participantIds[0]
+      participantId: data.participantIds[0]
     })
     if (data.initialMessage?.trim()) {
       await baseApiClient.post('/messages/message', {
@@ -37,7 +37,7 @@ export const messagesApi = {
     return mapConversation(conv)
   },
 
-  getMessags: async (conversationId: string): Promise<Message[]> => {
+  getMessages: async (conversationId: string): Promise<Message[]> => {
     const { data } = await baseApiClient.get<any[]>(`/messages/conversation/${conversationId}/messages`)
     return data.map(mapMessage)
   },
@@ -59,11 +59,11 @@ export const messagesApi = {
   },
 
   // ── Пока не поддержано бэком — заглушки, чтобы UI не падал ──
-  pinConversation: async () => {},
-  archiveConversation: async () => {},
-  muteConversation: async () => {},
-  markAsUnread: async () => {},
-  deleteMessage: async () => {},
+  pinConversation: async (_id: string, _isPinned: boolean) => {},
+  archiveConversation: async (_id: string) => {},
+  muteConversation: async (_id: string, _isMuted: boolean) => {},
+  markAsUnread: async (_id: string) => {},
+  deleteMessage: async (_conversationId: string, _messageId: string) => {},
   getStaff: async () => [],
   getClients: async () => [],
 }
