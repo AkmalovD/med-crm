@@ -5,6 +5,7 @@ import { useConversations } from '@/features/messages/hooks/useConversations'
 import { ChatHeader } from './ChatHeader'
 import { ChatMessages } from './ChatMessages'
 import { MessageInput } from './MessageInput'
+import { useChatSocket } from '@/features/messages/hooks/useChatSocket'
 
 interface ChatWindowProps {
   conversationId: string
@@ -13,6 +14,7 @@ interface ChatWindowProps {
 export function ChatWindow({ conversationId }: ChatWindowProps) {
   const { data: messages, isLoading: messagesLoading } = useMessages(conversationId)
   const { data: conversations } = useConversations()
+  useChatSocket(conversationId)
 
   const conversation = conversations?.find((c) => c.id === conversationId)
 

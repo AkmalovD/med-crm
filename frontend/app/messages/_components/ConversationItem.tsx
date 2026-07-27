@@ -70,7 +70,7 @@ export function ConversationItem({ conversation: conv }: ConversationItemProps) 
   const [menuOpen, setMenuOpen] = useState(false)
   const [showArchiveConfirm, setShowArchiveConfirm] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
-  const currentUserId = useCurrentUserId
+  const currentUserId = useCurrentUserId()
 
   const pin = usePinConversation()
   const archive = useArchiveConversation()

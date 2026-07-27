@@ -9,6 +9,8 @@ export class RolesGuard implements CanActivate {
     constructor(private reflector: Reflector) {}
 
     canActivate(context: ExecutionContext): boolean {
+        if (context.getType() !== 'http') return true   // WS/сокеты пропускаем (авторизация в handleConnection)
+
         const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(ROLES_KEY, [
             context.getHandler(),
             context.getClass()

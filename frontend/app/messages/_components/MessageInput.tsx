@@ -9,6 +9,7 @@ import { MESSAGE_KEYS } from '@/features/messages/api/messageQueryKeys'
 import { ReplyPreview } from './ReplyPreview'
 import type { Message } from '@/features/messages/types/messages.types'
 import { useCurrentUserId } from '@/features/messages/hooks/useCurrentUserId'
+import { useSocket } from '@/features/messages/hooks/useSocket'
 
 interface MessageInputProps {
   conversationId: string
@@ -29,6 +30,8 @@ export function MessageInput({ conversationId }: MessageInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const isTypingRef = useRef(false)
+
+  const socket = useSocket()
 
   const { replyToMessage, clearReply } = useMessageStore()
   const { mutateAsync: sendMessage, isPending } = useSendMessage()
@@ -117,20 +120,11 @@ export function MessageInput({ conversationId }: MessageInputProps) {
     clearReply()
     if (textareaRef.current) textareaRef.current.style.height = 'auto'
 
-    try {
-      await sendMessage({
-        conversationId,
-        data: { content: content || undefined, replyToId: replyToMessage?.id, attachment },
-      })
-      queryClient.invalidateQueries({ queryKey: MESSAGE_KEYS.messages(conversationId) })
-      queryClient.invalidateQueries({ queryKey: MESSAGE_KEYS.conversations })
-    } catch {
-      // Remove optimistic message on failure
-      queryClient.setQueryData(
-        MESSAGE_KEYS.messages(conversationId),
-        (old: Message[] = []) => old.filter((m) => m.id !== optimisticMsg.id)
-      )
-    }
+    socket?.emit('sendMessage', {
+      conversationId,
+      content,
+      replyToId: replyToMessage?.id,
+    })
   }, [canSend, text, pendingFile, replyToMessage, conversationId, sendMessage, clearReply, queryClient])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

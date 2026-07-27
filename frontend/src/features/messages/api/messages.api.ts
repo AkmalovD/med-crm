@@ -58,12 +58,16 @@ export const messagesApi = {
     await baseApiClient.patch(`/messages/conversations/${id}/read`)
   },
 
+  getStaff: async (): Promise<{ id: string; fullName: string; role: string }[]> => {
+    const { data } = await baseApiClient.get<Array<{ id: string; email: string; role: string }>>('/users')
+    return data.map((u) => ({ id: u.id, fullName: u.email, role: u.role }))
+  },
+
   // ── Пока не поддержано бэком — заглушки, чтобы UI не падал ──
   pinConversation: async (_id: string, _isPinned: boolean) => {},
   archiveConversation: async (_id: string) => {},
   muteConversation: async (_id: string, _isMuted: boolean) => {},
   markAsUnread: async (_id: string) => {},
   deleteMessage: async (_conversationId: string, _messageId: string) => {},
-  getStaff: async () => [],
   getClients: async () => [],
 }
