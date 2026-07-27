@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { Plus } from 'lucide-react'
 import { useConversations } from '@/features/messages/hooks/useConversations'
 import { useMarkAsRead } from '@/features/messages/hooks/useConversationMutations'
 import { useMessageStore } from '@/store/useMessageStore'
+import { MessagesPageHeader } from './MessagesPageHeader'
 import { ConversationSearch } from './ConversationSearch'
 import { ConversationFilters } from './ConversationFilters'
 import { ConversationList } from './ConversationList'
@@ -82,38 +82,32 @@ export function MessagesLayout() {
   }
 
   return (
-    <div className="messages-shell flex">
-      {/* Left panel */}
-      <div className="w-72 flex flex-col border-r border-[var(--border)] bg-[var(--panel)] shrink-0">
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)]">
-          <h2 className="text-base font-semibold text-[var(--foreground)]">Messages</h2>
-          <button
-            type="button"
-            onClick={openNewConversationModal}
-            className="flex items-center gap-1.5 h-8 px-3 rounded-lg bg-[var(--primary)] text-white text-xs font-semibold hover:opacity-90 transition-opacity"
-          >
-            <Plus size={13} />
-            New
-          </button>
-        </div>
+    <div className="flex flex-1 min-h-0 flex-col gap-4">
+      <MessagesPageHeader
+        totalConversations={String(conversations?.length ?? 0)}
+        onNewConversation={openNewConversationModal}
+      />
 
-        <ConversationSearch value={search} onChange={setSearch} />
-        <ConversationFilters
-          active={activeFilter}
-          onChange={setActiveFilter}
-          totalUnread={totalUnread}
-        />
-        <ConversationList conversations={conversations} isLoading={isLoading} />
-      </div>
+      <div className="flex min-h-0 flex-1 gap-4">
+        {/* Conversations panel */}
+        <aside className="flex w-80 shrink-0 flex-col overflow-hidden rounded-xl border border-(--border) bg-white max-[1080px]:w-72">
+          <ConversationSearch value={search} onChange={setSearch} />
+          <ConversationFilters
+            active={activeFilter}
+            onChange={setActiveFilter}
+            totalUnread={totalUnread}
+          />
+          <ConversationList conversations={conversations} isLoading={isLoading} />
+        </aside>
 
-      {/* Right panel */}
-      <div className="flex-1 flex flex-col min-w-0 bg-[var(--background)]">
-        {activeConversationId ? (
-          <ChatWindow conversationId={activeConversationId} />
-        ) : (
-          <EmptyChatState />
-        )}
+        {/* Chat panel */}
+        <section className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-(--border) bg-white">
+          {activeConversationId ? (
+            <ChatWindow conversationId={activeConversationId} />
+          ) : (
+            <EmptyChatState />
+          )}
+        </section>
       </div>
 
       <NewConversationModal onConversationCreated={handleSetActive} />

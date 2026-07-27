@@ -1,15 +1,5 @@
-'use client'
-
-import { Suspense } from 'react'
-import { DashboardScaffold } from '@/components/dashboard/DashboardScaffold'
-import { MessagesLayout } from './_components/MessagesLayout'
+import { MessagesDashboardPage } from "@/components/messages/MessagesPage";
 
 export default function MessagesPage() {
-  return (
-    <DashboardScaffold>
-      <Suspense>
-        <MessagesLayout />
-      </Suspense>
-    </DashboardScaffold>
-  )
+  return <MessagesDashboardPage />;
 }
